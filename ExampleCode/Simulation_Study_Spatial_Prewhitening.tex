@@ -1,0 +1,1212 @@
+\documentclass[preprint]{imsart}
+
+\RequirePackage[OT1]{fontenc}
+\RequirePackage{amsthm,amsmath}
+\RequirePackage[authoryear,round]{natbib}
+\RequirePackage[colorlinks,citecolor=blue,urlcolor=blue,pdfstartview=FitB]{hyperref}
+
+
+
+
+
+%\usepackage[title]{appendix}
+\usepackage{tikz}
+\usetikzlibrary{matrix}
+\usepackage{multicol}
+\usepackage{multirow}
+\linespread{1.65}
+
+\topmargin -.05in
+\oddsidemargin +.5in
+\evensidemargin +.5in
+\textheight 8.5in
+\textwidth 5.5in
+
+\usepackage{changepage}
+%\usepackage[pdfstartview=FitB]{hyperref}
+%\usepackage{html}
+%\usepackage{hyperref}
+%\usepackage[dcucite]{harvard}
+\usepackage{float}
+%\usepackage{cite}
+%\usepackage[authoryear]{natbib}
+\usepackage{amsmath,amssymb,epsfig}
+\usepackage{graphics}
+%\usepackage{colortbl}
+\usepackage{tabularx}
+\usepackage{framed}
+\usepackage[mathscr]{euscript}
+\usepackage{imsart}
+
+\usepackage{epstopdf}
+
+\usepackage{stmaryrd}
+
+\usepackage{titlesec}
+\titleformat*{\section}{\large\bfseries}
+
+
+%\usepackage[utf8]{inputenc}
+%\usepackage{erewhon}
+%\usepackage{lipsum}
+%\usepackage{lettrine}
+%\usepackage{GoudyIn}
+
+%\usepackage[x11names]{xcolor} 
+%\renewcommand{\LettrineFontHook}{\color{VioletRed4}\GoudyInfamily{}}
+%\LettrineTextFont{\itshape}
+%\setcounter{DefaultLines}{3}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{graphicx}
+\usepackage{bbm}
+
+
+\newcommand{\dsubseteq}{\mathrel{
+\rotatebox[origin=c]{-45}{$\subseteq$}}
+}
+
+\newcommand{\ddsubseteq}{\mathrel{
+\rotatebox[origin=c]{45}{$\supseteq$}}
+}
+
+
+
+% settings
+%\pubyear{2005}
+%\volume{0}
+%\issue{0}
+%\firstpage{1}
+%\lastpage{8}
+%\arxiv{arXiv:0000.0000}
+
+\startlocaldefs
+\numberwithin{equation}{section}
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+
+
+
+
+\long\def\comment#1{}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{theorem}{Theorem}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{assumption}{Condition \!\!}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{step}{Step}
+\newtheorem{remark}{Comment}[section]
+%\numberwithin{remark}{section}
+\newtheorem{example}{Example}
+%\numberwithin{equation}{section}
+
+\newtheorem{algorithmsimple}{Algorithm}
+
+
+
+%\newcommand{\citen}{\cite}
+%\renewcommand{\cite}{\citet}
+
+
+\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\Real}{\mathbb R}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\To}{\longrightarrow}
+\newcommand{\BX}{\mathbf{B}(X)}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\what}{\widehat}
+\newcommand{\eg}{e.g., \xspace}
+\newcommand{\ie}{i.e.,\xspace}
+\newcommand{\etc}{etc.\@\xspace}
+\newcommand{\iid}{\emph{i.i.d.}\ }
+\newcommand{\etal}{et.\ al.\ }
+\newcommand{\PP}{P}
+\newcommand{\be}{\begin{eqnarray}}
+\newcommand{\ee}{\end{eqnarray}}
+\newcommand{\Tau}{\mathcal{T}}
+\newcommand{\EE}{E}
+\newcommand{\Ss}{\mathcal{S}}
+\newcommand{\GG}{\Gamma}
+\newcommand{\NN}{\mathbf{N}}
+%\newcommand{\JJ}{J}
+%\newcommand{\XX}{\mathcal{X}}
+%\newcommand{\EC}{\mathcal{E}}
+\newcommand{\asex}{ \text{ as $ \tau T  \rightarrow k$  and $\tau \searrow 0$ }}
+\newcommand{\asint}{ \text{ as $ \tau T  \rightarrow \infty$  and $ \tau \searrow  0$ }}
+\newcommand{\thetahat}{\hat \theta}
+\newcommand{\ind}{ \overset{d}{\longrightarrow}}
+\newcommand{\inp}{ \overset{p}{\longrightarrow}}
+\newcommand{\ba}{\begin{array}}
+\newcommand{\ea}{\end{array}}
+\newcommand{\bs}{\begin{align}\begin{split}\nonumber}
+\newcommand{\bsnumber}{\begin{align}\begin{split}}
+\newcommand{\es}{\end{split}\end{align}}
+\newcommand{\doublespace}{\linespread{1.1}}
+\newcommand{\singlespace}{\linespread{0.85}}
+\newcommand{\fns}{\singlespace\footnotesize}
+\newcommand{\cooldate}{\begin{flushright}\footnotesize\today\normalsize\end{flushright}}
+\newcommand{\expect}{\mathcal{E}}
+\newcommand{\sss}{\scriptscriptstyle}
+\newcommand{\n}{n}
+\newcommand{\inpr}{ \overset{p^*_{\scriptscriptstyle n}}{\longrightarrow}}
+\newcommand{\T}{ \scriptscriptstyle T}
+\newcommand{\LL}{ \mathcal{L}}
+\newcommand{\M}{ \scriptscriptstyle M}
+\newcommand{\al}{ \scriptscriptstyle A}
+\renewcommand{\(}{\left(}
+\renewcommand{\)}{\right)}
+\renewcommand{\[}{\left[}
+\renewcommand{\]}{\right]}
+\renewcommand{\hat}{\widehat}
+
+\newcommand{\kk}{\kappa}
+\newcommand{\wpco}{\text{ w. pr. $\geq 1 - \varepsilon$  } }
+\newcommand{\jb}{ { {\mathbf{j}}} }
+\newcommand{\BB}{\mathbb{B}}
+ \newcommand{\inlaw}{\overset{D}\sim}
+\newcommand{\QED}{$\blacksquare$}
+\newcommand{\aT}{A_T}
+\newcommand{\kb}{\text{\fns{$\frac{k}{b}$}}}
+\newcommand{\kT}{\text{\fns{$\frac{k}{T}$}}}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+\renewcommand{\fns}{\footnotesize}
+\newcommand{\smalls}{\fontsize}
+\newcommand{\cc}{\mathbf{c}}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\F}{\mathcal{F}}
+\newcommand{\G}{k}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\xik}{\xi_k}
+\newcommand{\QQ}{\widetilde{Q}}
+\newcommand{\nnocr}{\nonumber\\}
+\newcommand{\nno}{\nonumber}
+%\newcommand{\Gn}{\mathbb{G}_n}
+\newcommand{\Gn}{{\frac{1}{\sqrt{nT}}\sum_{i=1}^n \sum_{t=1}^T}}
+\newcommand{\Gp}{\mathbf{G}}
+\newcommand{\Pn}{\mathbb{P}_n}
+\newcommand{\Pp}{\mathbf{P}}
+\newcommand{\Ep}{{\mathrm{E}}}
+
+\newcommand{\CRS}{\cite{Canay2017}}
+\newcommand{\IM}{\cite{Ibragimov2010}}
+
+\newcommand{\EnT}{{\frac{1}{nT}\sum_{i=1}^n \sum_{t=1}^T}}
+\newcommand{\LASSO}{Square-root LASSO}
+\newcommand{\conflvl}{\gamma}
+
+\newcommand{\ddotEp}{{  \frac{1}{nT}  \sum_{i=1}^n \sum_{t=1}^T} \Ep }
+\newcommand{\En}{{\mathbb E_n}}
+%\renewcommand{\En}{{\frac{1}{n}\sum_{i=1}^n}}
+\newcommand{\ET}{{\frac{1}{T}\sum_{t=1}^T}}
+\newcommand{\EnTT}{{\frac{1}{nT}\sum_{i=1}^n \sum_{t=1}^T}\sum_{t'=1}^T}
+
+
+
+\newcommand{\Ena}{{\mathbb{E}_{n_a}}}
+\newcommand{\Enb}{{\mathbb{E}_{n_b}}}
+\newcommand{\Enk}{{\mathbb{E}_{n_k}}}
+
+
+\newcommand{\PX}{\mathcal{P}_{\hat I}}
+\newcommand{\PXk}{\mathcal{P}_{\hat I^k}}
+\newcommand{\PXkc}{\mathcal{P}_{\hat I^{k^c}}}
+\newcommand{\MX}{\mathcal{M}_{\hat I}}
+\newcommand{\MXk}{\mathcal{M}_{\hat I^{k}}}
+\newcommand{\MXkc}{\mathcal{M}_{\hat I^{k^c}}}
+\newcommand{\MXkd}{\mathcal{M}_{\hat I^{k}_1}}
+\newcommand{\MXkcd}{\mathcal{M}_{\hat I^{k^c}_1}}
+\newcommand{\MXky}{\mathcal{M}_{\hat I^{k}_2}}
+\newcommand{\MXkcy}{\mathcal{M}_{\hat I^{k^c}_2}}
+\newcommand{\MXa}{\mathcal{M}_{\hat I^{a}}}
+\newcommand{\MXb}{\mathcal{M}_{\hat I^{b}}}
+\newcommand{\MXd}{\mathcal{M}_{\hat I_1}}
+\newcommand{\MXy}{\mathcal{M}_{\hat I_2}}
+
+\newcommand{\Test}{\mathtt{Test}}
+\newcommand{\Cluster}{\mathtt{Cluster}}
+
+\newcommand{\Ev}{{\mathcal{E}}}
+
+
+\newcommand{\N}{\textbf{N}}
+
+\renewcommand{\Pr}{{\mathrm{P}}}
+\newcommand{\ddotf}{\overline{f}}
+\newcommand{\ddotfp}{\overline{f'}}
+\newcommand{\Uniform}{{\text{Uniform}}}
+\newcommand{\diam}{{\text{diam}}}
+\newcommand{\trace}{{\text{trace}}}
+%\def\RR{{\rm I\kern-0.18em R}}
+\def\RR{ {\mathbb{R}}}
+\def\mK{{\mathcal K}}
+\def\z{{d}}
+\def\x{{x}}
+\def\supp{{\rm support}}
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\semin}[1]{\varphi_{{\rm min}}(#1)}
+\newcommand{\semax}[1]{\varphi_{{\rm max}}(#1)}
+\renewcommand{\hat}{\widehat}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\geq}{\geqslant}
+\renewcommand{\supp}{\text{supp}}
+\def\aa{{a}}
+
+\newcommand{\ti}{\underline}
+
+\newcommand{\BCH}{\cite{BCH-inference}}
+
+
+\newcommand{\diag}{\mathsf {Diag}}
+
+% new
+\usepackage[flushleft]{threeparttable}
+\usepackage{multirow}
+%\usepackage{algorithm,algorithmic}
+\usepackage{algorithm,algorithmic}
+\usepackage{mathrsfs}
+\usepackage{enumitem}   
+\usepackage{subfig}
+\usepackage{pdflscape}
+
+\renewcommand{\diamond}{b}
+
+\endlocaldefs
+
+\raggedbottom
+\sloppy
+
+
+\begin{document}
+
+\begin{frontmatter}
+\title{\Large Spatial Prewhitening Simulation
+}
+\runtitle{\ \ Spatial Prewhitening Simulation}
+
+
+
+
+
+\linespread{1.25}
+
+
+
+
+
+
+
+
+
+
+%\begin{keyword}
+%\kwd{randomization inference, clustering, hypothesis testing}
+%\end{keyword}
+
+\end{frontmatter}
+
+
+
+
+%\tableofcontents
+
+\section{Introduction}
+\label{intro}
+
+\section{Spatial Prewhitening Methodology}
+
+See main paper. 
+
+\
+
+
+
+
+
+
+\section{Simulation}
+\label{simulation}
+
+\
+
+To do:  Add our methodology to the list of estimators.
+
+\
+
+
+%\textcolor{red}{CH: Make sure we are consistent in use of BASELINE, Baseline, \textit{Baseline} and anything else. - JC: fixed (using BASELINE).}
+
+%\textcolor{red}{CH: Horizontal axis in Figures \ref{fig: ols power} and \ref{fig: iv power} should not be labeled $\alpha$. Maybe $\theta^a$? - JC: fixed.}
+
+
+%This section conducts a study of the finite sample performance of inference with learned clusters in a series of simulation experiments.  The design of the simulation study is largely based on the structure of the empirical example from the previous section.  Consider again an $N\times T$ panel from the following process:
+%\begin{equation*}
+%	\label{dgp simulation}
+%	Y_{de} =\alpha_0+\theta_0X_{de}+W_{de} '\gamma_0+ U_{de}.
+%\end{equation*}
+
+%The unknown parameter of interest is $\theta_0$. $W_{de} \in \mathbb R^p$ is a vector of control variables with dimension $p$ with effect on the outcome given by the unknown parameter $\gamma_0$. Spatial indexing for the indexes $d$ is drawn based on locations of districts in the empirical example in the previous section and is described further below.  
+%
+%Throughout, let $N=205$, $T=2$.  In addition, ${\G_{\mathrm{max}}}$ is set at ${\G_{\mathrm{max}}} = \lceil (NT)^{1/3} \rceil $ which gives $\G_{\mathrm{max}} = 8 = \lceil (205 \times 2)^{1/3} \rceil  $. {Additional settings with $N=820$ are provided in the supplemental materials.}
+%This model is simulated with several settings which vary the joint distribution of the underlying observable random variables $\{ (Y_{de}, X_{de}, W_{de}) \}_{d \leq N, e\leq T}$.  
+%Specifically, Section \ref{simulation_ols} considers OLS estimation of the above panel model under an orthogonality assumption.  
+%Section \ref{simulation_iv} assumes an additional observable random variable $Z_{de}$ which is an instrument for $X_{de}$.  
+%The final subsection, Subsection \ref{simulation_clustering} studies properties of clustering (for instance, the distribution of the number of chosen group).
+
+
+
+This section examines the finite sample performance of inference based on data-dependent clusters in a series of simulation experiments roughly based upon the empirical illustration using data from Condra et al (as was done in Cao, Hansen, Kozbur, Villacorta). We present results for inference on a coefficient in a linear model with all exogenous variables and results for inference on the coefficient on an endogenous variable in a linear IV model. We refer to the first case as the ``OLS simulation'' and to the second case as the ``IV simulation.'' We present the data generating process (DGP) for each case and outline the inferential procedures we consider in Section \ref{subsec: DGP}. We then present results in Section \ref{subsec: sim results}. 
+
+%Specifically, we consider a setting with N = 205 cross-sectional units observed in T = 2 periods where the spatial locations of the units are set equal to the district locations from the empirical example.\footnote{Additional results with N = 410 and T = 2 are provided in a supplementary appendix.} We consider inference for a parameter in a linear model with exogenous variables where parameters are estimated via OLS in Section \ref{simulation_ols}, and we consider inference on the coefficient of an endogenous variable in a linear model where estimates are obtained by IV in Section \ref{simulation_iv}. We collect simulation results regarding the properties of the solution to \eqref{eq: optimization problem} obtained in both the OLS and IV simulation in Section \ref{simulation_clustering}.
+
+%We consider the following inferential procedures in Sections \ref{simulation_ols} and \ref{simulation_iv}:
+%
+%\begin{itemize}
+%	\item[ 1.] \textit{SK}. Inference based on the spatial HAC estimator from \cite{Sun2015} with bandwidth selection adapted from the proposal of \cite{Lazarus2018}
+%	\item[ 2.] \textit{UNIT-U}. Inference based on the cluster covariance estimator with clusters defined as the cross-sectional unit of observation with critical value from a $t$-distribution with $\G-1 = 204$ degrees of freedom.
+%	\item[ 3.] \textit{UNIT}. Inference based on the cluster covariance estimator with clusters defined as the cross-sectional unit of observation and critical value obtained by solving \eqref{eq: optimization problem} with cluster structure given by unit-level clustering. 
+%	\item[ 4.] \textit{CCE}. Inference based on the cluster covariance estimator with clusters and rejection threshold obtained by solving \eqref{eq: optimization problem} as described in Section \ref{method}.%, i.e., $T=T_{\mathrm{CCE},(\alpha)}$.
+%	\item[ 5.] \textit{IM}. Inference based on IM with clusters and rejection threshold obtained by solving \eqref{eq: optimization problem} as described in Section \ref{method}.%, i.e., $T=T_{\mathrm{IM},(\alpha)}$.
+%	\item[ 6.] \textit{CRS}. Inference based on CRS with clusters and rejection threshold obtained by solving \eqref{eq: optimization problem} as described in Section \ref{method}.%, i.e., $T=T_{\mathrm{CRS},(\alpha)}$.
+%\end{itemize}
+%
+%%In all settings, inference is conducted with the null hypothesis $H_0:\theta_0=0$.  
+%%We obtain candidate clusterings for CCE, IM, and CRS by applying $\G$-\texttt{medoids} using the cross-sectional locations for each $\G$ in the set $\{2,\dots,{\G_{\mathrm{max}}=8} \}$, which produces ${\G_{\mathrm{max}}}-1$ partitions. 
+%%For the $N=205$ case, we consider both ${G_{\mathrm{max}}}=6$ and ${G_{\mathrm{max}}}=10$.
+%%For the $N=820$ case, we set ${G_{\mathrm{max}}}=10$. 
+%%For the CCE method, also consider clustering by location as a benchmark, in which case $\G=N$. 
+%Implementation details for SK, UNIT, CCE, IM, and CRS are provided in Appendix \ref{app: implementation details}.
+
+
+%\subsection{OLS simulation}
+%\label{simulation_ols}
+
+\subsection{Data Generating Processes and Inferential Procedures}
+\label{subsec: DGP}
+
+For both the OLS and IV simulation, we generate observations indexed by $de$ for $d = 1,...,205$ and $e = 1,2$ where $d$ represents the cross-sectional unit and $e$ the time period.\footnote{Additional results with 820 cross-sectional units and two time periods are provided in a supplementary appendix.} Each observation is thus associated with a spatial location given by $L_d = (\mathrm{lat}_d, \mathrm{long}_{d'})$, the latitude and longitude of the centroid of a district from the observed data in the empirical example, and a temporal index $e \in \{1,2\}$.
+
+\
+
+\noindent
+\textbf{OLS Simulation DGP:} For the OLS simulation, we generate observed data, $\mathscr D = \{ Y_{de}, X_{de}, W_{de} \}_{d=1,...,205, e=1,2}$ according to 
+\begin{align}\label{eq: OLS sim}
+Y_{de} = \theta_0 X_{de} + W_{de}'\gamma_0 + U_{de},
+\end{align}
+where $X_{de}$ is the variable of interest, $W_{de}$ is a $10 \times 1$ vector of control variables, and $U_{de}$ is unobservable. We set coefficients $\theta_0=0$ and $\gamma_0=0_{10}=(0,\dots,0)'$. 
+%In power curves plots (Figure \ref{fig: ols power}), $\theta_0$ is set to various values. 
+%Each observation $de$ is associated with a spatial location given by $L_d = (\mathrm{lat}_d, \mathrm{long}_{d'})$, the latitude and longitude of the centroid of a district from the observed data in the empirical example, and a temporal index $e \in \{1,2\}$. 
+
+%To define a dependence structure over observed random variables, define a function $f$ %which depends on positive scalar parameters $\kappa, \rho$ by 
+%$$f_{ \kappa, \rho}((L,t), (L',t')) =  
+%\exp\(- \kappa^{-1} {\Vert L-L'\Vert_2} - \rho^{-1} {|t-t'|}\).$$
+%as
+%\begin{align}\label{eq: sim cov fn}
+%f((L,t), (L',t')) =  
+%\exp\(- \frac{1}{3} {\Vert L-L'\Vert_2} - {|t-t'|}\).
+%\end{align}
+%The values for $L_d \in \mathbb R^2$ used in the simulation study correspond to the locations (district centroid) in the empirical example which has 205 observations.  
+%Throughout replications, $\{X_{de},W_{de}\}_{i=1,\dots,N, t=1,\dots,T}$ are held fixed and drawn once and for all from the following distribution. 
+We condition on a single realization of $\{X_{de},W_{de}\}_{d=1,\dots,205, e=1,2}$ generated as follows:
+$\forall \ l\in \{ 1,\dots, 10\}$, $\forall \ m\ne l$,  $\forall \ (d,e)\in \{1,\dots,205 \}\times \{1,2\}$, $\forall \ (d',e')\ne (d,e)$,
+\begin{align} \begin{split}
+	&X_{de}\sim \mathrm N(0,1); W_{del}\sim \mathrm N(0,1), \\
+	&\mathrm{corr}(X_{de},X_{d'e'})=\mathrm{corr}(W_{del},W_{d'e'l})=f_{\tau}( (L_d,e),(L_{d'},e')),\\%f_{\kappa, \rho}( (L_d,e),(L_{d'},e'))\\
+	&\mathrm{corr}(X_{de},W_{del})=\mathrm{corr}(W_{del},W_{dem})=0.5,\\
+	& \mathrm{corr}(X_{de},W_{d'e'l})=\mathrm{corr}(W_{del},W_{d'e'm})=0,
+	\end{split} \end{align} 
+for $f_{\tau}( (L_d,e),(L_{d'},e'))$ defined in \eqref{eq: exp cov} with $\tau = (0,3,1)'$.
+%\textcolor{red}{CH: Do we use this correlation structure over the observed variables even when $U$ is generated by an SAR? The description above is insufficient. It does not define $\mathrm{corr}(X_{de},W_{d'e'l})$ or $\mathrm{corr}(W_{del},W_{d'e'm})$. You could not reconstruct the simulation data based on this description. - JC: fixed.} 
+Unobservables $U_{de}$ are drawn independently across simulation replications. We consider two settings for the distribution of $U_{de}$: 
+\begin{itemize}
+	\item[ A.] Homogeneous exponential covariance ({BASELINE}).  
+	\begin{align}
+		U_{de}\sim \mathrm N(0,1); \quad \mathrm{corr}(U_{de},U_{d'e'})=f_{\tau}( (L_d,e),(L_{d'},e')),
+	\end{align}
+	 for $f_{\tau}( (L_d,e),(L_{d'},e'))$ defined in \eqref{eq: exp cov} with $\tau = (0,3,1)'$.
+	\item[B.] Spatial auto-regression ({SAR}).
+\begin{align}\begin{split}
+	& U_{de}=0.15 \textstyle \sum_{d'\ne d}U_{d'e} \textbf{1}_{\{ \Vert L_d-L_{d'}\Vert_2<0.3 \}}  +\varepsilon_{de}, \\
+	& \varepsilon_{de}\sim \mathrm N(0,1); \quad  \mathrm{corr}(\varepsilon_{d1},\varepsilon_{d2})=\exp(-1),\  \mathrm{corr}(\varepsilon_{de},\varepsilon_{d'e'})=0\text{ for }d\ne d'.
+\end{split}\end{align}
+
+\end{itemize}
+
+%\textcolor{red}{CH: The SAR description above is insufficient. The cross-sectional correlation in $\varepsilon$ is unspecified. 	- JC: fixed.}
+
+%Throughout, $\theta_0=0$, $\gamma_0=0_p=(0,\dots,0)'$, $T=2$, $p=10$, $\nu=0.5$,  $\kappa=3$, and $\rho=1$.  
+
+%Dissimilarity is defined by $\mathrm d(de,d'e') = \| L_d - L_{d'}\|_2$. 
+
+\
+
+\noindent
+\textbf{IV Simulation DGP:} For the IV simulation, observed data are $\mathscr D= \{ Y_{de}, X_{de}, W_{de},Z_{de} \}_{d=1,...,205, e=1,2}$ with outcomes $Y_{de}$ and endogenous variable $X_{de}$ generated from the system of equations 
+\begin{align}\label{eq: IV sim}
+	\begin{split} 
+	Y_{de}&=\theta_0 X_{de}+W_{de}'\gamma_0+U_{de},\\
+	X_{de}&=\pi_0 Z_{de}+W_{de}'\xi_0+V_{de}
+	\end{split} 
+\end{align}
+where $X_{de}$ is the endogenous variable of interest, $W_{de}$ is a $10 \times 1$ vector of control variables, $Z_{de}$ is a scalar instrumental variable, and $U_{de}$ and $V_{de}$ are structural unobservables. We set coefficients $\theta_0=0$, $\pi_0=2$, and $\gamma_0=\xi_0=0_{10}=(0,\dots,0)'$.
+%In power curves plots (Figure \ref{fig: iv power}), $\theta_0$ is set to various values. 
+
+We condition on a single realization of the exogenous variables, $\{Z_{de},W_{de} \}_{d=1,...,205, e=1,2}$, generated as follows: 
+$\forall \ l\in \{ 1,\dots, 10\}$, $\forall \ m\ne l$,  $\forall \ (d,e)\in \{1,\dots,205 \}\times \{1,2\}$, $\forall \ (d',e')\ne (d,e)$,
+\begin{align}\begin{split}
+	&Z_{de}\sim \mathrm N(0,1); W_{del}\sim \mathrm N(0,1),\\
+	&\mathrm{corr}(Z_{de},Z_{d'e'})=\mathrm{corr}(W_{del},W_{d'e'l})=f_{\tau}( (L_d,e),(L_{d'},e')),\\
+	&\mathrm{corr}(Z_{de},W_{del})=\mathrm{corr}(W_{del},W_{dem})=0.5,\\
+	& \mathrm{corr}(Z_{de},W_{d'e'l})=\mathrm{corr}(W_{del},W_{d'e'm})=0,
+\end{split}\end{align}
+for $f_{\tau}( (L_d,e),(L_{d'},e'))$ defined in \eqref{eq: exp cov} with $\tau = (0,3,1)'$. %\textcolor{red}{CH: Do we use this correlation structure over the covariates and instrument even in the SAR case? The description above is insufficient. It does not define $\mathrm{corr}(Z_{de},W_{d'e'l})$ or $\mathrm{corr}(W_{del},W_{d'e'm})$. You could not reconstruct the simulation data based on this description. - JC: fixed.} 
+We consider two scenarios for the unobservables $(U_{de},V_{de})$ which are drawn independently across simulation replications:
+\begin{itemize}
+	\item[ A.] Homogeneous exponential covariance ({BASELINE}).  
+	\begin{align} \begin{split}
+		&U_{de}\sim \mathrm N(0,1),\  V_{de}\sim \mathrm N(0,1), \\
+		&\mathrm{corr}(U_{de},U_{d'e'})=\mathrm{corr}(V_{de},V_{d'e'})=f_{\tau}( (L_d,e),(L_{d'},e')),\\
+		&\mathrm{corr}(U_{de},V_{de})=0.8,\\
+		& \mathrm{corr}(U_{de},V_{d'e'})=0\text{ for }(d',e')\ne (d,e),
+	\end{split}\end{align}
+	for $f_{\tau}( (L_d,e),(L_{d'},e'))$ defined in \eqref{eq: exp cov} with $\tau = (0,3,1)'$.
+	\item[B.] Spatial auto-regression ({SAR}).
+	\begin{align}\begin{split}
+		& U_{de}=0.15  \textstyle \sum_{d'\ne d}U_{d'e} \textbf{1}_{\{ \Vert L_d-L_{d'}\Vert_2<0.3 \}} +\varepsilon_{de},\\
+		&		V_{de}=0.15 \textstyle  \sum_{d'\ne d}V_{d'e} \textbf{1}_{\{ \Vert L_d-L_{d'}\Vert_2<0.3 \}} +\eta_{de},\\
+		& \varepsilon_{de}\sim \mathrm N(0,1),\ \eta_{de}\sim \mathrm N(0,1),\\
+		&\mathrm{corr}(\varepsilon_{d1},\varepsilon_{d2})=\mathrm{corr}(\eta_{d1},\eta_{d2})=\exp(-1),\\
+		&\mathrm{corr}(\varepsilon_{de},\eta_{de})=0.8,\\
+		& \mathrm{corr}(\varepsilon_{de},\varepsilon_{d'e'})=\mathrm{corr}(\eta_{de},\eta_{d'e'})=0\text{ for }d'\ne d,\\
+		& \mathrm{corr}(\varepsilon_{de},\eta_{d'e'})=0 \text{ for }(d',e')\ne (d,e).
+	\end{split}\end{align}
+\end{itemize}
+
+%\textcolor{red}{CH: The descriptions above are insufficient. The cross-sectional correlation in $\varepsilon$ and $\eta$ are unspecified in the SAR case. $\mathrm{corr}(U_{de},V_{d'e'}$ is unspecified in the BASELINE case.- JC: fixed.}
+
+\noindent
+\textbf{Inferential Procedures:} Within each of the four simulation designs defined above, we generate 1000 simulation replications. We then report results for point estimation and for inference, focusing on size and power of hypothesis tests, about the parameter $\theta_0$ based on the following procedures:
+
+\begin{itemize}
+	\item[ 1.] SK. Inference based on the spatial HAC estimator from \cite{Sun2015} with bandwidth selection adapted from the proposal of \cite{Lazarus2018}.
+	\item[ 2.] UNIT-U. Inference based on the cluster covariance estimator with clusters defined as the cross-sectional unit of observation with a critical value from a $t$-distribution with $\G-1 = 204$ degrees of freedom.
+	\item[ 3.] UNIT. Inference based on the cluster covariance estimator with clusters defined as the cross-sectional unit of observation and a critical value obtained by solving \eqref{eq: optimization problem} with cluster structure given by unit-level clustering. 
+	\item[ 4.] CCE. Inference based on the cluster covariance estimator with clusters and rejection threshold obtained by solving \eqref{eq: optimization problem} as described in Section \ref{method}.%, i.e., $T=T_{\mathrm{CCE},(\alpha)}$.
+	\item[ 5.] IM. Inference based on IM with clusters and rejection threshold obtained by solving \eqref{eq: optimization problem} as described in Section \ref{method}.%, i.e., $T=T_{\mathrm{IM},(\alpha)}$.
+	\item[ 6.] CRS. Inference based on CRS with clusters and rejection threshold obtained by solving \eqref{eq: optimization problem} as described in Section \ref{method}.%, i.e., $T=T_{\mathrm{CRS},(\alpha)}$.
+\end{itemize}
+
+
+
+For UNIT, CCE, IM, and CRS, we obtain preliminary estimates of unobserved components $U_{de}$ in the OLS setting and $(U_{de},V_{de})$ in the IV setting. We then apply Gaussian QMLE with the covariance structure specified in BASELINE using these preliminary estimates as data to obtain the structure for simulating Type I and Type II error rates for use in \eqref{eq: optimization problem}. Thus, results for UNIT, CCE, IM, and CRS in the BASELINE OLS and BASELINE IV settings illustrate performance when tuning parameters result from solving \eqref{eq: optimization problem} with a correctly specified model for the covariance structure with feasible estimates of the covariance parameters. In contrast, results from the SAR OLS and SAR IV setting illustrate performance when tuning parameters are obtained by solving \eqref{eq: optimization problem} with a misspecified model. We provide detailed descriptions of the implementation of SK, UNIT, CCE, IM, and CRS in the Appendix.
+
+%\textcolor{red}{CH: Details of SK need to be added to the appendix or, if they're simple enough, spelled out in item 1. above. - JC: fixed.} 
+
+\subsection{Simulation Results}
+\label{subsec: sim results}
+
+We report size of 5\% level tests as well as provide results on point estimation in Table \ref{table_summary}. In the OLS simulation, we obtain point estimates by applying OLS to estimate the parameters of \eqref{eq: OLS sim}, and we obtain point estimates in the IV simulation by applying IV to estimate the parameters in \eqref{eq: IV sim}. Recall that both IM and CRS rely on first obtaining within cluster estimates and have natural point estimator defined by $\frac{1}{\hat \G} \sum_{\mathsf C \in \hat {\mathcal C}} \hat \theta_{\mathsf C}$ where $\hat\G$ and $\hat{\mathcal{C}}$ are the results from solving \eqref{eq: optimization problem} for each procedure and $\hat \theta_{\mathsf C}$ is a point estimator that uses only the observations in cluster $\mathsf C$. For point estimation, we report bias and root mean square error (RMSE) for the OLS simulation and median bias and median absolute deviation (MAD) for the IV simulation. 
+
+\input{tables/table_simulation_results.tex}
+
+%\begin{table}[t]
+%	\centering
+%	\renewcommand{\arraystretch}{1.5}
+%	\caption{Simulation Results}
+%	\label{table_summary}
+%	\begin{threeparttable}	
+%		\begin{tabular}{m{.1\textwidth} >{\centering}m{.08\textwidth} >{\centering}m{.08\textwidth} >{\centering}m{.08\textwidth} m{.1\textwidth} >{\centering}m{.08\textwidth} >{\centering}m{.08\textwidth} >{\centering\arraybackslash}m{.08\textwidth}}%{lccccccc}
+%			\hline
+%			\hline
+%			& \multicolumn{3}{c}{OLS} & & \multicolumn{3}{c}{IV} \\
+%			\cline{2-4} \cline{6-8}
+%			Method & Bias & RMSE & Size &  & Median Bias & MAD & Size \\
+%			\hline
+%			 \multicolumn{8}{c}{A. BASELINE} \\
+%			\hline
+%			SK    & \multirow{4}{*}{0.011} & \multirow{4}{*}{0.435} & 0.452 &    & \multirow{4}{*}{0.005}  & \multirow{4}{*}{0.148} & 0.426 \\
+%			UNIT-U &  & & 0.687 &   &   &  & 0.682 \\
+%			UNIT   &  &  & 0.044 &   &   &  & 0.075 \\
+%			CCE   &  &  & 0.059 &    &   &  & 0.077 \\
+%			IM    & 0.004 & 0.257 & 0.058 &    & -0.052 & 0.106 & 0.062 \\
+%			CRS   & 0.002 & 0.260 & 0.039 &    & -0.054 & 0.106 & 0.046 \\
+%			\hline 
+%			 \multicolumn{8}{c}{B. SAR} \\
+%			\hline
+%			SK    & \multirow{4}{*}{-0.028} & \multirow{4}{*}{0.858} & 0.338 &  & \multirow{4}{*}{-0.003} & \multirow{4}{*}{0.279} & 0.263 \\
+%			UNIT-U &  &  & 0.638 &   &  &  & 0.488  \\
+%			UNIT  &  &  & 0.307 &    &  &  & 0.242  \\
+%			CCE   &  &  & 0.037 &   &  &  & 0.073 \\
+%			IM    & -0.007 & 0.327 & 0.048 &    & -0.064 & 0.156 & 0.036 \\
+%			CRS   & -0.006 & 0.319 & 0.045 &    & -0.093 & 0.180 & 0.036 \\
+%			\hline 			
+%		\end{tabular}
+%		\begin{tablenotes}
+%			\item Notes: Results from the OLS Simulation (in columns labeled ``OLS'') and IV Simulation (in columns labeled ``IV'') described in Section \ref{subsec: DGP}. Row labels indicate inferential method. Panel A corresponds to the {BASELINE} design where tuning parameters for UNIT, CCE, IM, and CRS are selected based on calculating size and power from feasible estimates of a correctly specific parametric model. Panel B corresponds to the {SAR} design where tuning parameters for UNIT, CCE, IM, and CRS are selected based on calculating size and power from feasible estimates of a misspecified parametric model. For the OLS designs, we report the bias and RMSE of the point estimator associated with each procedure along with size of 5\% level tests. For the IV designs, we report the median bias and MAD of the point estimator associated with each procedure along with size of 5\% level tests.
+%		\end{tablenotes}
+%	\end{threeparttable}
+%\end{table}
+
+The main feature of the results presented in Table \ref{table_summary} is that both IM and CRS with data dependent groups and rejection threshold determined by \eqref{eq: optimization problem} control size across the four considered designs. CCE with data dependent groups and rejection threshold determined by \eqref{eq: optimization problem} also does a reasonable job controlling size across the designs, though it has size distortions in the IV setting and is also not covered by our theoretical results. The performance of IM, CRS, and CCE is similar both in the BASELINE setting, where tuning parameters $\hat\G$ and $\hat\alpha$ are obtained using a correctly specified covariance model, and in the SAR setting, where the problem solved to obtain tuning parameters makes use of a misspecified covariance model.
+
+The robustness of IM, CRS, and, to a lesser extent, CCE is not exhibited by the remaining procedures. The poor behavior of UNIT-U, which ignores spatial dependence entirely, is unsurprising. More surprisingly, SK, which attempts to account for spatial dependence, also does poorly across all designs considered. Over-rejection of the spatial HAC estimator has been previously been documented in the literature. For example, \cite{Conley:Goncalves:Kim:Perron:boot} present simulation results where the null rejection rate for a 5\% level test reaches 0.600 and suggest a spatial dependence wild bootstrap approach to improve performance. We also suspect that improvement could substantially be improved by choosing tuning parameters and rejection rule for the spatial HAC procedure by solving a problem similar to \eqref{eq: optimization problem} adapted to that estimator. We did not pursue that direction as we wished to compare to a benchmark from the existing literature.
+%In that procedure, there are lower order terms in the asymptotic expansion that may play a role in determining the spatial HAC properties in the current simulation design.   In the simulations performed in \cite{Sun2015}, when the spatial correlation was present, rejection rates ranged from 0.056 to 0.108 at the 5\% nominal level. 
+%The best performance appears in the case with sparse locations in a square lattice (their Table 2), where fixed smoothing parameters are used.  
+%We suspect that adapting SK to choose tuning parameters on the basis of solving a problem similar to \eqref{eq: optimization problem} improves performance, but chose to compare to a benchmark from the existing literature.\footnote{ There are methods being developed that attempt to have better higher order properties of HAC-type estimates.  Over-rejection of the spatial HAC estimator has been documented in the literature. \cite{Conley:Goncalves:Kim:Perron:boot} also show distortion in other settings, where the null rejection rate reaches 0.600. They improve the performance  by using a spatial dependent wild bootstrap method, which gives approximately correct size when the spatial correlation is small and there is no measurement error in locations.} 
+
+
+The performance of UNIT is interesting. This procedure treats cross-sectional units as spatially uncorrelated in constructing the standard error estimator but then uses a parametric model that has spatial correlation to adjust the decision threshold for rejecting a hypothesis according to \eqref{eq: optimization problem}. In this case, we see that using a correctly specified parametric model for this adjustment restores size control but that size is not controlled under the misspecified parametric structure. This behavior is in line with our theoretical results which rely on the use of a small number of clusters to maintain size control while allowing for relatively general dependence structures and not requiring correct specification of the parametric model used for tuning parameter choice. The simulation clearly demonstrates that robustness to misspecification is not maintained when large numbers of clusters are used.
+
+
+
+It is also interesting to look at the point estimation results, though these mostly mirror results already available in the literature; see, e.g., \cite{Ibragimov2010}, \cite{BCH-inference}, and \cite{CGH:JAR}. Specifically, we see that both IM and CRS dominate the full sample OLS estimator in terms of both bias and RMSE in our simulation designs. That is, there appears to be a gain, in terms of both point estimation properties and size control, in using the IM or CRS procedure. The results are muddier in the IV simulation where the full sample estimator exhibits lower median bias at the cost of larger MAD and poorer size control. Our preference is still for IM or CRS as having both more accurate statistical inference and more precise (as measured by MAD) estimation seems worth the cost of larger bias. We also note again that these properties appear across simulation studies reported in the literature but are predicated on using a relatively small number of groups as the performance of IM and CRS becomes erratic when small numbers of observations are used to form the within-group estimators. See \cite{CGH:JAR} for further discussion.
+
+%The OLS simulation study calculates the above described inferential procedures on the described data generating process on 1000 simulation replications.  The results from this simulation are printed in Table \ref{table_summary_ols_baseline} and \ref{table_summary_ols_sar} and discussed in the discussion subsection, Subsection 4.4 below.  Table \ref{simulation_ols_summary} reports size for each of the 6 inferential procedures considered.   Table \ref{simulation_ols_summary} also reports power against alternatives $\theta_0 = -1,-0.5,0.5, 1$.   Table \ref{simulation_ols_summary}  also presents statistics about the estimation quality $\hat \theta$, specifically estimation bias and estimation root mean square error.  For the SK, UNIT-U, UNIT, and CCE procedures, $\hat \theta$ is the OLS estimate on the entire sample.  For IM and CRS, $\hat \theta$ is given by $\frac{1}{\hat \G} \sum_{\mathsf C \in \hat {\mathcal C}} \hat \theta_{\mathsf C}$.   In addition, Figure \ref{ols_power_curves} presents a power curve comparing power of the SK, UNIT, CCE, IM, and CRS estimators with various alternatives for $\theta_0$ ranging between -3 and 3.  Table 6 and Figure 4 in the supplemental material report analogous results using a larger sample size of $N=820$, keeping all other settings the same.
+
+
+
+%\begin{table}[t]
+%	\centering
+%	\renewcommand{\arraystretch}{1.2}
+%	\caption{OLS Simulation Results}
+%	\label{table_summary_ols}
+%	\begin{threeparttable}	
+%		\begin{tabular}{cccccccc}
+%			\hline
+%			\hline
+%			Method & Bias & RMSE & Size & \multicolumn{4}{c}{Power}\\
+%			\cline{5-8}
+%			& & & & -1 & -0.5 & 0.5 & 1\\
+%			\hline
+%			\multicolumn{8}{c}{A. Baseline} \\
+%			\hline
+%			SK    & 0.011 & 0.435 & 0.452 & 0.930 & 0.671 & 0.676 & 0.931 \\
+%			UNIT-U & 0.011 & 0.435 & 0.687 & 0.980 & 0.817 & 0.816 & 0.974 \\
+%			UNIT   & 0.011 & 0.435 & 0.044 & 0.682 & 0.262 & 0.257 & 0.662 \\
+%			CCE   & 0.011 & 0.435 & 0.059 & 0.553 & 0.209 & 0.216 & 0.534 \\
+%			IM    & 0.004 & 0.257 & 0.058 & 0.925 & 0.430 & 0.430 & 0.906 \\
+%			CRS   & 0.002 & 0.260 & 0.039 & 0.841 & 0.378 & 0.380 & 0.858\\
+%			\hline 
+%			\multicolumn{8}{c}{B. SAR} \\
+% \hline
+%SK    & -0.028 & 0.858 & 0.338 & 0.683 & 0.498 & 0.480 & 0.675 \\
+%UNIT-U & -0.028 & 0.858 & 0.638 & 0.759 & 0.666 & 0.670 & 0.768 \\
+%UNIT  & -0.028 & 0.858 & 0.307 & 0.650 & 0.451 & 0.463 & 0.674 \\
+%CCE   & -0.028 & 0.858 & 0.037 & 0.398 & 0.166 & 0.171 & 0.405 \\
+%IM    & -0.007 & 0.327 & 0.048 & 0.728 & 0.289 & 0.284 & 0.734 \\
+%CRS   & -0.006 & 0.319 & 0.045 & 0.728 & 0.296 & 0.256 & 0.739\\
+%\hline 			
+%		\end{tabular}
+%		\begin{tablenotes}
+%			\item Notes: Results from the OLS Simulation described in Section \ref{subsec: DGP}. Row labels indicate inferential method. Panel A corresponds to the \textit{BASELINE} design where tuning parameters for UNIT, CCE, IM, and CRS are selected based on calculating size and power from feasible estimates of a correctly specific parametric model. Panel B corresponds to the \textit{SAR} design where tuning parameters for UNIT, CCE, IM, and CRS are selected based on calculating size and power from feasible estimates of a misspecified parametric model. For each estimator and covariance structure, we report the bias and RMSE of the point estimator associated with each procedure along with size of 5\% level tests and power against 4 alternatives (-1, -0.5, 0.5, 1).
+%		\end{tablenotes}
+%	\end{threeparttable}
+%\end{table}
+
+%\input{table_summary_ols_baseline.tex}
+%\input{table_summary_ols_sar.tex}
+
+%\subsection{IV simulation}
+%\label{simulation_iv}
+
+%This section conducts a similar simulation study but in an IV setting.  The observable data for the IV simulation is given by $\mathscr D= \{ Y_{de}, X_{de}, W_{de},Z_{de} \}_{d=1,...,N, e=1,...,T}$.  The data satisfy the system of equations 
+%
+%
+%\begin{align*}
+%	Y_{de}&=\alpha_0+\theta_0 X_{de}+W_{de}'\gamma_0+U_{de},\\
+%	X_{de}&=\mu_0+\pi_0 Z_{de}+W_{de}'\xi_0+V_{de}.
+%\end{align*}
+%
+
+%In the same way as in the OLS simulation, each observation $de$ is associated with a spatial location which depends only on $L_d \in \mathbb R^2$ with dissimilarity is $\mathrm d(de,d'e') = \| L_d - L_{d'}\|_2$. 
+%A dependence structure over observed random variables is generated using $f_{ \kappa, \rho}$, which was defined also in the OLS simulation section.   
+%Throughout replications, $\{Z_{de},W_{de} \}_{i=1,...,N, t=1,...,T}$ are fixed and are drawn once and for all from the following distribution. 
+%\begin{align*}
+%	&Z_{de}\sim \mathrm N(0,1), W_{del}\sim \mathrm N(0,1)\\
+%	&\mathrm{corr}(Z_{de},Z_{d'e'})=\mathrm{corr}(W_{del},W_{d'e'l})=f_{\kappa, \rho}( (L_d,e),(L_{d'},e'))\\
+%	&\mathrm{corr}(Z_{de},W_{del})=\mathrm{corr}(W_{del},W_{dem})=\nu
+%\end{align*}
+%The following settings for the distribution of the disturbance are considered. 
+%\begin{itemize}
+%	\item[ A.] Homogeneous exponential covariance (\emph{BASELINE}).  
+%	\begin{align*}
+%		&U_{de}\sim \mathrm N(0,1),\  V_{de}\sim \mathrm N(0,1), \\
+%		&\mathrm{corr}(U_{de},U_{d'e'})=\mathrm{corr}(V_{de},V_{d'e'})=f_{\kappa, \rho}( (L_d,e),(L_{d'},e'))\\
+%		&\mathrm{corr}(U_{de},V_{de})=0.8
+%	\end{align*}
+%	
+%	\item[B.] Spatial auto-regression (\emph{SAR}).
+%%	Define $\mathcal W$ to be an $N\times N$ weighting matrix with entry $\mathcal W_{d,d'}=\mathrm{1}\{\Vert L_d-L_{d'}\Vert_2<0.3 \}$.  
+%	\begin{align*}
+%%		&U_e=\kappa_{SAR} \mathcal WU_e+\varepsilon_e^U, \text{ where }U_t=(U_{1e},\dots,U_{Ne})' \text{ and } \varepsilon_e^U=(\varepsilon_{1e}^U,\dots,\varepsilon_{Ne}^U)'\\ 	
+%		& U_{de}=0.15  \textstyle \sum_{d'\ne d}U_{d'e} \textbf{1}_{\{ \Vert L_d-L_{d'}\Vert_2<0.3 \}} +\varepsilon_{de}\\
+%&		V_{de}=0.15 \textstyle  \sum_{d'\ne d}V_{d'e} \textbf{1}_{\{ \Vert L_d-L_{d'}\Vert_2<0.3 \}} +\eta_{de}\\
+%%		&V_e=\kappa_{SAR} \mathcal WV_e+\varepsilon_e^V, \text{ where }V_e=(V_{1e},\dots,V_{Ne})' \text{ and } \varepsilon_e^V=(\varepsilon_{1e}^V,\dots,\varepsilon_{Ne}^V)'\\ 	
+%		& \varepsilon_{de}\sim \mathrm N(0,1),\ \eta_{de}\sim \mathrm N(0,1)\\
+%		&\mathrm{corr}(\varepsilon_{d1},\varepsilon_{d2})=\mathrm{corr}(\eta_{d1},\eta_{d2})=\exp(-1)\\
+%		&\mathrm{corr}(\varepsilon_{de},\eta_{de})=0.8
+%	\end{align*}
+%\end{itemize}
+%
+%Throughout, $\alpha_0=\theta_0=\mu_0=0$, $\gamma_0=\xi_0=0_p=(0,\dots,0)'$, $\pi_0=2$, $T=2$, $p=10$, $\nu=0.5$,  $\kappa=3$, and $\rho=1$.
+%%Note that $\rho_{endo}$ controls the level of endogeneity in $X_{de}$, with values $\rho_{endo}$ near one indicating severe endogeneity and $\rho_{endo}$ near 0 indicating near exogeneity.  
+%Note that $\pi_0$ controls the relevance of the instrument $Z_{de}$ with $\pi_0=0$ indicating an irrelevant instrument.
+
+%The IV simulation study calculates the above described inferential procedures on the described data generating process on 1000 simulation replications.  The results from this simulation are printed in Table \ref{simulation_iv_summary} and discussed in the discussion subsection, Subsection 4.4 below.  Table \ref{simulation_iv_summary} reports size for each of the 6 inferential procedures considered.   Table \ref{simulation_iv_summary} also reports power against alternatives $\theta_0 = -1,-0.5,0.5, 1$.   Table \ref{simulation_iv_summary}  also presents statistics about the estimation quality $\hat \theta$, specifically estimation bias and estimation root mean square error.  For the SK, UNIT-U, UNIT, and CCE procedures, $\hat \theta$ is the IV estimate on the entire sample.  For IM and CRS, $\hat \theta$ is given by $\frac{1}{\hat \G} \sum_{\mathsf C \in \hat {\mathcal C}} \hat \theta_{\mathsf C}$.   In addition, Figure \ref{iv_power_curves} presents a power curve comparing power of the SK, UNIT, CCE, IM, and CRS estimators various alternatives for $\theta_0$ ranging between -3 and 3.  Table 7 and Figure 5 in the supplemental material report analogous results using a larger sample size of $N=820$, keeping all other settings the same.
+
+
+%\input{table_summary_iv_baseline.tex}
+%\input{table_summary_iv_sar.tex}
+
+\begin{figure}[t]
+	\centering
+	\subfloat[BASELINE]{\includegraphics[width=.35\linewidth,trim=4.5cm 6.5cm 4.5cm 7cm]{figures/power_curve_ols_baseline_small}}\qquad
+	\subfloat[SAR]{\includegraphics[width=.35\linewidth,trim=4.5cm 6.5cm 4.5cm 7cm]{figures/power_curve_ols_sar_small}}\\
+	\caption{OLS power curves.}\label{fig: ols power}
+	
+	\centering
+	\subfloat[BASELINE]{\includegraphics[width=.35\linewidth,trim=4.5cm 6.5cm 4.5cm 7cm]{figures/power_curve_iv_baseline_small}}\qquad
+	\subfloat[SAR]{\includegraphics[width=.35\linewidth,trim=4.5cm 6.5cm 4.5cm 7cm]{figures/power_curve_iv_sar_small}}\\
+	\caption{IV power curves.}
+	\label{fig: iv power}
+\end{figure}
+
+
+
+We report power curves for 5\% level tests of the hypothesis $H_0: \theta_0 = \theta^{\mathrm{alt}} $ for alternatives $\theta^{\mathrm{alt}} $ produced by the different procedures across the simulations in Figures \ref{fig: ols power} and \ref{fig: iv power}. In these figures, the horizontal axis gives the hypothesized value, $\theta^{\mathrm{alt}} $, so size of the test is captured by the point $\theta^{\mathrm{alt}}  = 0$. Figure \ref{fig: ols power} presents the results from the OLS simulation. Here, we see that the power curves are symmetric and that the highest power among procedures that control size is obtained by IM and CRS, both of which perform similarly. Looking to the IV results in Figure \ref{fig: iv power}, we see that power curves are asymmetric and slightly shifted due to the finite sample behavior of the IV estimator. We also see that there is no longer a clear picture about which of the procedures that controls size performs better in terms of power. Specifically, each of CCE, IM, and CRS exhibits higher power over different sets of alternative values. Exploring these tradeoffs more deeply may potentially be interesting but is beyond the scope of this paper. Overall, these figures reinforce the takeaways from the size and point estimation results presented in Table \ref{tab: empirical results} which suggest that IM and CRS provide good default procedures which are robust, both in simulation and in the formal analysis, easy-to-compute, and not clearly dominated by other commonly used approaches. 
+
+%\subsection{Clustering simulation}
+%\label{simulation_clustering}
+
+\input{tables/table_kHat_distr.tex}
+
+%\begin{table}[t]
+%	\caption{Distribution of $\hat\G$}
+%	\label{tab: hat k}
+%	\centering
+%	\renewcommand{\arraystretch}{1.5}
+%	\begin{threeparttable}	
+%		\begin{tabular}{m{.1\textwidth} >{\centering}m{.08\textwidth} >{\centering}m{.08\textwidth} >{\centering}m{.08\textwidth} >{\centering}m{.08\textwidth} >{\centering}m{.08\textwidth} >{\centering}m{.08\textwidth} >{\centering\arraybackslash}m{.08\textwidth}}%{cccccccc}
+%			\hline
+%			\hline
+%			& $\hat \G=2$ & 3 & 4 & 5 & 6 & 7 & 8 \\
+%			\hline
+%			\multicolumn{8}{c}{A. OLS - BASELINE}\\
+%			\hline
+%			CCE    & 0.000  & 0.000  & 0.026 & 0.112 & 0.189 & 0.296 & 0.377   \\
+%			IM     & 0.000  & 0.000  & 0.000 & 0.004 & 0.010 & 0.103 & 0.883    \\
+%			CRS    & 0.000  & 0.000  & 0.000 & 0.000 & 0.013 & 0.285 & 0.702     \\
+%			\hline
+%			\multicolumn{8}{c}{B. OLS - SAR}\\
+%			\hline
+%			CCE  & 0.000  & 0.001 & 0.017 & 0.058 & 0.145 & 0.261 & 0.518        \\
+%			IM   & 0.000  & 0.000 & 0.004 & 0.281 & 0.057 & 0.300 & 0.358        \\
+%			CRS  & 0.000  & 0.000 & 0.000 & 0.000 & 0.003 & 0.296 & 0.701       \\
+%			\hline
+%			\multicolumn{8}{c}{C. IV - BASELINE}\\
+%			\hline
+%			CCE & 0.000  & 0.012  & 0.033 & 0.083 & 0.168 & 0.262 & 0.442       \\
+%			IM  & 0.000  & 0.000  & 0.003 & 0.007 & 0.015 & 0.094 & 0.881       \\
+%			CRS & 0.000  & 0.000  & 0.000 & 0.000 & 0.007 & 0.216 & 0.777        \\
+%			\hline
+%			\multicolumn{8}{c}{D. IV - SAR}\\
+%			\hline
+%			CCE & 0.010  & 0.025 & 0.031 & 0.037 & 0.090 & 0.216 & 0.591        \\
+%			IM  & 0.013  & 0.042 & 0.068 & 0.745 & 0.040 & 0.043 & 0.049        \\
+%			CRS & 0.000  & 0.000 & 0.000 & 0.000 & 0.029 & 0.398 & 0.573       \\
+%			\hline
+%		\end{tabular}
+%		\begin{tablenotes}
+%			\item Notes: Simulation results for $\hat \G$, the data-dependent number of clusters obtained in \eqref{eq: optimization problem}. Panels correspond to the different designs described in Section \ref{subsec: DGP}. Each entry reports the simulation probability of $\hat \G$ being equal to the value given in the column label for the procedure indicated in the row label. 
+%		\end{tablenotes}
+%	\end{threeparttable}
+%\end{table}
+
+We report properties of the data dependent number of clusters obtained from \eqref{eq: optimization problem}, $\hat\G$, across our simulation designs in Table \ref{tab: hat k}. We first note that 5\% level tests based on CRS have trivial power (power equal size) when based on fewer than six groups, so the number of groups selected for CRS is always chosen to be six or greater. 
+We see that, with two exceptions, $\hat\G = 8$ is the most likely selection. 
+The exceptions are for IM in the OLS and IV settings with SAR covariance structure where five groups are selected in 55.4\% and 56.8\% of the simulation replications, respectively. 
+We also note that, while $\hat\G = 8$ is the most common solution, there is non-trivial weight on other numbers of groups for all procedures. Finally, we wish to reiterate that the grouping structure is not literally correct in any of our designs but is being used as a feasible way to downweight small covariances to allow for the construction of informative and robust inferential statements. Thus, the goal here is not to find the ``correct'' number of clusters. 
+
+\input{tables/table_alphaHat_distr.tex}
+
+%\begin{table}[t]
+%	\caption{Distribution of $\hat\alpha$}
+%    \label{tab: hat alpha}
+%	\centering
+%	\renewcommand{\arraystretch}{1.5}
+%	\begin{threeparttable}	
+%		\begin{tabular}{m{.1\textwidth} >{\centering}m{.1\textwidth} >{\centering}m{.1\textwidth} >{\centering}m{.1\textwidth} >{\centering}m{.1\textwidth} >{\centering\arraybackslash}m{.1\textwidth}}
+%			\hline
+%			\hline
+%			& \multicolumn{5}{c}{Quantile}            \\
+%			\cline{2-6}
+%			& 0.1  & 0.25   & 0.5    & 0.75   & 0.9    \\
+%			\hline
+%			\multicolumn{6}{c}{A. OLS - BASELINE} \\
+%			\hline
+%			CCE                 & 0.0003          & 0.0005 & 0.0008 & 0.0013 & 0.0019 \\
+%			IM                  & 0.0090          & 0.0109 & 0.0135 & 0.0167 & 0.0209 \\
+%			CRS                 & 0.0156          & 0.0234 & 0.0234 & 0.0312 & 0.0312 \\
+%			\hline
+%			\multicolumn{6}{c}{B. OLS - SAR}    \\
+%			\hline
+%			CCE                 & 0.0103          & 0.0127 & 0.0157 & 0.0194 & 0.0227 \\
+%			IM                  & 0.0366          & 0.0398 & 0.0456 & 0.0500 & 0.0500 \\
+%			CRS                 & 0.0430          & 0.0469 & 0.0500 & 0.0500 & 0.0500 \\
+%			\hline
+%			\multicolumn{6}{c}{C. IV - BASELINE}\\
+%			\hline
+%			CCE                 & 0.0003          & 0.0004 & 0.0007 & 0.0012 & 0.0018 \\
+%			IM                  & 0.0121          & 0.0153 & 0.0188 & 0.0242 & 0.0302 \\
+%			CRS                 & 0.0195          & 0.0234 & 0.0234 & 0.0312 & 0.0312 \\
+%			\hline
+%			\multicolumn{6}{c}{D. IV - SAR}\\
+%			\hline
+%			CCE                 & 0.0052          & 0.0101 & 0.0144 & 0.0186 & 0.0229 \\
+%			IM                  & 0.0277          & 0.0369 & 0.0500 & 0.0500 & 0.0500 \\
+%			CRS                 & 0.0078          & 0.0391 & 0.0469 & 0.0500 & 0.0500\\
+%			\hline
+%		\end{tabular}
+%		\begin{tablenotes}
+%			\item Notes: Simulation results for $\hat \alpha$, the data-dependent p-value threshold for rejecting a hypothesis at the 5\% level obtained in \eqref{eq: optimization problem}. Panels correspond to the different designs described in Section \ref{subsec: DGP}. For each design and DGP we report the .1, .25, .5, .75, and .95 quantiles of the simulation distribution of $\hat\alpha$. 
+%		\end{tablenotes}
+%	\end{threeparttable}
+%\end{table}
+
+Finally, we summarize the simulation distribution of the data dependent p-value threshold for rejecting a 5\% level test obtained from \eqref{eq: optimization problem}, $\hat\alpha$, in Table \ref{tab: hat alpha}. Recall that using the asymptotic approximation underlying each procedure would correspond to rejecting with a threshold of .05. Here we see that for CCE, the distribution of the threshold that would be used to provide exact size control at the 5\% level is substantially shifted away from .05 with most of the mass of the distribution over values that are much smaller than .05. This behavior suggests the asymptotic approximation does not provide a particularly reliable guide to the performance of inference based on CCE in our settings which is likely due to strong departures from homogeneity assumptions that are used to establish the asymptotic behavior of CCE with small numbers of groups. For both IM and CRS, we see substantially smaller shifts of $\hat\alpha$ away from .05. Indeed, for both SAR cases, the distribution of $\hat\alpha$ for IM and CRS has a substantial mass point at .05. In the BASELINE cases, solving \eqref{eq: optimization problem} for both IM and CRS does lead to systematic use of p-value thresholds that are smaller than .05 to achieve 5\% level size control. While still noticeable, these departures are significantly less extreme than when considering inference based on CCE. Again, this behavior is consistent with the more stable and robust performance of IM and CRS relative to CCE. It also highlights how having two tuning parameters is useful for maintaining finite sample properties as size control may not be achievable in finite samples if one may only choose the number of groups for clustering and is unable to adjust the decision threshold.
+
+Overall, the simulation results suggest that IM and CRS with data dependent clusters constructed as outlined in Section \ref{method} control size in the simulation designs we consider while maintaining non-trivial power. Next, we establish theoretical results that demonstrate that these procedures provide asymptotically valid inference under regularity conditions.   
+
+
+\allowdisplaybreaks{
+
+
+
+\appendix
+	
+\section{Implementation Details}
+\label{Appendix A}
+
+
+%\subsection{Implementation of $k$-\texttt{medoids} clustering}
+%\label{app: k-medoids}
+
+%\subsection{Implementation of cluster-based inference}
+%\label{app: implementation details}
+
+
+
+This section gives complete implementation details for CCE, IM, and CRS in the empirical example and simulation sections as well as SK in the simulation section. 
+
+
+%\subsubsection{Cluster-based methods {\em (CCE, IM, CRS)}}
+
+To describe the implementation, introducing vector and matrix notation is helpful. Let $N_{\mathrm{pan}}$ and $T_{\mathrm{pan}}$ be the cross-sectional dimension and time dimensions (i.e., sample sizes) of the given panel dataset.  Write $n$ as the product $n = N_{\mathrm{pan}} T_{\mathrm{pan}}$.  Let $Y$, $X$, $W$, and $U$ be %$(N_{\mathrm{pan}}T_{\mathrm{pan}})$ 
+$n$-row matrices obtained by stacking $Y_{de}$, $X_{de}$, $(W_{de}',1)$, and $U_{de}$, respectively. In the IV model, let $Z$ and $V$ be %$(N_{\mathrm{pan}}T_{\mathrm{pan}})$
+$n$-row matrices obtained by stacking $Z_{de}$ and $V_{de}$, respectively. Let $M_A=I_n-A(A'A)^{-1}A'$ for some matrix $A$. For some $B\in \mathbb{R}^{n\times n}$ with rank $\ell$, let $P_B$ be some bijective linear transformation from the subspace orthogonal to the one spanned by the columns of $B$ (thus $(n-\ell)$-dimensional), to $\mathbb{R}^{n-\ell}$.
+
+
+
+\begin{enumerate}
+	\item[ \ \ \textit{Step 1.}] \textit{Form candidate clusters.} For $\G = 2,...,\G_{max}$, apply $k$-\texttt{medoids} with dissimilarity matrix from the data to obtain $\mathcal{C}^{(\G)}$, a collection of $\G$ partitions of the observations.
+	\item[ \ \ \textit{Step 2.}] \textit{Fit a parametric model to covariance structure.} 	The implementation details in this step differ slightly in the cases of OLS and IV estimation. 
+	
+	\begin{itemize}
+		\item In the OLS model, let $\widehat{U}$ be the vector of residuals from the full-sample least-squares estimation. 
+		Then, under $U\sim \mathrm N(0,\Sigma)$,
+		$$P_{M_{[X,W]}}\widehat{U}\sim \mathrm N(0,\Sigma_{PMU} ) \ \ \text{where} \  \ \Sigma_{PMU}=P_{M_{[X,W]}}M_{[X,W]}\Sigma M_{[X,W]}P_{M_{[X,W]}}'.$$
+		Note that the covariance matrix $\Sigma_{PMU}$ is made non-singular by applying the matrix $P_{M_{[X,W]}}$ to $\widehat{U}$. 
+		$\Sigma$ is estimated by QMLE using an exponential covariance model with parameter $\tau=(\tau_1,\tau_2,\tau_3)'$,
+		\begin{equation*}
+			\Sigma_{de,d'e'}(\tau)=cov[U_{de},U_{d'e'};\tau]=\exp(\tau_1)\exp (-\tau_2^{-1} \Vert L_d-L_{d'}\Vert_2-\tau_3^{-1}|e-e'|),
+		\end{equation*}
+		which, in the {BASELINE} simulation case, is the correct model. 
+		To implement, calculate
+		$$\widehat{\tau}=\underset{\tau}{\arg\max}\left\lbrace \frac{1}{2}\log \det (\Sigma_{PMU}(\tau) )+\frac{1}{2}\widehat{U}'P_{M_{[X,W]}}'(\Sigma_{PMU}(\tau) )^{-1}P_{M_{[X,W]}}\widehat{U}\right\rbrace ,$$
+		where $\Sigma_{PMU}(\tau)=P_{M_{[X,W]}}M_{[X,W]}\Sigma(\tau) M_{[X,W]}P_{M_{[X,W]}}'$
+		and $\Sigma(\tau)=(\Sigma_{de,d'e'}(\tau))_{de,d'e'}$ is the implied covariance matrix of $U$ under $\tau$.
+		The covariance matrix estimator is thus $\Sigma(\widehat{\tau})$. 
+		
+		\item In the IV model, the covariance matrices for the structural and first-stage equations are estimated separately. 
+		Let $\widehat{U}=M_WY-M_WX\widehat{\theta}$ and $\widehat{V}=M_WX-M_WZ\widehat{\pi}$, where $\widehat{\theta}$ is the 2SLS estimator for $\theta_0$ and $\widehat{\pi}$ is the least-square estimator for $\pi$. 
+		Then, the covariance matrices for $U$ and $V$ are estimated by solving
+		$$\widehat{\tau}^\varepsilon=\underset{\tau}{\arg\max}\left\lbrace \frac{1}{2}\log \det (\Sigma_{PM\varepsilon}(\tau) )+\frac{1}{2}\widehat{\varepsilon}'P_{M_W}'(\Sigma_{PM\varepsilon}(\tau) )^{-1}P_{M_W}\widehat{\varepsilon}\right\rbrace ,$$
+		where $\Sigma_{PM\varepsilon}=P_{M_W}M_W\Sigma(\tau)M_WP_{M_W}'$, $\Sigma(\tau)=(\Sigma_{de,d'e'}(\tau))_{de,d'e'}$, $  \Sigma_{de,d'e'}(\tau)$ is as previously defined, and $\varepsilon$ is either $U$ or $V$. 
+		Then, the covariance estimators for $U$ and $V$ are $\widehat{\Sigma}_U =  \Sigma(\widehat{\tau}^U)$ and $\widehat{\Sigma}_V = \Sigma(\widehat{\tau}^V)$, respectively. Finally, estimate the correlation between first and second stage errors with $\widehat{\rho}$, the empirical correlation between $\widehat{\Sigma}_U^{-1/2}\widehat{U}$ and $\widehat{\Sigma}_V^{-1/2}\widehat{V}$.
+	\end{itemize}
+	\item[ \ \ \textit{Step 3.}] \textit{Simulate data.} This step simulates size and power for all candidate partitions $\mathcal C \in \mathscr C = \{ \mathcal C^{(2)},...,\mathcal C^{(\G_{\mathrm{max}})}\}$. Given the covariance estimator(s) from \textit{Step 2}, simulate independent copies of the observable data for each $\diamond=1,...,B$ as follows for each $\theta\in \{-10/\sqrt{n},-9/\sqrt{n},\dots,-1/\sqrt{n},0,1/\sqrt{n},2/\sqrt{n},\dots,10/\sqrt{n} \}$. (We use $B = 10000$ in the empirical example $B = 1000$ in the simulation experiments.)
+	\begin{itemize}
+		\item In the OLS model, draw $U^\diamond$ from the distribution $N(0,\Sigma(\widehat{\tau})) $. 
+		Reproduce data by  $Y_{de}^\diamond=\widehat{\alpha}+\theta X_{de}+W_{de}'\widehat{\gamma}+U_{de}^\diamond,$
+		where $\widehat{\alpha}$ and $\widehat{\gamma}$ are full-sample least-square estimators, and $U_{de}^\diamond$ is the $de$ element on $U^\diamond$. 
+				
+		\item In the IV model, draw $(U^\diamond,V^\diamond)$ such that 
+		$$\begin{pmatrix}
+			U^\diamond \\ V^\diamond
+		\end{pmatrix}\sim \mathrm N\left( 0, \begin{bmatrix}
+			\widehat{\Sigma}_U & \widehat{\rho}\widehat{\Sigma}_U^{1/2}(\widehat{\Sigma}_V^{1/2})'\\
+			\widehat{\rho}\widehat{\Sigma}_V^{1/2}(\widehat{\Sigma}_U^{1/2})' & \widehat{\Sigma}_V
+		\end{bmatrix}\right).$$
+		Reproduce data by 
+		\begin{equation*}
+			\begin{cases}
+				Y_{de}^\diamond=\widehat{\alpha}+\theta X_{de}^\diamond+W_{de}'\widehat{\gamma}+U_{de}^\diamond\\
+				X_{de}^\diamond=\widehat{\mu}+\widehat{\pi}Z_{de}+X_{de}'\widehat{\xi}+V_{de}^\diamond
+			\end{cases},
+		\end{equation*}
+		where $\widehat{\alpha}$ and $\widehat{\gamma}$ are full-sample 2SLS estimators, $\widehat{\mu}$, $\widehat{\pi}$, $\widehat{\xi}$ are full-sample least-square estimators for the first-stage equation, and $U_{de}^\diamond$, and $V_{de}^\diamond$ are respectively the $de$ elements of $U^\diamond$ and $V^\diamond$. 
+		
+	\end{itemize}	
+	\item[ \ \ \textit{Step 4.}] \textit{Calculate Type I and Type II error rates.}	For each partition size $\G=2,...,\G_{\max}$ and for each $a \in [0,.05]$,  compute simulated Type I error rate 
+	$ \widehat {\mathrm{Err}}_{\mathrm{Type-I}}(\mathrm{IM}(a), \G )$, 
+	$ \widehat {\mathrm{Err}}_{\mathrm{Type-I}}(\mathrm{CRS}(a), \G)$, 
+	$ \widehat {\mathrm{Err}}_{\mathrm{Type-I}}(\mathrm{CCE}(a),\G)$ by testing $H_0:\theta_0=0$ on each simulated dataset with $\theta=0$ from \textit{Step 3}.  
+	Set $\hat \alpha_{\text{IM}, \G}$, $\hat \alpha_{\text{IM}, \G}$, $\hat \alpha_{\text{IM}, \G}$ to be the largest value $ a \in [0, \alpha]$ such that  
+	$\widehat {\mathrm{Err}}_{\mathrm{Type-I}}(\mathrm{IM}(a),\G)\leq \alpha$, 
+	$\widehat {\mathrm{Err}}_{\mathrm{Type-I}}(\mathrm{CRS}(a),\G)\leq \alpha$,
+	$\widehat {\mathrm{Err}}_{\mathrm{Type-I}}(\mathrm{CCE}(a),\G)\leq \alpha$. 
+	
+%	For each partition $ \G =2,...,\G_{\max}$, compute simulated average Type II error rate  $ \widehat {\mathrm{Err}}_{\mathrm{Type-I}}(\mathrm{IM}(\hat a_{\text{IM}, \G}), \G)$, $ \widehat {\mathrm{Err}}_{\mathrm{Type-I}}(\mathrm{CRS}(\hat a_{\text{CRS}, \G}), \G)$, $ \widehat {\mathrm{Err}}_{\mathrm{Type-I}}(\mathrm{CCE}(\hat a_{\text{CCE}, \G}), \G)$ using $\hat a_{\text{IM},\mathcal C}, \hat a_{\text{CRS},\mathcal C}, \hat a_{\text{CCE},\mathcal C}$ and by conducting the corresponding test $H_0:\theta_0=\theta^{\mathrm{alt}} $ for 
+%	$\theta^{\mathrm{alt}}  \in \{-10/\sqrt{n},-9/\sqrt{n},\dots$ $\dots,-1/\sqrt{n},1/\sqrt{n},2/\sqrt{n},\dots,10/\sqrt{n} \}$ on each simulated dataset from \textit{Step 3} and averaging the Type 2 error obtained at each hypothesized value. 
+	
+	For each partition size $\G=2,\dots, \G_{\max}$, compute simulated average Type II error rate  $ \widehat {\mathrm{Err}}_{\mathrm{Type-II}}(\mathrm{IM}(\hat a_{\text{IM}, \G}), \G)$, $ \widehat {\mathrm{Err}}_{\mathrm{Type-II}}(\mathrm{CRS}(\hat a_{\text{CRS}, \G}), \G)$, $ \widehat {\mathrm{Err}}_{\mathrm{Type-II}}(\mathrm{CCE}(\hat a_{\text{CCE}, \G}), \G)$ by testing $H_0:\theta_0=0$ for 
+	$\theta \in \{-10/\sqrt{n},-9/\sqrt{n},\dots$ $\dots,-1/\sqrt{n},1/\sqrt{n},2/\sqrt{n},\dots,10/\sqrt{n} \}$ on each simulated dataset from \textit{Step 3} and averaging the Type 2 error obtained at each $\theta$ value. 
+	
+	
+	\item[ \ \ \textit{Step 5.}] \textit{Solution to \eqref{eq: optimization problem}.} Set $(\widehat\alpha_{\mathrm{CCE}} , \hat \G_{\mathrm{CCE}})$, $(\widehat\alpha_{\mathrm{IM}} ,  \G_{\mathrm{IM}})$, $(\widehat\alpha_{\mathrm{CRS}} , \hat \G_{\mathrm{CRS}})$ as the solution to \eqref{eq: optimization problem}.
+\end{enumerate}
+
+%\subsubsection{Spatial-HAC {\em (SK)}}
+
+The method SK is based on the spatial-HAC estimator proposed by \cite{Sun2015}. 
+We apply the methods in \cite{Sun2015} to transform an irregular lattice to a regular integer lattice  and to deal with locations that do not form a rectangle. 
+\cite{Sun2015} require the input of smoothing parameters $(K_1,K_2)$. 
+We apply the method recommended by \cite{Lazarus2018}; i.e., we let $K_1=K_2=\left[\sqrt{0.4N_{\mathrm{pan}}^{2/3}} \right]$ where $N_{\mathrm{pan}}$ is the number of locations. 
+
+\linespread{1.35}
+
+\bibliographystyle{apalike}
+\bibliography{dkbib1}
+	
+
+\subsection{Additional Simulation Results}
+
+This section provides additional simulation results to complement those in the main text. 
+
+
+
+The same settings as in Section \ref{simulation} are considered; though here we provide results with number of locations given by $N_{\mathrm{pan}}=820$ in addition to $N_{\mathrm{pan}}=205$. 
+In the $N_{\mathrm{pan}}=820$ settings, four copies of the locations from the empirical example are created by reflecting the original locations over the $29^\circ$ latitude and $75^\circ$ longitude lines.
+The data generating process follows Section \ref{simulation}.
+The maximal number of groups to be considered in CCE, IM, and CRS is chosen to be ${\G_{\mathrm{max}}} = 12.$
+% = \lceil (N_{\mathrm{pan}}T_{\mathrm{pan}})^{1/3} \rceil $. 
+In all cases, we consider 1000 simulation replications.
+
+The reported results in this section also display more detailed information about the simulation studies than given in the main text in both the $N_{\mathrm{pan}}=820$ and $N_{\mathrm{pan}}=205$ cases.
+
+\input{tables/table_summary_ols_baseline_small.tex}
+\input{tables/table_summary_ols_sar_small.tex}
+\input{tables/table_summary_iv_baseline_small.tex}
+\input{tables/table_summary_iv_sar_small.tex}
+
+\input{tables/table_clustering_ols_baseline_small.tex}
+\input{tables/table_clustering_ols_sar_small.tex}
+\input{tables/table_clustering_iv_baseline_small.tex}
+\input{tables/table_clustering_iv_sar_small.tex}
+
+\input{tables/table_summary_ols_baseline_large.tex}
+\input{tables/table_summary_ols_sar_large.tex}
+
+\input{tables/table_summary_iv_baseline_large.tex}
+\input{tables/table_summary_iv_sar_large.tex}
+
+\begin{figure}[t]
+	\centering
+	\subfloat[BASELINE]{\includegraphics[width=.45\linewidth,trim=4.5cm 6.5cm 4.5cm 7cm]{figures/power_curve_ols_baseline_large}}\qquad
+	\subfloat[SAR]{\includegraphics[width=.45\linewidth,trim=4.5cm 6.5cm 4.5cm 7cm]{figures/power_curve_ols_sar_large}}\\
+	\caption{OLS power curves ($N_{\text{pan}}=820$).}
+\end{figure}
+
+
+\begin{figure}[t]
+	\centering
+	\subfloat[BASELINE]{\includegraphics[width=.4\linewidth,trim=4.5cm 6.5cm 4.5cm 7cm]{figures/power_curve_iv_baseline_large}}\qquad
+	\subfloat[SAR]{\includegraphics[width=.4\linewidth,trim=4.5cm 6.5cm 4.5cm 7cm]{figures/power_curve_iv_sar_large}}\\
+	\caption{IV power curves ($N_{\text{pan}}=820$).}
+\end{figure}
+
+
+
+\begin{landscape}
+	\input{tables/table_clustering_ols_baseline_large.tex}
+\end{landscape}
+
+\begin{landscape}
+	\input{tables/table_clustering_ols_sar_large.tex}
+\end{landscape}
+
+\begin{landscape}
+	\input{tables/table_clustering_iv_baseline_large.tex}
+\end{landscape}
+
+\begin{landscape}
+	\input{tables/table_clustering_iv_sar_large.tex}
+\end{landscape}
+
+
+\subsection{Computation times}
+\label{computation:times}
+The procedure defined in Algorithm 1 in the main text is computationally intensive.  This section reports various computation times associated with running Algorithm 1 as well as the alternative techniques described in the main text.  
+
+
+We present two tables documenting computation time.  Table \ref{inferenceruntimes} records the computation time for all inferential methods in all simulation settings.   Table \ref{kmedoidsiterations} records the number of iterations needed to reach convergence in $k$-medoids using the metric space defined by the Afghanistan district centroids as described in the main text. Note that we apply $k$-medoids to 100 sets of randomly chosen centroids and pick the one with the lowest objective function value at convergence. 
+
+
+The experiment is implemented in MATLAB 9.6.0.1072779 (R2019a). 
+Two models of CPUs are used: Intel Xeon E5-2690 v3 2.60GHz and Intel Xeon E5-2680 v4 2.40GHz.
+We assigned 10 cores and 10 GB memory for each task.
+The operating system is Linux 3.10.0-1160.25.1.el7.x86\_64.
+
+%\begin{table}[ht!]
+%	\centering
+%	\renewcommand{\arraystretch}{1.5}
+%	\begin{tabular}{cccccc}
+%		\hline
+%		\hline
+%	Inferential method	& \multicolumn{2}{c}{Runtime in seconds}\\
+%	\cline{2-3}
+%	& 1 replication & 1000 replications \\
+%		\hline
+%		SK & 0.53 & 25.64\\
+%		UNIT-U & 0.34 & 3.16\\
+%UNIT & 		3.01 & 2429.39\\
+%CCE & 40.90 & 33912.99\\
+%IM & 9.23 & 2841.25 \\
+%CRS & 39.80 & 33105.67 \\
+%		\hline
+%	\end{tabular}
+%\end{table}
+
+\begin{table}[ht!]
+	\centering
+	\caption{Runtime in seconds}
+	 \label{inferenceruntimes}
+	\renewcommand{\arraystretch}{1.5}
+	\begin{threeparttable}
+	\begin{tabular}{cccccccccccccccc}
+		\hline
+		\hline
+	Method	& \multicolumn{5}{c}{$N=205$} & & \multicolumn{5}{c}{$N=820$} \\
+		\cline{2-6} \cline{8-12}
+		& \multicolumn{2}{c}{OLS} && \multicolumn{2}{c}{IV} 		&& \multicolumn{2}{c}{OLS} && \multicolumn{2}{c}{IV}\\
+		\cline{2-3} \cline{5-6} \cline{8-9} \cline{11-12}
+		& BASELINE & SAR & & BASELINE & SAR &	& BASELINE & SAR & & BASELINE & SAR\\
+		\hline
+%		 \multicolumn{12}{c}{1 replication} \\
+%		\hline
+SK     & 52  & 38  &  & 44  & 19 &  & 19  & 38  &  & 102 & 166 \\
+UNIT-U & 51  & 85  &  & 48  & 87 &  & 116 & 147 &  & 45  & 20  \\
+UNIT   & 49  & 24  &  & 58  & 23 &  & 223 & 210 &  & 279 & 231 \\
+CCE    & 71  & 67  &  & 62  & 36 &  & 137 & 206 &  & 427 & 293 \\
+IM     & 72  & 66  &  & 61  & 60 &  & 282 & 214 &  & 308 & 358 \\
+CRS    & 119 & 118 &  & 107 & 95 &  & 409 & 395 &  & 504 & 496\\
+		\hline
+%				 \multicolumn{12}{c}{1000 replications} \\
+%		\hline
+%SK     & 46   & 64    &  & 67    & 47   &  & 62    & 67    &  & 202   & 192   \\
+%UNIT-U & 52   & 51    &  & 46    & 49   &  & 170   & 123   &  & 41    & 48    \\
+%UNIT   & 376  & 617   &  & 628   & 2636 &  & 12279 & 8900  &  & 40437 & 20015 \\
+%CCE    & 415  & 1999  &  & 1203  & 637  &  & 12030 & 17042 &  & 21888 & 18033 \\
+%IM     & 520  & 480   &  & 1301  & 799  &  & 12319 & 9028  &  & 24597 & 19958 \\
+%CRS    & 5928 & 58660 &  & 10943 & 6627 &  & 32664 & 28562 &  & 42173 & 38332 \\
+%		\hline
+	\end{tabular}
+\begin{tablenotes}
+	\item Notes: 
+	This table records computation runtime (in seconds) of implementing a specific method in the corresponding setting for once. 
+%	``1 replication'' means that the inferential method is implemented for once.
+%	``1000 replications'' means that the method is implemented for 1000 different random datasets, as in the simulation section of the paper. 
+	%\textcolor{red}{These results don't make sense to me. Why do 1000 replications of SK take roughly the same amount of time as 1 replication? The two panels don't seem to relate in any obvious way. \textcolor{purple}{JC: I deleted the ``1000 replications'' section. }	}
+	\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+
+\begin{table}[ht!]
+	\centering
+	\renewcommand{\arraystretch}{1.5}
+	\caption{Number of iterations in $k$-medoids}
+	 \label{kmedoidsiterations}
+	\begin{threeparttable}
+	\begin{tabular}{cccccc}
+		\hline
+		\hline
+$G$	& \multicolumn{2}{c}{$N=205$} & & \multicolumn{2}{c}{$N=820$}  \\
+ \cline{2-3}\cline{5-6}
+& best & average & & best & average \\
+		\hline
+2  & 3 & 2.71 &  & 3 & 2.59  \\
+3  & 3 & 3.11 &  & 3 & 2.89  \\
+4  & 3 & 3.31 &  & 2 & 2.58  \\
+5  & 3 & 3.67 &  & 3 & 9.95  \\
+6  & 4 & 3.79 &  & 3 & 22.67 \\
+7  & 5 & 3.90 &  & 4 & 13.05 \\
+8  & 3 & 3.93 &  & 4 & 3.50  \\
+9  & -  &    -  &  & 3 & 3.50  \\
+10 &  - &   -   &  & 6 & 3.70  \\
+11 &  - &   -   &  & 4 & 4.14  \\
+12 &  - & -     &  & 6 & 4.60 \\
+\hline
+	\end{tabular}
+\begin{tablenotes}
+\item Notes:  Iterations until convergence for $k$-medoids using Afghanistan voting districts for $N=205$ and a space derived from spatially displaced copies of Afghanistan voting districts for $N=820$ as described in the main text. 
+The ``best'' column shows the number of iterations until numeric convergence for the initial centroids that achieve the lowest objective function value at convergence among the 100  sets of initial centroids. 
+The ``average'' column shows the average number of iterations until numeric convergence across all 100 sets of initial centroids. 
+%\textcolor{red}{I'm guessing that "average" is the average number of iterations until numeric convergence across 100 starting values and "best" is the number of iterations to numeric convergence if you find and look only at the single starting value that has the lowest objective function value at convergence. If my guess is correct, please rephrase so that the results are clear. If my guesss is incorrect, please clarify.\textcolor{purple}{JC: Rephrased.}}
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+
+\section{Comparison Methodology: Inference with Unsupervised Cluster Learning}
+\label{method}
+
+
+
+Consider data given by $\mathscr D = \{ \zeta_i \}_{i \in \mathsf X}$.  Here, $\zeta_i$ are observable random variables or vectors and $\mathsf X$ is a (spatial) indexing set of cardinality $n$.  This paper assumes that $\mathsf X$ is equipped with a known dissimilarity measure $\mathrm d$, which is an $n \times n$ array of nonnegative real dissimilarities.  When added emphasis is helpful, $\mathsf X$ is written $(\mathsf X,\mathrm d)$.  The data $\mathscr D$ is distributed according to an unknown (joint) data generating process (DGP) -- $\mathscr D \sim \Pr_0$.  The object $\mathsf X$ will be the main object used to characterize any dependence in the data $\mathscr D$ over $i$.  
+
+Consider testing a scalar null hypothesis, $H_0: \theta_0 = \theta^{\circledast}$, at level $\alpha \in (0,1)$.  Here $\theta^{\circledast}$ is a hypothesized value of a parameter that reflects the data generating process $\Pr_0$.  Our focus will be on the problem of testing a hypothesis about a coefficient in a linear regression model (e.g. testing $H_0:\theta_0=0$ where $\theta_0$ is a parameter in a linear regression, with $\zeta_i = (y_i, x_i)$ or $\zeta_i = (y_i, x_i, z_i)$ representing observations of an outcome variable $Y$, possibly endogenous regressor $D$, and exogenous instruments $Z$.) In the case of this example, $\Pr_0$ will be allowed to be a DGP in which observations are correlated with each other.  Failure to account for dependence in $\mathscr D$ across $i \in \mathsf X$ may lead to substantial size distortion when testing $H_0$. %In the following, we outline an approach for obtaining valid inference within this setting using cluster-based inferential procedures with clusters generated by an unsupervised clustering algorithm.  
+
+
+Let $\mathcal C = \{ \mathsf C_1,...,\mathsf C_\G \}$ be a partition of $\mathsf X$ of cardinality $\G \geq 2$.  The elements $\mathsf C_1,...,\mathsf C_\G$ are referred to as clusters.  A \textit{cluster-based} inferential procedure for testing $H_0$ is a (possibly random) assignment 
+\begin{align} \mathtt{Test}: (\mathscr D, \mathcal C) \mapsto T \in \big \{\text{Fail to Reject, Reject} \big \}. 
+\end{align}
+Here, the decision rule itself is called $\mathtt{Test}$ and will generally depend on the level $\alpha \in (0,1)$ of the test.  The outcome of the test $\Test$ is referred to as $T$; i.e. $T = \Test(\mathscr D, \mathcal C)$.  The set containing the pair $(\mathscr D, \mathcal C)$ remains unnamed to avoid additional notation.
+
+
+We consider the following three cluster-based inferential procedures for testing a scalar hypothesis in this paper: the procedure of \cite{Ibragimov2010} (IM), the procedure of \cite{Canay2017} (CRS), and inference based on the cluster covariance estimator as described in \cite{BCH-inference} (CCE).\footnote{Extension of formal results for testing joint hypotheses using CRS is straightforward.} For clarity, consider `$t$-statistic' based testing of the hypothesis $H_0: \theta_0 = \theta^\circledast$. Let $\mathsf C\subseteq \mathsf X$ and $\hat \theta_{\mathsf C}$ be an estimator of $\theta_0$ using only data corresponding to observations in $\mathsf C$. Now define $S \in \mathbb R^{\mathcal C}$ (note: $\mathbb R^{\mathcal C}$ denotes functions $\mathcal C \rightarrow \mathbb R$) and the $t$-statistic function $t:\mathbb{R}^{\mathcal C}\rightarrow \mathbb{R}$ such that 
+\begin{align}
+&S = (S_\mathsf C)_{\mathsf C \in \mathcal C}, \ \ S_{\mathsf C} = (n/\G)^{1/2} (\hat \theta_{\mathsf C} - \theta^\circledast), \phantom{\Bigg |}\\ &t(S)=\frac{ \G^{-1/2}\sum_{\mathsf C \in \mathcal C} S_{\mathsf C}}{\sqrt{(\G-1)^{-1}\sum_{\mathsf C \in \mathcal C} \left (S_{\mathsf C}-\G^{-1}\sum_{\mathsf C' \in \mathcal C} S_{\mathsf C'}\right )^2}}.
+\end{align} 
+For a specified level $a\in(0,1)$ (which may differ from $\alpha$), there are IM, CRS, and CCE tests, denoted by $\mathtt{Test}_{\text{IM}(a)}$, $\mathtt{Test}_{\text{CRS}(a)}$, $\mathtt{Test}_{\text{CCE}(a)}$.  These tests are defined by their outcomes given data $\mathscr D$ and a partition $\mathcal C$:
+\begin{align} 
+	&T_{\text{IM}(a)} \ \ = \ \text{Reject}  \ \ \ \text{if} \ \ \ \left | t(S) \right | >t_{1-a/2,\G-1}, \\
+	&T_{\text{CRS}(a)} = \ \text{Reject} \ \ \text{ if } \ \ \left | t(S) \right | >  \mathrm{quantile}_{1-a} ( \{   | t(hS)  | \rbrace_{h\in \mathcal H_{\mathcal C}} ),\\
+	&T_{\text{CCE}(a)} = \ \text{Reject} \ \ \text{ if } \ \ \left | \frac{ \hat \theta_{\mathsf X}-\theta^\circledast}{ \hat V_{\text{CCE}, \mathcal C}^{1/2}} \right | > \sqrt{\frac{\G}{\G-1}} \times t_{1-a/2,\G-1},
+\end{align}
+where $t_{1-a/2,\G-1}$ is the $(1-a/2)$-quantile of a $t$-distribution with $\G-1$ degrees of freedom; the set $\{ h S \}_{h \in \mathcal H_{\mathcal C}}$ is the orbit of the action of $\{ \pm 1\}^{\mathcal C}$ on $S$, so that for each $h$,  $hS \in \mathbb R^{\mathcal C}$ has $\mathsf C^{\text{th}}$ component 
+$\pm (n/\G)^{1/2}(\hat \theta_{ \mathsf C} - \theta^\circledast)$ for some sign in $\{\pm 1\}$; and $\hat V_{\text{CCE},\mathcal C}$ is the standard cluster covariance matrix estimator. $\Test_{\bullet(a)}$ and $T_{\bullet(a)}$ are used when the choice of IM, CRS, or CCE is unspecified. When we wish to be clear about explicit dependence on $\mathscr D$ and $\mathcal C$ we use the more cumbersome notation $T_{\bullet(a), \mathcal C} = \Test_{\bullet(a)}(\mathscr D, \mathcal C)$.
+With prespecified, non-data-dependent clusters, each of the IM, CRS, and CCE procedures has the favorable property of asymptotic nominal size control under respective regularity conditions whenever dependence in observations $\zeta_i, \zeta_j$ with $i,j$ in different clusters is suitably negligible.  
+
+
+The second important definition is that of an \textit{unsupervised clustering algorithm}, which is an assignment that returns, to every $\mathsf X = (\mathsf X,\mathrm d)$, a partition of $\mathsf X$ given by the mapping 
+\begin{align} \mathtt{Cluster}: \mathsf X \mapsto \mathcal C. \end{align} 
+The idea behind using an unsupervised clustering algorithm is that if the dissimilarity $\mathrm d$ appropriately reflects the dependence in $\zeta_i$, then the resulting partition $\mathcal C$ may have the desired property that averages of observations belonging to different clusters exhibit negligible dependence. In the formal analysis in Section \ref{clt_section}, the imposed mixing conditions imply that dependence between $\zeta_i$ and $\zeta_j$ vanishes as $\mathrm{d}(i,j)$ becomes large. Then, if $\mathcal C$ places distant observations (as defined by $\mathrm d$) in different clusters, favorable properties of the test $T$ may be anticipated. 
+
+Though there are many commonly used unsupervised clustering algorithms and we expect most to be usable as methods for forming data-dependent clusters, we consider only $k$-\texttt{medoids} in this paper for technical reasons discussed in Section \ref{balanced_small_boundary}. Note that by composition of specific $\Test$ and $\Cluster$ procedures, it is already possible to define an outcome $T$ for $H_0$ given $\mathscr D,\mathsf X$ by constructing $T = \Test(\mathscr D, \Cluster(\mathsf X)).$
+
+The $k$-\texttt{medoids} algorithm we use for establishing our results is as follows.  For finite $(\mathsf X, \mathrm d)$ and medoids $ \mathscr I\subseteq \mathsf X$ define
+$\text{cost} (\mathscr I) =\sum_{j\in \mathsf X}\min_{i \in \mathscr I} \mathrm d(i,j)^2.$
+
+\
+
+
+\noindent{$k$-\texttt{medoids}:  \textit{Input.}  $(\mathsf X, \mathrm d)$, $\G$.
+
+ \textit{Initialize} a set of medoids $\mathscr I \subseteq \mathsf X$ with cardinality $|\mathscr I | = k$.  	 
+
+ \textit{While}  $\text{cost}((\mathscr I \cup \{ j\} )\setminus \{ i\} ) <\text{cost}(\mathscr I)$ for some $i \in \mathscr I$ and $j \in \mathsf X \setminus \mathscr I$,
+
+  \textit{Replace} $\mathscr I$ with $\mathscr I \cup \{ \hat j   \} \setminus \{ \hat i   \}$ where $(\hat i, \hat j) \in \arg {\min_{(i,j)\in\mathscr I \times (\mathsf X \setminus \mathscr I)}} \text{cost}((\mathscr I \cup \{ j\} )\setminus \{ i\})$.
+
+
+\textit{Output.} $\mathcal C = \{\mathsf C_{i}\}_{i \in \mathscr I}$ with $j \in \mathsf C_i$ if $\mathrm d(i,j) = \min( \{\mathrm d(i',j) \}_{i' \in \mathscr I})$ .
+
+
+This implementation has run time $O(k(n-k)^2)$ per iteration.  Additional details about computational run times in our application and simulations are presented in supplemental material.
+
+
+The final layer to our proposed testing procedure is a method for data-dependent choice of the cluster-based inferential procedure by considering a collection of candidate testing and clustering procedures of the form $\Test$ and $\Cluster$. We propose making this choice on the basis of simultaneously controlling Type-I and Type-II error rates. Let $\text{Err}_{\text{Type-I}} (\mathtt{Test}, \Cluster) $ denote type-I error for the testing outcome defined by $\mathtt{Test}(\mathscr D, \Cluster(\mathsf X))$.  Next, consider a set of alternatives $\mathbf \Theta_{\text{alt}}$. %, which for testing scalar hypothesis correspond to a finite set with scalar elements referred to by ${\theta_{\text{alt}}}$, i.e., $\mathbf \Theta_{\text{alt}} = \{ \theta_{\text{alt},1},....,\theta_{\text{alt},m} \}$.  
+Let $\text{Err}_{\text{Type-II}}(\Test,\Cluster)$ denote a weighted average type-II error against the alternatives in $\mathbf \Theta_{\text{alt}}$. \textcolor{black}{The choice of the alternative set and weighting function will be application specific and should depend on details of the problem. In the empirical illustration in Section \ref{empirical_application}, we chose simple average power over an equally spaced grid of values that we believe encompass all remotely plausible values for the parameter of interest. We believe this practice provides a simple default.} %\footnote{We have omitted $\mathbf \Theta_{\text{alt}}$ from notation.  If when needed we write $\text{Err}_{\text{Type-II}, \mathbf \Theta_{\text{alt}} }$.}
+Because $\text{Err}_{\text{Type-I}} (\Test, \Cluster) $ and $\text{Err}_{\text{Type-II}  }(\Test,\Cluster)$ will typically not be known, we consider a setting in which estimates $\widehat{\text{Err}}_{\text{Type-I}}(\Test,\Cluster)$ and $\widehat{\text{Err}}_{\text{Type-II}}(\Test,\Cluster) $ are available. 
+
+To finish the final layer, let $\mathscr T$ be a collection of pairs of the form $(\Test, \Cluster)$.  Note that the components $\mathtt{Test}$ in $\mathscr T$ are assumed to control Type I error asymptotically given suitable partitions of the data. This assumption is formalized by Condition 6 in Section \ref{sec: main results}. 
+We then choose $(\hat \Test, \hat  \Cluster) \in \mathscr T$ by solving 
+\begin{equation}
+	\label{eq: optimization problem}
+	\begin{aligned}
+		&(\hat \Test, \hat \Cluster) \in  \arg\min \ \widehat{\text{Err}}_{\text{Type-II}  }(\Test, \Cluster)  \\
+		&\text{s.t. } {(\Test, \Cluster) \in \mathscr T \ ,  \ \widehat{\text{Err}}_{\text{Type-I}}(\Test, \Cluster)  \leq \alpha}.
+	\end{aligned}
+\end{equation}
+The final testing outcome for $H_0$ is then denoted \begin{align} \hat T = \hat \Test(\mathscr D, \hat \Cluster( \mathsf X)).\end{align}
+
+ In this paper, interest will be in $\mathscr T$ of the form \begin{align}\label{eq: scriptT}
+	\mathscr T_{\bullet(\alpha), \G_{\max}} =\Big \{ (\Test_{\bullet(a)},  k\text{-}\texttt{medoids}) : a \in [0,\alpha], k \in \{ 2,...,{\G_{\mathrm{max}}} \}  \Big \}
+\end{align}
+where $\alpha$ is the nominal testing level for $H_0$, 
+${\G_{\mathrm{max}}}$ is a researcher-chosen upper bound on the number of clusters, and $\Test_{\bullet(a)}$ is defined above.\footnote{One could also include pairs involving pre-specified partitions in $\mathscr{T}$. We ignore this possibility for notational convenience.} 
+With $\mathscr T = \mathscr T_{\bullet(\alpha), \G_{\max}}$, the ``parameter space''  in \eqref{eq: scriptT} depends on two independent parameters $a$ and $\G$.  It follows that \eqref{eq: optimization problem} is a two-dimensional optimization problem with a single constraint. The resulting optimization problem is therefore non-degenerate. The solution is then determined by two parameters $\hat \alpha$ and $\hat \G$.  Furthermore, the testing outcome can be expressed as
+$\hat T = \Test_{\bullet( \hat \alpha )}(\mathscr D, \hat {\mathcal C} \hspace{.4mm} ), \ \text{with } \hat {\mathcal C} = \mathcal C^{(\hat \G)} = \hat\G \text{-}\texttt{medoids}(\mathsf X).$  When tests are based on $\bullet$ being  IM, CRS, or CCE and it is helpful to make the overall level $\alpha$ explicit, we write $\hat T = \hat T_{\bullet(\alpha)}$ for added emphasis.
+
+$\hat \G$ provides a data-dependent answer to how many clusters to use. Optimization over $a$ allows the parameter entering the data-dependent decision rule, $\hat \alpha$, to be smaller than the nominal level of the test, $\alpha$. That is, the data-dependent decision rule may be more conservative than would be implied by conventional, fixed rules that asymptotically control size but may fail to do so in finite samples. Finally, the constraint on $a$ in the definition of $\mathscr{T}$ in \eqref{eq: scriptT} guarantees that inference based on $\hat T$ will maintain asymptotic size control under conditions that do not require the estimator $\widehat{\text{Err}}_{\text{Type-I}}(\Test, \Cluster)$ to agree with the true Type-I error rate in finite-samples or asymptotically. 
+
+In practice, estimates $\widehat{\text{Err}}_{\text{Type-I}}(\Test, \Cluster)$ and $\widehat{\text{Err}}_{\text{Type-II}  }(\Test, \Cluster) $ of Type-I and Type-II error rates are needed. In all results reported in the following sections, we obtain these estimates from auxiliary estimation of the dependence structure in the data based on Gaussian Quasi Maximum Likelihood Estimation (QMLE) using a simple exponential covariance function. We then use the estimated dependence structure within a Gaussian model to obtain $\widehat{\text{Err}}_{\text{Type-I}}(\Test, \Cluster)$ and $\widehat{\text{Err}}_{\text{Type-II}  }(\Test, \Cluster)$. Further details are provided in Appendix \ref{Appendix A}. We note that in principle any baseline model could be used in implementing \eqref{eq: optimization problem} and one could consider uniform size control over classes of models, $\mathcal{M}$, by replacing the size constraint in \eqref{eq: optimization problem} with $\max_{m \in \mathcal{M}} \widehat{\text{Err}}_{\text{Type-I},m}(\Test, \Cluster)  \leq \alpha$. We wish to reemphasize that our theoretical results do not require the consistency of the estimated dependence structure of $\Pr_0$ in order to control size. As a result, misspecification in the model for dependence asymptotically leads only to potential loss of power.
+
+\eqref{eq: optimization problem} differs from most methods in the literature for choosing data-dependent tuning parameters for use in conducting inference with dependent data. Much of the existing literature suggests choosing a single tuning parameter to optimize a weighted combination of size distortion and power; see, for instance, \cite{LLS:SizePower}, \cite{Sun2015}, and references therein. Instead, our proposal leverages the fact that most commonly used inferential procedures for dependent data depend on two parameters - nominal size and a smoothing parameter - and focuses on maximizing power within procedures that control size. Our proposal is closely related to \cite{MeullerWatson:2020} who consider an inference approach for spatially dependent data that makes use of a tuning parameter and a critical value which are chosen by minimizing confidence interval length subject to exactly controlling size. Relative to the existing literature, both \cite{MeullerWatson:2020} and our approach offer additional flexibility by explicitly considering two choice variables and make use of criteria, minimizing interval length or maximizing power subject to maintaining size control, that we believe will be appealing to many researchers. 
+
+ 
+For convenience of reference in the following sections, the above described procedure is stated under Algorithm \ref{Algorithm1} below.  For concreteness, Algorithm \ref{Algorithm1} references the procedures specialized to {IM}, CRS, CCE in conjunction with $k$-\texttt{medoids}. %(i.e. for $\mathscr T = \mathscr T_{\bullet(\alpha), \G_{\max}}$). 
+A more general procedure (i.e. for arbitrary $\mathscr T$) could be stated analogously. 
+To simplify notation at the cost of some abuse of notation, write $ \widehat {\mathrm{Err}}_{\mathrm{Type-I}}(\Test_{\mathrm{\bullet}(a)}, k\text{-}\texttt{medoids}) = \widehat {\mathrm{Err}}_{\mathrm{Type-I}}(\bullet(a), k)$  and $ \widehat {\mathrm{Err}}_{\mathrm{Type-II}}(\Test_{\mathrm{\bullet}(a)}, k\text{-}\texttt{medoids}) = \widehat {\mathrm{Err}}_{\mathrm{Type-II}}(\bullet(a), k)$. We employ Algorithm \ref{Algorithm1} in the empirical example and simulation study in Sections \ref{empirical_application} and \ref{simulation}. The Appendix contains full implementation details in these examples. %The supplemental material contains additional simulation results, as well as tables documenting computation times for the various procedures run in this paper.  
+
+\
+
+\begin{algorithmsimple} \label{Algorithm1}   (\textit{Inference with Cluster Learning with} $k$-\texttt{medoids} \textit{and} IM, CRS \textit{or} {CCE}). Testing $H_0$ at level $0 < \alpha < 1$. 
+
+\textit{Data:} $\mathscr D, \mathsf X$.
+
+\textit{Inputs:} $k_{\max}$;  $\mathbf \Theta_{\text{alt}}$; $\bullet = $ IM, CRS, or CCE; Estimates $\widehat{\text{Err}}_{\text{Type-I} }(\bullet(a), k), \widehat{\text{Err}}_{\text{Type-II}  }(\bullet(a), k)$
+
+\textit{Procedure}:  Solve \eqref{eq: optimization problem} to obtain $(\hat \alpha, \hat k)$. 
+
+\textit{Output:}  Set $\hat T_{\bullet(\alpha)} = {\Test}_{\bullet(\hat \alpha)}(\mathscr D, \hat k\text{-}\texttt{medoids}( {\mathsf X}))$.
+
+\end{algorithmsimple}
+
+\
+
+Note, Algorithm 1 can be inverted into confidence sets.  For $\{ H_0: \theta_0 = \theta^{\circledast} : \theta^{\circledast} \in \Theta \} $ a family of hypotheses, $\mathrm {C.I.} = \{\theta^{\circledast} \in \Theta : \text{Algorithm 1 at level $\alpha$ returns Fail to Reject for}  H_0:  \theta_0 = \theta^{\circledast}  \}$ calculates a $(1-\alpha)$ confidence set.
+
+
+
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

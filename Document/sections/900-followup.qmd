@@ -1,0 +1,18 @@
+## Follow-up questions {-}
+
+Follow-up questions to look into the documentation and figure out:
+
+1. What are they reporting as standard errors. Guess sq.root of sigma hat of eq. 5
+2. what are they reporting as “t” and “P>|t|”
+3. what is q and why 10 is the “optimal” value
+4. reverse engineer the critical value from the confidence interval
+
+The Stata documentation is very succinct and does not provide details for the questions above. I had to figure out from the code itself. 
+
+Question 1: The `scpc` post-estimation command displays the standard error as the estimated variance using eq. 5 modified as follows $\hat\sigma_{SCPC}/(\sqrt{n}\sqrt{n-1})$ (line 559, scpc.ado). 
+
+Q2: They report "t", using eq. 4, but with their variance estimator. "P>|t|" is the rejection probability, eq. in pag. 13 top left. Line 110 in `scpc.ado`.
+
+Q3: $q$ is the number of principal components used to estimate eq. 5. There is a trade-off in choosing the optimal $q$. For a critical value fixed, the confidence interval shrinks for larger values of $q$.
+
+Q4: It can be done. $cv=(coef-LCI)/SE$. The critical value is computed using the equation on page 13 (line 144, scpc.ado). 

@@ -1,0 +1,79 @@
+This is BibTeX, Version 0.99d (TeX Live 2015)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: Simulation_Study_Spatial_Prewhitening.aux
+The style file: apalike.bst
+Database file #1: dkbib1.bib
+Repeated entry---line 20977 of file dkbib1.bib
+ : @unpublished{bchv:fbshac
+ :                         ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 21939 of file dkbib1.bib
+ : @article{conley:gmmhac
+ :                       ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 24407 of file dkbib1.bib
+ : @article{prucha:moran
+ :                      ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 24569 of file dkbib1.bib
+ : @article{kiefvog2
+ :                  ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 24589 of file dkbib1.bib
+ : @article{kiefvog1
+ :                  ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 26995 of file dkbib1.bib
+ : @book{wooldridge:text
+ :                      ,
+I'm skipping whatever remains of this entry
+A bad cross reference---entry "moreira:moreira:optimalteststheory"
+refers to entry "https://www.econbiz.de/Record/contributions-to-the-theory-of-optimal-tests-moreira-humberto/10011456369", which doesn't exist
+Warning--I didn't find a database entry for "https://www.econbiz.de/Record/contributions-to-the-theory-of-optimal-tests-moreira-humberto/10011456369"
+Name 2 in "Conley, Time and Goncalves, Sylvia, and Kim, Min Seong Kim and Perron, Benoit" has a comma at the end for entry Conley:Goncalves:Kim:Perron:boot
+while executing---line 1023 of file apalike.bst
+Name 2 in "Conley, Time and Goncalves, Sylvia, and Kim, Min Seong Kim and Perron, Benoit" has a comma at the end for entry Conley:Goncalves:Kim:Perron:boot
+while executing---line 1098 of file apalike.bst
+Warning--empty journal in rothko:orangeredorange:1961
+You've used 40 entries,
+            1935 wiz_defined-function locations,
+            729 strings with 9883 characters,
+and the built_in function-call counts, 15073 in all, are:
+= -- 1507
+> -- 521
+< -- 30
++ -- 180
+- -- 166
+* -- 1265
+:= -- 2634
+add.period$ -- 120
+call.type$ -- 40
+change.case$ -- 281
+chr.to.int$ -- 40
+cite$ -- 41
+duplicate$ -- 559
+empty$ -- 1094
+format.name$ -- 234
+if$ -- 2929
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 42
+newline$ -- 203
+num.names$ -- 120
+pop$ -- 210
+preamble$ -- 1
+purify$ -- 283
+quote$ -- 0
+skip$ -- 437
+stack$ -- 0
+substring$ -- 1207
+swap$ -- 49
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 232
+warning$ -- 1
+while$ -- 131
+width$ -- 0
+write$ -- 513
+(There were 9 error messages)

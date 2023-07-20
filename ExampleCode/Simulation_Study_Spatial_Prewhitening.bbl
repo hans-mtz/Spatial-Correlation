@@ -1,0 +1,213 @@
+\begin{thebibliography}{}
+
+\bibitem[Abadie et~al., 2017]{abadie2017should}
+Abadie, A., Athey, S., Imbens, G.~W., and Wooldridge, J. (2017).
+\newblock When should you adjust standard errors for clustering?
+\newblock Technical report, National Bureau of Economic Research.
+
+\bibitem[Andrews, 1991]{andrews1991}
+Andrews, D. W.~K. (1991).
+\newblock Asymptotic normality of series estimators for nonparametric and
+  semiparametric regression models.
+\newblock {\em Econometrica}, 59(2):307--345.
+
+\bibitem[Assoud, 1977]{assoud:diss}
+Assoud, P. (1977).
+\newblock {\em Espaces M\'etriques, Plongements, Facteurs}.
+\newblock Doctoral Dissertation, Universit\'e de Paris XI, 91405 Orsay France.
+
+\bibitem[Bai et~al., 2020]{bai2020standard}
+Bai, J., Choi, S.~H., and Liao, Y. (2020).
+\newblock Standard errors for panel data models with unknown clusters.
+\newblock {\em Journal of Econometrics}.
+
+\bibitem[Bester et~al., 2011]{BCH-inference}
+Bester, C.~A., Conley, T.~G., and Hansen, C.~B. (2011).
+\newblock Inference with dependent data using cluster covariance estimators.
+\newblock {\em Journal of Econometrics}, 165(2):137 -- 151.
+
+\bibitem[Bester et~al., 2016]{bchv:fbshac}
+Bester, C.~A., Conley, T.~G., Hansen, C.~B., and Vogelsang, T.~J. (2016).
+\newblock Fixed-b asymptotics for spatially dependent robust nonparametric
+  covariance matrix estimators.
+\newblock {\em Econometric Theory}, 32(1):154--186.
+
+\bibitem[Bickel and Levina, 2008]{bickel2008covariance}
+Bickel, P.~J. and Levina, E. (2008).
+\newblock Covariance regularization by thresholding.
+\newblock {\em The Annals of Statistics}, 36(6):2577--2604.
+
+\bibitem[Bolthausen, 1982]{bolthausen1982}
+Bolthausen, E. (1982).
+\newblock On the central limit theorem for stationary mixing random fields.
+\newblock {\em Ann. Probab.}, 10(4):1047--1050.
+
+\bibitem[Cai, 2021]{Cai2021}
+Cai, Y. (2021).
+\newblock {Panel Data with Unknown Clusters}.
+\newblock {\em ArXiv e-prints}.
+
+\bibitem[Canay et~al., 2017]{Canay2017}
+Canay, I.~A., Romano, J.~P., and Shaikh, A.~M. (2017).
+\newblock Randomization tests under an approximate symmetry assumption.
+\newblock {\em Econometrica}, 85(3):1013--1030.
+
+\bibitem[Condra et~al., 2018]{Condra2018}
+Condra, L.~N., Long, J.~D., Shaver, A.~C., and Wright, A.~L. (2018).
+\newblock The logic of insurgent electoral violence.
+\newblock {\em American Economic Review}, 108(11):3199--3231.
+
+\bibitem[Conley et~al., 2021]{Conley:Goncalves:Kim:Perron:boot}
+Conley, T., Goncalves, S., Kim, M. S.~K., and Perron, B. (2021).
+\newblock Bootstrap inference under cross sectional dependence.
+\newblock {\em Working Paper}.
+
+\bibitem[Conley, 1999]{conley:gmmhac}
+Conley, T.~G. (1999).
+\newblock {GMM} estimation with cross sectional dependence.
+\newblock {\em Journal of Econometrics}, 92:1--45.
+
+\bibitem[Conley and Dupor, 2003]{Conley:Dupor:Sectoral}
+Conley, T.~G. and Dupor, B. (2003).
+\newblock A spatial analysis of sectoral complementarity.
+\newblock {\em Journal of Political Economy}, 111(2):311--352.
+
+\bibitem[Conley et~al., 2018]{CGH:JAR}
+Conley, T.~G., Gon\c{c}alves, S., and Hansen, C. (2018).
+\newblock Inference with dependent data in accounting and finance applications.
+\newblock {\em Journal of Accounting Research}, 56:1139--1203.
+
+\bibitem[Conley and Topa, 2002]{conley:topa:socio-econ-distance}
+Conley, T.~G. and Topa, G. (2002).
+\newblock Socio-economic distance and spatial patterns in unemployment.
+\newblock {\em Journal of Applied Econometrics}, 17(4):303--327.
+
+\bibitem[Ferman, 2019]{Ferman:AssessInference}
+Ferman, B. (2019).
+\newblock A simple way to assess inference methods.
+\newblock {\em ArXiv e-prints}.
+
+\bibitem[Hansen and Lee, 2019]{HansenLee:cluster}
+Hansen, B.~E. and Lee, S. (2019).
+\newblock Asymptotic theory for clustered samples.
+\newblock {\em Journal of Econometrics}, 210:268 -- 290.
+
+\bibitem[Hastie et~al., 2009]{elements:book}
+Hastie, T., Tibshirani, R., and Friedman, J. (2009).
+\newblock {\em Elements of Statistical Learning: Data Mining, Inference, and
+  Prediction}.
+\newblock Springer, New York, NY.
+
+\bibitem[Ibragimov and M{\"{u}}ller, 2010]{Ibragimov2010}
+Ibragimov, R. and M{\"{u}}ller, U.~K. (2010).
+\newblock $t$-statistic based correlation and heterogeneity robust inference.
+\newblock {\em Journal of Business {\&} Economic Statistics}, 28(4):453--468.
+
+\bibitem[Jenish and Prucha, 2009]{Jenish2009}
+Jenish, N. and Prucha, I.~R. (2009).
+\newblock Central limit theorems and uniform laws of large numbers for arrays
+  of random fields.
+\newblock {\em Journal of Econometrics}, 150(1):86--98.
+
+\bibitem[Jirak, 2016]{jirak2016}
+Jirak, M. (2016).
+\newblock {Berry–Esseen} theorems under weak dependence.
+\newblock {\em Ann. Probab.}, 44(3):2024--2063.
+
+\bibitem[Kelejian and Prucha, 2001]{prucha:moran}
+Kelejian, H.~H. and Prucha, I. (2001).
+\newblock On the asymptotic distribution of the {Moran I} test statistic with
+  applications.
+\newblock {\em Journal of Econometrics}, 104:219--257.
+
+\bibitem[Kelejian and Prucha, 2007]{KelejianPrucha:SpatialHAC}
+Kelejian, H.~H. and Prucha, I.~R. (2007).
+\newblock {HAC} estimation in a spatial framework.
+\newblock {\em Journal of Econometrics}, 140(1):131--154.
+
+\bibitem[Kiefer and Vogelsang, 2002]{kiefvog1}
+Kiefer, N.~M. and Vogelsang, T.~J. (2002).
+\newblock Heteroskedasticity-autocorrelation robust testing using bandwidth
+  equal to sample size.
+\newblock {\em Econometric Theory}, 18:1350--1366.
+
+\bibitem[Kiefer and Vogelsang, 2005]{kiefvog2}
+Kiefer, N.~M. and Vogelsang, T.~J. (2005).
+\newblock A new asymptotic theory for heteroskedasticity-autocorrelation robust
+  tests.
+\newblock {\em Econometric Theory}, 21:1130--1164.
+
+\bibitem[Kiefer et~al., 2000]{KVB}
+Kiefer, N.~M., Vogelsang, T.~J., and Bunzel, H. (2000).
+\newblock Simple robust testing of regression hypotheses.
+\newblock {\em Econometrica}, 68:695--714.
+
+\bibitem[Lazarus et~al., 2021]{LLS:SizePower}
+Lazarus, E., Lewis, D.~J., and Stock, J.~H. (2021).
+\newblock The size-power tradeoff in {HAR} inference.
+\newblock {\em Econometrica}, pages 1--60.
+\newblock forthcoming.
+
+\bibitem[Lazarus et~al., 2018]{Lazarus2018}
+Lazarus, E., Lewis, D.~J., Stock, J.~H., and Watson, M.~W. (2018).
+\newblock {HAR Inference: Recommendations for Practice}.
+\newblock {\em Journal of Business {\&} Economic Statistics}, 36(4):541--559.
+
+\bibitem[Moran, 1950]{moran}
+Moran, P. (1950).
+\newblock Notes on continuous stochastic phenomena.
+\newblock {\em Biometrika}, pages 17--23.
+
+\bibitem[Moreira and Moreira, 2013]{moreira:moreira:optimalteststheory}
+Moreira, H. and Moreira, M.~J. (2013).
+\newblock Contributions to the theory of optimal tests.
+
+\bibitem[M{\"{u}}ller and Watson, 2020]{MeullerWatson:2020}
+M{\"{u}}ller, U. and Watson, M. (2020).
+\newblock Spatial correlation robust inference.
+\newblock {\em Working paper}.
+
+\bibitem[M{\"{u}}ller, 2007]{muller:robustLRV}
+M{\"{u}}ller, U.~K. (2007).
+\newblock A theory of robust long-run variance estimation.
+\newblock {\em Journal of Econometrics}, 141:1331--1352.
+
+\bibitem[Phillips, 2005]{phillips:HACautomated}
+Phillips, P. C.~B. (2005).
+\newblock {HAC} estimation by automated regression.
+\newblock {\em Econometric Theory}, 21:116--142.
+
+\bibitem[Rothko, 1956]{rothko:orangeredorange:1961}
+Rothko, M. (1956).
+\newblock Orange and yellow.
+\newblock Oil on Canvas, 231.1 x 180.3 cm, Albright-Knox Art Gallery, Buffalo,
+  NY, US.
+
+\bibitem[Rudelson and Vershynin, 2008]{RUDELSON2008600}
+Rudelson, M. and Vershynin, R. (2008).
+\newblock The {Littlewood-Offord} problem and invertibility of random matrices.
+\newblock {\em Advances in Mathematics}, 218(2):600 -- 633.
+
+\bibitem[Sun, 2013]{sun:orthonormal}
+Sun, Y. (2013).
+\newblock Heteroscedasticity and autocorrelation robust {F} test using
+  orthonormal series variance estimator.
+\newblock {\em Econometrics Journal}, 16:1--26.
+
+\bibitem[Sun and Kim, 2015]{Sun2015}
+Sun, Y. and Kim, M.~S. (2015).
+\newblock Asymptotic {$F$}-test in a {GMM} framework with cross-sectional
+  dependence.
+\newblock {\em Review of Economics and Statistics}, 97(1):210--223.
+
+\bibitem[van~der Vaart, 1998]{vdV}
+van~der Vaart, A.~W. (1998).
+\newblock {\em Asymptotic Statistics}.
+\newblock Cambridge University Press.
+
+\bibitem[Wooldridge, 2010]{wooldridge:text}
+Wooldridge, J.~M. (2010).
+\newblock {\em Econometric Analysis of Cross Section and Panel Data}.
+\newblock Cambridge, Massachusetts: The MIT Press, second edition.
+
+\end{thebibliography}

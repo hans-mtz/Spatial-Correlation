@@ -1,0 +1,43 @@
+---
+title: "Spatial correlation"
+format:
+    pdf:
+        documentclass: article
+        colorlinks: true
+        number-sections: true
+author: Hans Martinez
+date: today
+bibliography: biblio.bib
+---
+
+<!-- Replication -->
+{{< include sections/020-replication.qmd >}}
+
+<!-- Plots -->
+{{< include sections/040-e_l.qmd >}}
+
+<!-- Power -->
+{{< include sections/920-power.qmd >}}
+
+<!-- Rejection prob -->
+{{< include sections/910-rej-prob.qmd >}}
+
+<!-- Follow-up
+{{< include sections/900-followup.qmd >}}
+
+<!-- Intro -->
+{{< include sections/010-intro.qmd >}}
+
+<!-- Setting -->
+{{< include sections/030-setting.qmd >}}
+
+<!-- Lit Rev -->
+{{< include sections/00-lit-rev.qmd >}}
+
+<!-- Worst case covariance function -->
+<!-- {{< include sections/800-worst-cov.qmd >}} -->
+
+## References {-}
+
+::: {#refs}
+:::

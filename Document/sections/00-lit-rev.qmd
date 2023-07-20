@@ -1,0 +1,19 @@
+## Literature Review
+
+### @Muller2022JBES
+
+The objective of the paper is to develop a robustified version of their Spatial Correlation Principal Components (SCPC) [@Muller2022ECTA]. In particular, the authors propose modifications to deal with non-stationarities and strong dependence in finite samples (small samples).
+
+According to the authors,  the SPCPC method addresses the challenge of spatial correlation robust inference under small samples and *empirically relevant* forms of strong dependence (which ones?). 
+
+According to the authors, @Conley1999 doesn't work well in small samples because it relies on the consistency of the estimator of $\sigma^2$, while SCPC (and fixed-b type approaches) rely on the *stationarity* of $u_l$. Stationarity might break in practice, for example, when $x_l$ is a dummy for treatment, and treatment is more likely in one region than another region.
+
+The SCPC method is based on a principal component estimator of $\sigma^2$ based on a pre-specified "worst-case" exponential covariance function conditional on the observed locations.
+
+(On going...)
+
+
+
+
+
+

@@ -1,0 +1,54 @@
+## $e_l\sim \mathcal{G}_{exp}(c_{min})$
+
+```{r}
+#| label: fig-dist-cov
+#| fig-align: center
+#| fig-cap: Distance vs Covariance
+#| echo: false
+#| warning: false
+
+load("../Simulations/Products/plots.RData")
+
+with(
+    df_plot,
+    plot(distance,cov)
+)
+```
+
+```{r}
+#| label: fig-cov-hist
+#| fig-align: center
+#| fig-cap: Covariance histogram
+#| echo: false
+#| warning: false
+
+with(
+    df_plot,
+    # hist(distance,breaks=100, freq=TRUE)
+    hist(cov, breaks=50,freq=TRUE, main=NULL)
+)
+```
+
+```{r}
+#| label: fig-extras
+#| fig-align: center
+#| fig-cap: Distance and location histograms
+#| fig-subcap: 
+#|  - Distance
+#|  - Locations
+#| layout-ncol: 2
+#| echo: false
+#| warning: false
+
+with(
+    df_plot,
+    hist(distance,freq=TRUE, main=NULL)
+    # hist(cov, breaks=300, freq=T)
+)
+
+with(
+    df_plot,
+    hist(s_l,freq=TRUE, main=NULL)
+    # hist(cov, breaks=300, freq=T)
+)
+```

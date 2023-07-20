@@ -1,0 +1,45 @@
+## Replication (updated)
+
+The results of the third try in replicating Table 1 of @Muller2022JBES is displayed in @tbl-rep. In all models, locations are $s_l\sim U(0,1)$ and $\beta_0=0$. In all models $e_l \sim \mathcal{G}_{exp}(c_{0.030})$, except model 2. In model 1, $x_l=1$. In model 2, $x_l\sim \mathcal{G}_{exp}(c_{0.03}/2)$ and $e_l \sim \mathcal{G}_{exp}(c_{0.03}/2)$. In model 3, $x_l$ is a step function with $x_l=-0.15$ for the 85% of the locations closest to $s=0$, and $x_l=0.85$ for the remaining locations closest to $s=1$. In model 4, $x_l$ follows a demeaned random walk.
+
+
+
+```{r}
+#| label: tbl-rep
+#| tbl-cap: "Rejection frequencies"
+#| echo: false
+#| warning: false
+
+library(kableExtra)
+options(knitr.table.format = "latex") 
+load("../Simulations/Products/table.RData")
+load("../Simulations/Products/glob_vars.RData")
+Mueller2022 <- data.frame(
+    HR = c(0.51,0.52,0.52,0.50),
+    SCPC = c(0.05,0.08,0.15,0.08)
+)
+kbl(cbind(rej_freq_table,Mueller2022), digits=2, booktabs = T) %>%
+    kable_styling() %>%
+    add_header_above(c(" "=1,"Replication"=2,"M&W (2022)"=2))
+
+```
+
+I ran `r n_sims` simulations for each model. I used `r n_obs` observations for each iteration. One location per observation. Locations were `r ifelse(fix_locations, "fixed", "randomized")`. The value of $\beta$ was `r beta` and $\bar\rho$, `r rho_bar`.
+
+The authors do not specify clustering at all. The rejection frequencies are the percentage of times that the t-statistic was above the critical value of 5%. For the heteroskedastic robust (HR), the normal standard critical values were used. For the SCPC, the critical values were estimated as in @Muller2022JBES using the accompanying post-estimation stata command `scpc, cvs`. The HR method uses the `robust` method in Stata. The SCPC uses the post-estimation command `scpc` provided by the authors.
+
+**UPDATE**: This time I randomized the locations. On the previous try, I fixed them. For this iteration, I found a bug in the code on models 2-4, where $x_l$ was constant in all of them. The rejection frequencies went down for almost everyone. I will continue to try what we discussed:
+
+1. Fix locations, and see the results now that the bug is fixed
+1. Use intercept in estimation
+1. Try different a value for $\beta$
+1. Use `norm` distance instead of `abs`
+
+
+The rejection frequencies in @tbl-rep for the SCPC seem to be exactly the expected $\alpha$ and for model 1 is exactly what @Muller2022JBES show.
+
+
+### Drawing from $\mathcal{G}_{exp}(c)$
+
+To draw from $\mathcal{G}_{exp}(c_{0.03})$, first I estimated the matrix of distances $D$ from the fixed $s_l$ locations. Then, I found the value of $c$ such that the average pairwise correlation of the covariance matrix $\Sigma(c)=\exp(-c*D)$ is close enough to $\bar\rho=0.03$. Then, I used the covariance matrix to draw from a multivariate normal distribution with mean zero and covariance matrix $\Sigma(c)$.
+
