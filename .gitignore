@@ -1,4 +1,5 @@
-/.DS_Store
+*/*.DS_Store
+*.DS_Store
 /head
 */*.pdf
 *.DS_Store
