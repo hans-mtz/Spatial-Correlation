@@ -29,3 +29,19 @@ program sims
 end
 
 sims 100 250
+
+clear programs
+
+program run_regs
+	args x1
+	mean `x1'
+	scalar mean_x1 = r(table)[1,1]
+	if mean_x1 == 1 {	
+		reg y , robust
+	} 
+	else {
+		reg y `x1', robust
+	}
+	
+end
+

@@ -29,5 +29,5 @@ rej_freq_table
 # rej_freq_table_3_4
 
 #Saving results
-save(rej_freq_table,file="Simulations/Products/table.RData")
+save(rej_freq_table,file=paste(prod_dir,n_sims,ifelse(fix_locations,"fixed","random"),"table.RData", sep="_"))
 # save(rej_freq_table_3_4,file="Simulations/Products/table_3_4.RData")
