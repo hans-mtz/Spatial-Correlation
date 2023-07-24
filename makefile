@@ -27,7 +27,7 @@ OUT_FILES := $(RFILES:.R=.Rout)
 main: $(RDIR)/main.Rout #$(filter-out $(RDIR)/main.Rout, $(OUT_FILES))
 
 ## Make all
-all: main paper slides
+all: main paper #slides
 
 ## Run R files
 R: $(OUT_FILES)

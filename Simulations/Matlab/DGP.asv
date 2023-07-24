@@ -1,0 +1,23 @@
+function [y, X, D_mat] = DGP(beta,T,k,s,rho_bar,model)
+
+% Generate variables
+Z = randn(T,k); % matrix of exogenous variables
+D_mat = getdistmat(s,false); % matrix of distances
+c = getcbar(rho_bar, D_mat); % calculating the c_min given rho_bar
+Sigma = exp(-c*D_mat); % var-cov matrix 
+rho_estimated = mean(reshape(Sigma,[],1)); % estimated c_min corresponds to 
+fprintf('Estimated c_min corresponds to a rho_bar estimated of %5.4g \n', rho_estimated);
+mu = zeros(T,1); % mean zero for error terms
+u = mvnrnd(mu,Sigma)'; % sampling from G_exp(c_min)
+
+switch model
+    case 1
+        mu_x = zeros(k-1,T);
+        X = [ones(T,1) mvnrnd(mu_x,Sigma)'];
+    otherwise
+        X = [ones(T,1) randn(T,k-1)]; %iid
+end
+
+y = X*beta + u;
+
+end
