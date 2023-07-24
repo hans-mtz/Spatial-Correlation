@@ -1,2 +1,6 @@
 /.DS_Store
 /head
+*/*.pdf
+*.DS_Store
+*.csv
+*/*.csv
