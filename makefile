@@ -27,7 +27,7 @@ OUT_FILES := $(RFILES:.R=.Rout)
 main: $(RDIR)/main.Rout #$(filter-out $(RDIR)/main.Rout, $(OUT_FILES))
 
 ## Make all
-all: main paper #slides
+all: R paper mail
 
 ## Run R files
 R: $(OUT_FILES)
@@ -44,9 +44,14 @@ paper: #$(QPAPDIR)/$(QPAPFILE).pdf
 # 	quarto render $(QSLIDIR)/$(QSLIFILE).qmd
 #	open -a Safari $(QSLIDIR)/$(QSLIFILE).html
 
+## Send mail with results and paper
+mail: $(RDIR)/_send_mail.Rout
 
 # Rules
 $(RDIR)/%.Rout: $(RDIR)/%.R 
+	R CMD BATCH --no-save --no-restore-data $< $@
+
+$(RDIR)/_send_mail.Rout: $(RDIR)/_send_mail.R
 	R CMD BATCH --no-save --no-restore-data $< $@
 
 # # Compile main tex file and show errors
@@ -80,4 +85,4 @@ clean:
 clean-out:
 	rm -fv $(OUT_FILES) *.Rout
 
-.PHONY: all clean paper slides
+.PHONY: all clean paper mail

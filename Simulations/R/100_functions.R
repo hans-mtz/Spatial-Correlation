@@ -51,11 +51,11 @@ model_2 <- function(n=n_obs, c=c_min,d=d_mat, s=s_l) {
     # s_1 <- runif(n) #location vector
     # d <- abs(outer(s_1,s_1,"-")) # compute distance matrix, d_{ij} = |x_i - x_j|
     # c <- get_c(d,r)
-    c <- c/2
-    Sigma_c <- exp(-c*d) # Covariance function -> COV matrix
-    e_l <- mvtnorm::rmvnorm(1,sigma=Sigma_c) # sampling from gaussian process
-    x_l <- mvtnorm::rmvnorm(1,sigma=Sigma_c)
-    if (!length(e_l)==length(x_l)) print("e_l and x_l are not ok")
+    c_2 <- c/2
+    Sigma_c_2 <- exp(-c_2*d) # Covariance function -> COV matrix
+    e_l <- mvtnorm::rmvnorm(1,sigma=Sigma_c_2) # sampling from gaussian process
+    x_l <- mvtnorm::rmvnorm(1,sigma=Sigma_c_2)
+    # if (!length(e_l)==length(x_l)) print("e_l and x_l are not ok")
     y <- beta*t(x_l)+ t(e_l)
     df <- data.frame(y=y,x1=t(x_l),e_l=t(e_l), s_1=s)
     return(df)
@@ -89,7 +89,7 @@ model_4 <- function(n=n_obs, c=c_min,d=d_mat, s=s_l) {
     Sigma_c <- exp(-c*d) # Covariance function -> COV matrix
     e_l <- mvtnorm::rmvnorm(1,sigma=Sigma_c) # sampling from gaussian process
     # cutoff <- quantile(s_l, probs = 0.85)[1]
-    x_l <- cumsum(c(0,rnorm(n))) # Random walk with mean zero
+    x_l <- cumsum(c(0,rnorm(n,0,rw_sigma))) # Random walk with mean zero
     # x_l_mean <- mean(x_l)
     # demeaned_rw <- x_l[2:(n+1)] - x_l_mean
     # y <- beta*demeaned_rw + t(e_l)
@@ -111,7 +111,7 @@ ratio_list<-function(x,f=model_1){
     }
     
     stata_df <- stata(
-        "Simulations/Stata/cmd.do", 
+        "Simulations/Stata/cmd_prog.do", 
         data.in=df, data.out=TRUE
     )
     ## Using p-values
@@ -181,4 +181,4 @@ rejection_ratio<-function(f=model_1,nsims=n_sims){
     return(r)
 }
 
-save(list=ls(), file="Simulations/Products/functions.RData")
+save(list=ls(), file=paste0(prod_dir,"functions.RData"))

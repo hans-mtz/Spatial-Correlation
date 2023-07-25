@@ -12,8 +12,10 @@ The results of the third try in replicating Table 1 of @Muller2022JBES is displa
 
 library(kableExtra)
 options(knitr.table.format = "latex") 
-load("../Simulations/Products/table.RData")
+# load("../Simulations/Products/table.RData")
 load("../Simulations/Products/glob_vars.RData")
+# load("../Simulations/Products/_10000_fixed_table.RData")
+load(paste0("../", paste(prod_dir,n_sims,ifelse(fix_locations,"fixed","random"),"table.RData", sep="_")))
 Mueller2022 <- data.frame(
     HR = c(0.51,0.52,0.52,0.50),
     SCPC = c(0.05,0.08,0.15,0.08)

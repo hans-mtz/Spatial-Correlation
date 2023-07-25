@@ -1,4 +1,16 @@
 */*.DS_Store
 *.DS_Store
 *.csv
+*.asv
 /head
+/head
+*/*.pdf
+*.DS_Store
+*.csv
+*/*.csv
+*/*.Rout
+*/*/*.Rout
+/Simulations/Products/*
+*.Rout
+*/*.RData
+*.RData
