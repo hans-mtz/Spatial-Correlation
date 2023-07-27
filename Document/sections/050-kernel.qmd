@@ -1,0 +1,79 @@
+## Kernel estimator
+
+I ran 250 simulations fixing the location. I compare the results for the three different variance estimators. I vary the length cutoff for the Kernel estimator.
+
+For Model 1 $e_l\sim\mathcal{G}_{exp}(c_{\bar\rho})$ and $X\sim~[1 \;\mathcal{N}(0,1) \;\mathcal{N}(0,1)]$. Model 2 $e_l\sim\mathcal{G}_{exp}(c_{\bar\rho})$ and $X\sim[1 \;\mathcal{G}_{exp}(c_{\bar\rho}) \;\mathcal{G}_{exp}(c_{\bar\rho})]$. I set $\bar\rho=0.03$ for 250 observations.
+
+**UPDATE**: I'm using only the second-degree B-Splines and removed the constant in the estimation part. I also corrected the spacing of the nodes in the B-Splines. @fig-bspline shows the updated graph. 
+
+The singularity error is gone now. @tbl-kernel displays the results. The sweet spot for the distance cut-off seems to be around 0.03. Using the B-Splines does not seem now to improve the Kernel variance estimates. Of course, the zeros of the *Kernel+BSplines* for the constant just mean a missing value, not a zero rejection frequency.
+
+It seems that the issue on the consistently lower estimates for $\beta_2$ —compared with $\beta_1$ for the Kernel estimates in Model 2 when $L=0.05$— is not here. I didn't adjust this part at all, except for the changes mentioned above. So, it might have been just a weird random draw (?).
+
+```{r}
+#| label: tbl-kernel
+#| tbl-cap: Rejection frequencies for different variance estimators
+#| echo: false
+#| warning: false
+
+kernel_results <- read.csv("../Simulations/Products/kernel_sims.csv")
+
+col_names <- c(
+    " ",
+    "HR",
+    "SCPC",
+    "0.01",
+    "0.03",
+    "0.05",
+    "0.07",
+    "0.01",
+    "0.03",
+    "0.05",
+    "0.07"
+)
+
+row_names <- rep(
+        c(
+            "Cons.",
+            "$\\beta_1$",
+            "$\\beta_2$"
+        ),
+        2
+    )
+
+table <- cbind(row_names, kernel_results)
+
+kbl(
+    table, 
+    digits=3, 
+    booktabs = TRUE,
+    col.names = col_names,
+    # row.names = row_names,
+    escape = F
+    ) %>%
+    add_header_above(
+        c(" "=3,"Kernel"=4,"Kernel+BSplines"=4)
+    ) %>%
+    pack_rows(
+        "Model 1",1,3
+    ) %>%
+    pack_rows(
+        "Model 2",4,6
+    )
+
+
+```
+
+
+![Second order B-Splines]("../Simulations/Products/bspline_order_2.png"){#fig-bspline width=120%}
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-cap: Second order B-Splines
+#| width: 1300px
+#| include: false
+
+knitr::include_graphics("../Simulations/Products/bspline_order_2.png")
+
+```

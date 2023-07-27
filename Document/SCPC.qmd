@@ -4,14 +4,39 @@ format:
     pdf:
         documentclass: article
         colorlinks: true
-        number-sections: true
+number-sections: true
 author: Hans Martinez
 date: today
 bibliography: biblio.bib
 ---
 
+```{r}
+#| label: setup
+#| tbl-cap: "Rejection frequencies"
+#| echo: false
+#| warning: false
+
+library(knitr)
+# opts_knit$set(
+#     echo = FALSE,
+#     fig_path()
+# )
+
+library(kableExtra)
+options(
+    knitr.table.format = "latex") 
+```
+
+
+<!-- Kernel -->
+{{< include sections/050-kernel.qmd >}}
+
+
 <!-- Replication -->
-{{< include sections/020-replication.qmd >}}
+<!-- {{< include sections/020-replication.qmd >}} -->
+
+<!-- Intro -->
+{{< include sections/010-intro.qmd >}}
 
 <!-- Plots -->
 {{< include sections/040-e_l.qmd >}}
@@ -25,17 +50,17 @@ bibliography: biblio.bib
 <!-- Follow-up
 {{< include sections/900-followup.qmd >}}
 
-<!-- Intro -->
-{{< include sections/010-intro.qmd >}}
+
 
 <!-- Setting -->
 {{< include sections/030-setting.qmd >}}
 
+<!-- Worst case covariance function -->
+{{< include sections/800-worst-cov.qmd >}}
+
 <!-- Lit Rev -->
 {{< include sections/00-lit-rev.qmd >}}
 
-<!-- Worst case covariance function -->
-<!-- {{< include sections/800-worst-cov.qmd >}} -->
 
 ## References {-}
 

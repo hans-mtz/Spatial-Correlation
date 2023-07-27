@@ -29,6 +29,7 @@ mu = zeros(T,1); % mean zero for error terms
 u = mvnrnd(mu,Sigma)'; % sampling from G_exp(c_min)
 y = X*beta + u;
 
+
 % Saving data to open in Stata -----------
 
 data = table(y, X, s);
