@@ -1,6 +1,6 @@
 ## Covariance structure
 
-@fig-dist-cov to -@fig-extras show graphically the covariance structure of the DGP, in particular with respect to locations and distance.
+@fig-dist-cov to [-@fig-extras] show graphically the covariance structure of the DGP, in particular with respect to locations and distance.
 
 ```{r}
 #| label: tbl-sum-stats

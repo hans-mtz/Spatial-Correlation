@@ -73,7 +73,7 @@ while q_qmax_tst == 0;
    else
      qmax = round(1.5*qmax);
    end
-   qmax
+   qmax;
  else
   q_qmax_tst = 1;
  end

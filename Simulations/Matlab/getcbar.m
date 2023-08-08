@@ -33,7 +33,7 @@ while i1 == 0
       jj = jj+1;
   end
   if c1 > 5000
-      i1 = 1
+      i1 = 1;
   end
   if jj > 500
    error('rhobar too small');

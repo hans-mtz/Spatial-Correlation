@@ -1,7 +1,9 @@
 # Usually, only these lines need changing
 QPAPFILE = SCPC
+MATLAB = main
 # QSLIFILE = JMP-update
 RDIR = ./Simulations/R
+MLDIR = ./Simulations/Matlab
 QPAPDIR = ./Document
 # QSLIDIR = ./Quarto-Slides
 
@@ -22,15 +24,21 @@ RFILES := $(filter-out $(EXCLUDE),$(RFILES))
 # Indicator files to show R file has run
 OUT_FILES := $(RFILES:.R=.Rout)
 # RDEPOUT := $(RIND:.R=.Rout)
+
+# MLOUT := $(MLDIR)/$(MATLAB).log
 # Targets
+
+
 ## Default target
 main: $(RDIR)/main.Rout #$(filter-out $(RDIR)/main.Rout, $(OUT_FILES))
 
 ## Make all
-all: R paper mail
+all: matlab paper mail
 
 ## Run R files
 R: $(OUT_FILES)
+
+matlab: $(MLDIR)/$(MATLAB).log
 
 ## Make paper
 paper: #$(QPAPDIR)/$(QPAPFILE).pdf
@@ -53,6 +61,9 @@ $(RDIR)/%.Rout: $(RDIR)/%.R
 
 $(RDIR)/_send_mail.Rout: $(RDIR)/_send_mail.R
 	R CMD BATCH --no-save --no-restore-data $< $@
+
+$(MLDIR)/$(MATLAB).log: $(MLDIR)/$(MATLAB).m
+	matlab -sd $(MLDIR) -logfile $@ -batch $(notdir $(basename $<))
 
 # # Compile main tex file and show errors
 $(QPAPDIR)/$(QPAPFILE).pdf: $(QPAPDIR)/$(QPAPFILE).qmd #$(QFILES) #$(OUT_FILES) #$(CROP_FILES)
@@ -85,4 +96,7 @@ clean:
 clean-out:
 	rm -fv $(OUT_FILES) *.Rout
 
-.PHONY: all clean paper mail
+clean-ml:
+	rm -fv $(MLDIR)/$(MATLAB).log
+
+.PHONY: all clean paper mail matlab

@@ -27,10 +27,17 @@ options(
     knitr.table.format = "latex") 
 ```
 
+<!-- Step by step-->
+{{< include sections/005-step-by-step.qmd >}}
 
 <!-- Kernel -->
 {{< include sections/050-kernel.qmd >}}
 
+<!-- Evenly spaced -->
+{{< include sections/080-grid.qmd >}}
+
+<!-- BSplines and the error
+{{< include sections/060-e-ar1.qmd >}} -->
 
 <!-- Replication -->
 <!-- {{< include sections/020-replication.qmd >}} -->

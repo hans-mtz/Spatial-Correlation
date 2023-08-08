@@ -1,24 +1,20 @@
-function [y,X,D_mat] = DGP(beta,k,s,rho_bar,model)
+function [y,X,D_mat] = DGP(beta,s,rho_bar,model)
+% DGP - M1 X~{1 iid}: M2 X~{1 G_exp}; M3 M2 & Y demeaned;
+
 T=length(s);
+k=length(beta);
 % Generate variables
-% Z = randn(T,k); % matrix of exogenous variables
+
 D_mat = getdistmat(s,false); % matrix of distances
 c = getcbar(rho_bar, D_mat); % calculating the c_min given rho_bar
-Sigma = exp(-c*D_mat); % var-cov matrix 
-% rho_estimated = mean(reshape(Sigma,[],1)); % estimated c_min corresponds to 
-% fprintf('Estimated c_min corresponds to a rho_bar estimated of %5.4g \n', rho_estimated);
-% mu = zeros(T,1); % mean zero for error terms
-% u = mvnrnd(mu,Sigma)'; % sampling from G_exp(c_min)
+Sigma = exp(-c*D_mat); % var-cov matrix
 
-% Covariates
-switch model
-    case 2 % Spatially correlated
-        mu_x = zeros(k-1,T);
-        X_mat = mvnrnd(mu_x,Sigma);
-        X = [ones(T,1) X_mat'];
-    otherwise %iid
-        X = [ones(T,1) randn(T,k-1)]; 
-end
+
+% Correlated regressors
+
+mu_x = zeros(k-1,T);
+X_mat = mvnrnd(mu_x,Sigma);
+
 % error term
 switch rho_bar
     case 0.0 % iid
@@ -28,7 +24,21 @@ switch rho_bar
         u = mvnrnd(mu,Sigma)'; % sampling from G_exp(c_min)
 end
 
-y = X*beta + u;
+% Models
+switch model
+    case 3
+        X = [ones(T,1) X_mat'];
+        y_0 = X*beta + u;
+        y = y_0 - mean(y_0);
+    case 2 % Spatially correlated
+        X = [ones(T,1) X_mat'];
+        y = X*beta + u;
+    otherwise %iid
+        X = [ones(T,1) randn(T,k-1)];
+        y = X*beta + u;
+end
+
+% y = X*beta + u;
 
 
 end

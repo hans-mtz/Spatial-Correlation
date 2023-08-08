@@ -1,2 +1,2 @@
 cd "/Volumes/SSD Hans 1/Github/Spatial Correlation/Simulations"
-import delimited "/Volumes/SSD Hans 1/Github/Spatial Correlation/Simulations/Products/example_matlab.csv"
+import delimited using "data_splines.csv"

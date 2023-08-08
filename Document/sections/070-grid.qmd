@@ -1,0 +1,93 @@
+## Evenly spaced locations
+
+Using evenly spaced locations, like in time series, solves the issue of including a high number of splines in the OLS. The model I used is $y_t=\alpha_0+\alpha_1 x_t + u_t$. $u_{t}=\gamma u_{t-1}+ \varepsilon_t$. $x_t$, and $\varepsilon_t$ are iid. 
+
+Interestingly, the SCPC breaks
+
+```{r}
+#| label: tbl-kernel
+#| tbl-cap: Rejection frequencies for different variance estimators
+#| echo: false
+#| warning: false
+
+kernel_results <- read.csv("../Simulations/Products/grid_sims.csv")
+
+
+row_names <- c(
+    # " ",
+    "HR",
+    # "SCPC",
+    rep(
+        c(
+            "0.015",
+            "0.030",
+            "0.050"
+            # "0.07"
+        ),
+        9
+    )
+)
+
+col_names <- c(
+    "Estimator",
+    rep(
+        c(
+            "Cons.",
+            "$\\beta_1$"#,
+            # "$\\beta_2$"
+        ),
+        2
+    )
+)
+
+table <- cbind(row_names, kernel_results)
+
+kbl(
+    table, 
+    digits=3, 
+    booktabs = TRUE,
+    col.names = col_names,
+    # row.names = row_names,
+    escape = F
+    ) %>%
+    add_header_above(
+        c(" ","Model 1"=2,"Model 2"=2)
+    ) %>%
+    pack_rows(
+        "Kernel",3,5
+    ) %>%
+    pack_rows(
+        "B-Splines order 1 (Step functions)",6,17, latex_align = "l", hline_after = TRUE
+    ) %>%
+    pack_rows(
+        "B-Splines order 2 (Triangles)",18,29, latex_align = "l", hline_after = TRUE
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 4 splines",6,8
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 12 splines",9,11
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 24 splines",12,14
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 36 splines",15,17
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 4 splines",18,20
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 12 splines",21,23
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 24 splines",24,26
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 36 splines",27,29
+    ) #%>%
+ 
+
+
+
+```

@@ -1,8 +1,19 @@
-function [SE]= kernel_var(u_hat,X,Z,D_mat,L)
+function [SE]= kernel_var(u_hat,X,Z,D_mat,L,cholesky_flag)
 [T, k] = size(X);
 ZX = Z'*X/T;
-ZX_inv = inv(ZX);
-% ZX_inv = ZX\1;
+
+switch cholesky_flag
+    case 'ldl'
+        
+        [LA, DA, PA] = ldl(ZX);
+        ZX_inv = PA*(LA'\(DA\(LA\(PA'*eye(k)))));
+        
+    case 'chol'
+        R = chol(ZX);
+        ZX_inv = R\(R'\eye(k));
+    otherwise
+        ZX_inv = inv(ZX);
+end
 %------Variance kernel estimator------------%
 Zu_hat = Z.*repmat(u_hat,1,k);
 % Xu_hat = X.*repmat(u_hat,1,k);

@@ -1,7 +1,6 @@
 ## Next steps
 
 1.	Adding C-SCPC to the table (to have both)
-2.	Try different # of triangles
 3.	Add measurement error
     a.	Get rejection freq.
     b.	Plot distances (true vs. mismeasured)

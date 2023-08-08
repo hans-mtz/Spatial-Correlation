@@ -1,0 +1,40 @@
+## Step by step (update)
+
+@fig-hist-sbs displays the distribution of the t-stat, its numerator, and denominator for the 1000 simulations in @sec-kernel. The t-stat and the numerator look normally distributed centered around zero. The distribution of the denominator looks skewed to the right, but so do the HR and SCPC estimators.
+
+I also encountered complex S.E. for a few observations using the Kernel estimator (2-3 out of 1000). It looks like it is more likely to happen when the cutoff distance is the largest 0.050.
+
+::: {#fig-hist-sbs layout-ncol=3}
+
+![HR]("../Simulations/Products/hist_t_1.png"){#fig-hr}
+
+![]("../Simulations/Products/hist_num_1.png")
+
+![]("../Simulations/Products/hist_den_1.png")
+
+![SCPC]("../Simulations/Products/hist_t_2.png"){#fig-scpc}
+
+![]("../Simulations/Products/hist_num_2.png")
+
+![]("../Simulations/Products/hist_den_2.png")
+
+![Kernel]("../Simulations/Products/hist_t_3.png"){#fig-kernel}
+
+![]("../Simulations/Products/hist_num_3.png")
+
+![]("../Simulations/Products/hist_den_3.png")
+
+![K+BS(1,12)]("../Simulations/Products/hist_t_10.png"){#fig-kbs12}
+
+![]("../Simulations/Products/hist_num_10.png")
+
+![]("../Simulations/Products/hist_den_10.png")
+
+![K+BS(2,36)]("../Simulations/Products/hist_t_27.png"){#fig-kbs36}
+
+![]("../Simulations/Products/hist_num_27.png")
+
+![]("../Simulations/Products/hist_den_27.png")
+
+Histogram distribution of t-stat values (left), numerator (middle), and denominator (right) of Model 1 for several estimators. 0.015 length cutoff for Kernel estimators.
+:::

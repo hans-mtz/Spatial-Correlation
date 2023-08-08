@@ -1,14 +1,20 @@
-## Kernel estimator
+## Kernel estimator {#sec-kernel}
 
-I ran 250 simulations fixing the location. I compare the results for the three different variance estimators. I vary the length cutoff for the Kernel estimator.
+I compare the results for the three different variance estimators, the HR, SCPC, and Kernel. For the Kernel estimator, I try different cut-off distances. In addition, B-Splines of different order and quantities are introduced to help improve the rejection frequency of the Kernel estimator.
 
-For Model 1 $e_l\sim\mathcal{G}_{exp}(c_{\bar\rho})$ and $X\sim~[1 \;\mathcal{N}(0,1) \;\mathcal{N}(0,1)]$. Model 2 $e_l\sim\mathcal{G}_{exp}(c_{\bar\rho})$ and $X\sim[1 \;\mathcal{G}_{exp}(c_{\bar\rho}) \;\mathcal{G}_{exp}(c_{\bar\rho})]$. I set $\bar\rho=0.03$ for 250 observations.
+In the DGP, $e_l\sim\mathcal{G}_{exp}(c_{\bar\rho})$ and $X\sim[1 \;\mathcal{G}_{exp}(c_{\bar\rho}) \;\mathcal{G}_{exp}(c_{\bar\rho})]$. The average pairwise correlation of the 250 observations is $\bar\rho=0.03$. 
 
-**UPDATE**: I'm using only the second-degree B-Splines and removed the constant in the estimation part. I also corrected the spacing of the nodes in the B-Splines. @fig-bspline shows the updated graph. 
+In the estimation process, Model 2 uses a demeaned outcome variable, whereas Model 1 does not. I'm using one and two-order splines (step functions and triangles). In addition, I'm using a Cholesky decomposition to invert the covariates matrix in the OLS estimator.
 
-The singularity error is gone now. @tbl-kernel displays the results. The sweet spot for the distance cut-off seems to be around 0.03. Using the B-Splines does not seem now to improve the Kernel variance estimates. Of course, the zeros of the *Kernel+BSplines* for the constant just mean a missing value, not a zero rejection frequency.
+For every draw and every ols regression, I estimated an AR(1) model using the residuals $\hat{e}_{l+1}=\gamma_0+\gamma_1 \hat{e}_l + u_l$, after sorting from closest to zero to closest to one. 
 
-It seems that the issue on the consistently lower estimates for $\beta_2$ —compared with $\beta_1$ for the Kernel estimates in Model 2 when $L=0.05$— is not here. I didn't adjust this part at all, except for the changes mentioned above. So, it might have been just a weird random draw (?).
+I used 1,000 iterations to calculate the rejection frequencies and the average AR(1) coefficients of the residuals.
+
+@tbl-kernel displays the rejection frequencies for the different estimators. 
+
+@tbl-ar1-mean displays the average AR(1) coefficients of the residuals.
+
+
 
 ```{r}
 #| label: tbl-kernel
@@ -16,30 +22,48 @@ It seems that the issue on the consistently lower estimates for $\beta_2$ —com
 #| echo: false
 #| warning: false
 
-kernel_results <- read.csv("../Simulations/Products/kernel_sims.csv")
+kernel_results <- read.csv("../Simulations/Products/crank_bs_ear1_sims_res.csv")
 
-col_names <- c(
-    " ",
+# row_names <- c(
+#     " ",
+#     "HR",
+#     "SCPC",
+#     "0.01",
+#     "0.03",
+#     "0.05",
+#     "0.07",
+#     "0.01",
+#     "0.03",
+#     "0.05",
+#     "0.07"
+# )
+
+row_names <- c(
+    # " ",
     "HR",
     "SCPC",
-    "0.01",
-    "0.03",
-    "0.05",
-    "0.07",
-    "0.01",
-    "0.03",
-    "0.05",
-    "0.07"
+    rep(
+        c(
+            "0.015",
+            "0.030",
+            "0.050"
+            # "0.07"
+        ),
+        9
+    )
 )
 
-row_names <- rep(
+col_names <- c(
+    "Estimator",
+    rep(
         c(
             "Cons.",
-            "$\\beta_1$",
-            "$\\beta_2$"
+            "$\\beta_1$"#,
+            # "$\\beta_2$"
         ),
         2
     )
+)
 
 table <- cbind(row_names, kernel_results)
 
@@ -52,20 +76,125 @@ kbl(
     escape = F
     ) %>%
     add_header_above(
-        c(" "=3,"Kernel"=4,"Kernel+BSplines"=4)
+        c(" ","Model 1"=2,"Model 2"=2)
     ) %>%
     pack_rows(
-        "Model 1",1,3
+        "Kernel",3,5
     ) %>%
     pack_rows(
-        "Model 2",4,6
+        "B-Splines order 1 (Step functions)",6,17, latex_align = "l", hline_after = TRUE
+    ) %>%
+    pack_rows(
+        "B-Splines order 2 (Triangles)",18,29, latex_align = "l", hline_after = TRUE
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 4 splines",6,8
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 12 splines",9,11
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 24 splines",12,14
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 36 splines",15,17
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 4 splines",18,20
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 12 splines",21,23
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 24 splines",24,26
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 36 splines",27,29
+    ) #%>%
+ 
+
+
+
+```
+
+```{r}
+#| label: tbl-ar1-mean
+#| tbl-cap: Average coefficients of the AR(1) model for the residuals
+#| echo: false
+#| warning: false
+
+
+e_ar1_tbl <- read.csv("../Simulations/Products/crank_bs_ear1_sims_ar1.csv")
+
+
+
+row_names_ar1 <- c(
+    "No splines",
+    rep(
+        c(
+        "4 splines",
+        "12 splines",
+        "24 splines",
+        "36 splines"
+        ),
+        2
     )
+)
+
+col_names_ar1 <- c(
+    "",
+    rep(
+        c(
+            "Cons.",
+            "$\\gamma_1$"#,
+            # "$\\beta_2$"
+        ),
+        2
+    )
+)
+
+table_ar1 <- cbind(row_names_ar1, e_ar1_tbl)
+
+kbl(
+    table_ar1, 
+    digits=3, 
+    booktabs = TRUE,
+    col.names = col_names_ar1,
+    # row.names = row_names,
+    escape = F
+    ) %>%
+    add_header_above(
+        c(" ","$e_l$ model 1"=2,
+        "$e_l$ model 2"=2),
+        escape = FALSE
+    ) %>%
+    pack_rows(
+        "B-Splines order 1 (Step functions)",2,5, latex_align = "l", hline_after = TRUE
+    ) %>%
+    pack_rows(
+        "B-Splines order 2 (Triangles)",6,9, latex_align = "l", hline_after = TRUE
+    )
+ 
+
 
 
 ```
 
 
-![Second order B-Splines]("../Simulations/Products/bspline_order_2.png"){#fig-bspline width=120%}
+<!-- 
+::: {#fig-bspline layout-ncol=2 include=false}
+
+![4 Splines]("../Simulations/Products/bs_plot_4.png")
+
+![5 Splines]("../Simulations/Products/bs_plot_5.png")
+
+![6 Splines]("../Simulations/Products/bs_plot_6.png")
+
+![7 Splines]("../Simulations/Products/bs_plot_7.png")
+
+Second order B-Splines
+::: -->
+
 
 ```{r}
 #| echo: false
@@ -77,3 +206,4 @@ kbl(
 knitr::include_graphics("../Simulations/Products/bspline_order_2.png")
 
 ```
+

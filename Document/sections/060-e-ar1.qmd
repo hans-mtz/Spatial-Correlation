@@ -1,0 +1,59 @@
+## B-Splines, and the error term
+
+For a draw of locations $s \sim U(0,1)$ and the DGP described below, I estimate the OLS model with B-Splines varying the order and the quantity. I estimated a simple AR(1) model using the residuals of each estimation.
+
+@tbl-ar1 displays the results. Overall, it looks good; increasing the number of splines reduces the correlation between the error terms. As expected. The true $\beta = (1 , 1.5)$.
+
+
+```{r}
+#| label: tbl-ar1
+#| tbl-cap: B-Splines and the correlation of the error term
+#| echo: false
+#| warning: false 
+
+ar1 <- read.csv("../Simulations/Products/e_ar1.csv")
+
+row_names <- c(
+    "No Splines",
+    rep(
+        c(
+            "4",
+            "12",
+            "24",
+            "36"
+        ),
+        2
+    )
+)
+
+col_names <-  c(
+    " ",
+    "Cons.",
+    "$\\beta_1$",
+    "$\\beta_2$",
+    "Cons.",
+    "$\\rho$"
+)
+
+table <- cbind(row_names,ar1)
+
+kbl(
+    table,
+    digits=4,
+    booktabs=TRUE,
+    col.names=col_names,
+    escape=F
+) %>%
+add_header_above(
+    c(" ","OLS"=3,"$e_l$ AR(1)"=2), 
+    escape=FALSE
+) %>%
+pack_rows(
+    "B-Splines order 1", 2, 5
+) %>%
+pack_rows(
+    "B-Splines order 2", 6, 9
+)
+
+
+```

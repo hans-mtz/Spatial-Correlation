@@ -11,6 +11,8 @@
 */*.Rout
 */*/*.Rout
 /Simulations/Products/*
+/Simulations/Matlab/212*
 *.Rout
+*.log
 # */*.RData
 # *.RData

@@ -24,9 +24,15 @@ function [S] = get_bspline_mat(x,n_nodes,order)
 %         display(b_row);
         bspline_mat = [bspline_mat; b_row];
     end
+    
     S = bspline_mat;
-    S(:,1:T-1) = []; 
-%     S(:,[1,2,T-1])=[]; % Removing columns outside the range [1,T-1] bc they are only zeros
+    
+    if K>1
+        S(:,1:T-1) = [];
+    else
+        S(:,[1 2 T-1]) = [];
+    end
+%     S(:,[1,T-1])=[]; % Removing columns outside the range [1,T-1] bc they are only zeros
     % Removing one dummy column, this is the reference dummy to avoid
     % multicolinearity
 %     S = bspline_mat(:,2:(size(bspline_mat,2)-1));
