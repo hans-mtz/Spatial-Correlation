@@ -1,14 +1,16 @@
 ## Kernel estimator {#sec-kernel}
 
+**UPDATE**: I used 2500 obs. Rejection frequencies drop significantly as expected.
+
 I compare the results for the three different variance estimators, the HR, SCPC, and Kernel. For the Kernel estimator, I try different cut-off distances. In addition, B-Splines of different order and quantities are introduced to help improve the rejection frequency of the Kernel estimator.
 
-In the DGP, $e_l\sim\mathcal{G}_{exp}(c_{\bar\rho})$ and $X\sim[1 \;\mathcal{G}_{exp}(c_{\bar\rho}) \;\mathcal{G}_{exp}(c_{\bar\rho})]$. The average pairwise correlation of the 250 observations is $\bar\rho=0.03$. 
+In the DGP, $e_l\sim\mathcal{G}_{exp}(c_{\bar\rho})$ and $X\sim[1 \;\mathcal{G}_{exp}(c_{\bar\rho}) \;\mathcal{G}_{exp}(c_{\bar\rho})]$. The average pairwise correlation is $\bar\rho=0.03$. 
 
 In the estimation process, Model 2 uses a demeaned outcome variable, whereas Model 1 does not. I'm using one and two-order splines (step functions and triangles). In addition, I'm using a Cholesky decomposition to invert the covariates matrix in the OLS estimator.
 
 For every draw and every ols regression, I estimated an AR(1) model using the residuals $\hat{e}_{l+1}=\gamma_0+\gamma_1 \hat{e}_l + u_l$, after sorting from closest to zero to closest to one. 
 
-I used 1,000 iterations to calculate the rejection frequencies and the average AR(1) coefficients of the residuals.
+I used 100 iterations to calculate the rejection frequencies and the average AR(1) coefficients of the residuals.
 
 @tbl-kernel displays the rejection frequencies for the different estimators. 
 
@@ -22,7 +24,7 @@ I used 1,000 iterations to calculate the rejection frequencies and the average A
 #| echo: false
 #| warning: false
 
-kernel_results <- read.csv("../Simulations/Products/crank_bs_ear1_sims_res.csv")
+kernel_results <- read.csv("../Simulations/Products/crank_bs_ear1_sims_res_2500.csv")
 
 # row_names <- c(
 #     " ",
@@ -124,7 +126,7 @@ kbl(
 #| warning: false
 
 
-e_ar1_tbl <- read.csv("../Simulations/Products/crank_bs_ear1_sims_ar1.csv")
+e_ar1_tbl <- read.csv("../Simulations/Products/crank_bs_ear1_sims_ar1_2500.csv")
 
 
 

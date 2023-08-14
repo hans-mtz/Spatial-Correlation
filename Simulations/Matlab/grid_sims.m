@@ -28,7 +28,7 @@ k= length(beta); % number of covariates
 rho_bar = 0.03; % Average pairwise correlation
 L = [0.015 0.03 0.05]; % Vector of cutoff distances
 % R = [4 12 24 36];% 90 120 180]; % Number of triangles
-R = [64 80 100 125];
+R = [4 12 36 64 88 102 124];
 % R = 40:48; % 43 for order 1 splines
 % R = 64:84; %82 for order 2 splines
 models = ['iid' 'AR(1)'];
@@ -36,7 +36,7 @@ cholesky_flag = 'chol';
 spatial = 0; % 1 s ~ U(0,1); 0 s ~ [1:T]./T
 N_order_splines = 2;
 N_models = length(models);
-N_reps = 3;
+N_reps = 250;
 
 N_cutoffs = length(L);
 N_triangles = length(R);
@@ -55,7 +55,7 @@ rej_freq = NaN(k,N_estimators,N_models);
 avg_e_ar1 = NaN(2,N_ols, N_models);
 
 tic
-for m=1:2 %2:3
+for m=2%1:2 %2:3
     
     rej_freq_m_i = NaN(N_reps,k,N_estimators);
     e_ar1_betas = NaN(N_reps,2,N_ols);
@@ -79,7 +79,9 @@ for m=1:2 %2:3
 %         [se_scpc, cv_scpc] = scpc_var(u_hat,beta_hat,s,X,rho_bar,0.95,0);
         
         % Testing HR and SCPC
+
         H_0 = (beta_hat - beta);
+
         t_stat_hr = H_0./se_hr;
         rej_hr = abs(t_stat_hr) > 1.96;
         rej_freq_m_i(r,:,1) = rej_hr;
@@ -131,14 +133,16 @@ for m=1:2 %2:3
     avg_e_ar1(:,:,m) = sum(e_ar1_betas,1)./N_reps;
 end
 toc
+
+save gridSims.mat
     
 results_table = array2table(...
-    cat(2,rej_freq(:,:,1)',rej_freq(:,:,2)'),...
-    'VariableNames', {'Cons.' 'Beta' 'Cons.' 'Beta'});
+    rej_freq(:,:,2)',...
+    'VariableNames', {'Cons.' 'Beta'});
 results_table
 
 ear1_table = array2table(...
-    cat(2,avg_e_ar1(:,:,1)',avg_e_ar1(:,:,2)'));
+    avg_e_ar1(:,:,2)');
 ear1_table
 
 writetable(results_table,'../Products/grid_sims_res.csv');

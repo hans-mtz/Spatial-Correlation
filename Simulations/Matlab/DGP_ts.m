@@ -1,4 +1,4 @@
-function [y,X] = DGP_ts(beta,coef,T, model)
+function [y,X,u] = DGP_ts(beta,coef,T, model)
     %rho_bar 0.03 -> AR1 0.79
     burn = 100;
     k = length(beta);

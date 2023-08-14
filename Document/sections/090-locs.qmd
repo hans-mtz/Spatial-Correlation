@@ -1,0 +1,25 @@
+## Locations and distances (NEW)
+
+
+@fig-loc shows the histogram of 250 locations when they are uniformly distributed and evenly spaced. @fig-dist shows the histogram of the corresponding pairwise distances. @fig-hist-loc-x10 shows the same graphs but for 2,500 locations.
+
+As the number of locations increases, the plots of the uniformly distributed locations look more like the ones that are evenly spaced.
+
+
+::: {#fig-hist-loc layout-nrow=2}
+
+![Locations]("../Simulations/Products/hist_loc.png"){#fig-loc}
+
+![Distances]("../Simulations/Products/hist_dist.png"){#fig-dist}
+
+Histograms of uniformly distributed locations (blue) and evenly-spaced (time-series) locations (red) and their corresponding pairwise distances. 250 locations.
+:::
+
+::: {#fig-hist-loc-x10 layout-nrow=2}
+
+![Locations]("../Simulations/Products/hist_loc_2500.png"){#fig-loc-x10}
+
+![Distances]("../Simulations/Products/hist_dist_2500.png"){#fig-dist-x10}
+
+Histograms of uniformly distributed locations (blue) and evenly-spaced (time-series) locations (red) and their corresponding pairwise distances. 2,500 locations.
+:::

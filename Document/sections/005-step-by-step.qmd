@@ -1,4 +1,4 @@
-## Step by step (update)
+## Step by step
 
 @fig-hist-sbs displays the distribution of the t-stat, its numerator, and denominator for the 1000 simulations in @sec-kernel. The t-stat and the numerator look normally distributed centered around zero. The distribution of the denominator looks skewed to the right, but so do the HR and SCPC estimators.
 

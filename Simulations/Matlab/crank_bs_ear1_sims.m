@@ -22,7 +22,7 @@ rng(333) % Setting seed
 
 % Setting up parameters
 global T k beta rho_bar L
-T = 250; % obs
+T = 2500; % obs
 beta = [ 1; 1.5];
 k= length(beta); % number of covariates
 rho_bar = 0.03; % Average pairwise correlation
@@ -30,10 +30,10 @@ L = [0.015 0.03 0.05]; % Vector of cutoff distances
 R = [4 12 24 36];% 90 120 180]; % Number of triangles
 % R = 40:48; % 43 for order 1 splines
 % R = 64:84; % 82 for order 2 splines
-cholesky_flag = ' ';
+cholesky_flag = 'chol';
 N_order_splines = 2;
 N_models = 2;
-N_reps = 1000;
+N_reps = 100;
 
 N_cutoffs = length(L);
 N_triangles = length(R);
@@ -72,7 +72,11 @@ for m=2:3
         [se_scpc, cv_scpc] = scpc_var(u_hat,beta_hat,s,X,rho_bar,0.95,0);
         
         % Testing HR and SCPC
-        H_0 = (beta_hat - beta);
+        if m==3
+            H_0 = (beta_hat - [0; beta(2:k)]);
+        else
+            H_0 = (beta_hat - beta);
+        end
         t_stat_hr = H_0./se_hr;
         rej_hr = abs(t_stat_hr) > 1.96;
         rej_freq_m_i(r,:,1) = rej_hr;
@@ -160,45 +164,45 @@ ear1_table = array2table(...
     cat(2,avg_e_ar1(:,:,1)',avg_e_ar1(:,:,2)'));
 ear1_table
 
-save crank_bs_ear1.mat
+save crank_bs_ear1_2500.mat
 
-writetable(results_table,'../Products/crank_bs_ear1_sims_res.csv');
-writetable(ear1_table,'../Products/crank_bs_ear1_sims_ar1.csv');
+writetable(results_table,'../Products/crank_bs_ear1_sims_res_2500.csv');
+writetable(ear1_table,'../Products/crank_bs_ear1_sims_ar1_2500.csv');
 
 %% Plotting %%
-
-% load('crank_bs_ear1.mat')
-
-for j=1:length(t_stat_array(1,1,:,1))
-
-    select = t_stat_array(:,2,j,1) == real(t_stat_array(:,2,j,1));
-    
-    histogram(t_stat_array(select,2,j,1));
-    exportgraphics(gcf,strcat('../Products/hist_t_',num2str(j),'.png'))
-    
-    select = num_array(:,2,j,1) == real(num_array(:,2,j,1));
-    
-    h=histogram(num_array(select,2,j,1));
-    h.FaceColor = [240/255 128/255 128/255];
-    exportgraphics(gcf,strcat('../Products/hist_num_',num2str(j),'.png'))
-    
-    select = den_array(:,2,j,1) == real(den_array(:,2,j,1));
-    
-    h=histogram(den_array(select,2,j,1));
-    h.FaceColor = [102/255 205/255 170/255];
-    exportgraphics(gcf,strcat('../Products/hist_den_',num2str(j),'.png'))
-    
-end
-
-
-%% comples SE
-
-cmlpx_how=zeros(29,1);
-
-for j=1:29
-    cmlpx_how(j) = sum(t_stat_array(:,2,j,1) ~= real(t_stat_array(:,2,j,1)));
-end
-
-
-select = t_stat_array(:,2,j,1) == real(t_stat_array(:,2,j,1));
+% 
+% % load('crank_bs_ear1.mat')
+% 
+% for j=1:length(t_stat_array(1,1,:,1))
+% 
+%     select = t_stat_array(:,2,j,1) == real(t_stat_array(:,2,j,1));
+%     
+%     histogram(t_stat_array(select,2,j,1));
+%     exportgraphics(gcf,strcat('../Products/hist_t_',num2str(j),'.png'))
+%     
+%     select = num_array(:,2,j,1) == real(num_array(:,2,j,1));
+%     
+%     h=histogram(num_array(select,2,j,1));
+%     h.FaceColor = [240/255 128/255 128/255];
+%     exportgraphics(gcf,strcat('../Products/hist_num_',num2str(j),'.png'))
+%     
+%     select = den_array(:,2,j,1) == real(den_array(:,2,j,1));
+%     
+%     h=histogram(den_array(select,2,j,1));
+%     h.FaceColor = [102/255 205/255 170/255];
+%     exportgraphics(gcf,strcat('../Products/hist_den_',num2str(j),'.png'))
+%     
+% end
+% 
+% 
+% %% comples SE
+% 
+% cmlpx_how=zeros(29,1);
+% 
+% for j=1:29
+%     cmlpx_how(j) = sum(t_stat_array(:,2,j,1) ~= real(t_stat_array(:,2,j,1)));
+% end
+% 
+% 
+% select = t_stat_array(:,2,j,1) == real(t_stat_array(:,2,j,1));
 

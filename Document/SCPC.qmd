@@ -27,14 +27,30 @@ options(
     knitr.table.format = "latex") 
 ```
 
-<!-- Step by step-->
-{{< include sections/005-step-by-step.qmd >}}
+## UPDATES {-}
+
+- @tbl-grid evenly-spaced locations with order one and two B-Splines, for 4, 12, 36, 64, 88, 102, and 124 splines.
+
+- Average pairwise correlation by groups of different cut-off distances displayed in @tbl-rho-bar-ar1.
+
+- Double bar histogram of the evenly-spaced and uniformly distributed distances for 250 and 2500 simulated observations [@fig-hist-loc; and -@fig-hist-loc-x10].
+
+- @tbl-kernel using 2500 obs. @tbl-ar1-mean for the residuals' AR(1) model.
+
+
 
 <!-- Kernel -->
 {{< include sections/050-kernel.qmd >}}
 
 <!-- Evenly spaced -->
 {{< include sections/080-grid.qmd >}}
+
+<!-- Locations and distances-->
+{{< include sections/090-locs.qmd >}}
+
+
+<!-- Step by step
+{{< include sections/005-step-by-step.qmd >}} -->
 
 <!-- BSplines and the error
 {{< include sections/060-e-ar1.qmd >}} -->

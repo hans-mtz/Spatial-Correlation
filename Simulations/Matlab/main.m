@@ -10,7 +10,8 @@ if batchStartupOptionUsed
 end
 
 % run('crank_bs_sims_chol')
-run('grid_sims')
+run('crank_bs_ear1_sims')
+% run('grid_sims')
 % run('e_ar1')
 
 % %----- Generating data ------%
