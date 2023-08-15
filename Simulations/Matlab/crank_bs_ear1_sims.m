@@ -22,7 +22,7 @@ rng(333) % Setting seed
 
 % Setting up parameters
 global T k beta rho_bar L
-T = 2500; % obs
+T = 250; % obs
 beta = [ 1; 1.5];
 k= length(beta); % number of covariates
 rho_bar = 0.03; % Average pairwise correlation
@@ -33,7 +33,7 @@ R = [4 12 24 36];% 90 120 180]; % Number of triangles
 cholesky_flag = 'chol';
 N_order_splines = 2;
 N_models = 2;
-N_reps = 10;
+N_reps = 1;
 
 N_cutoffs = length(L);
 N_triangles = length(R);
@@ -49,7 +49,7 @@ num_array = NaN(N_reps,k, N_estimators, N_models);
 den_array = NaN(N_reps,k, N_estimators, N_models);
 
 tic
-% for m=2:3
+for m=2%2:3
     
 rej_freq_m_i = NaN(N_reps,k,N_estimators);
 e_ar1_betas = NaN(N_reps,2,N_ols);
@@ -60,7 +60,7 @@ e_ar1_betas = NaN(N_reps,2,N_ols);
         [y, X, D_mat] = DGP(beta,s,rho_bar,2);
 
 %         writetable(table(y, X, s), strcat('../Stata/data_splines.csv')); % Saving
-        for m=2:3
+        % for m=2:3
             fprintf('model %d, rep %d \n',m,r);
             % Running OLS
             if m==3
@@ -79,11 +79,11 @@ e_ar1_betas = NaN(N_reps,2,N_ols);
             
             % Testing HR and SCPC
             if m==3
-            H_0 = (beta_hat - [0; beta(2:k)]);
-        else
-            H_0 = (beta_hat - beta);
+                H_0 = (beta_hat - [0; beta(2:k)]);
+            else
+                H_0 = (beta_hat - beta);
             end
-        t_stat_hr = H_0./se_hr;
+            t_stat_hr = H_0./se_hr;
             rej_hr = abs(t_stat_hr) > 1.96;
             rej_freq_m_i(r,:,1) = rej_hr;
             
@@ -159,12 +159,14 @@ e_ar1_betas = NaN(N_reps,2,N_ols);
                     n=n+1;
                 end
             end
-            rej_freq(:,:,m-1) = sum(rej_freq_m_i,1)./N_reps;
-            avg_e_ar1(:,:,m-1) = sum(e_ar1_betas,1)./N_reps;
-        end
-    end
+            % rej_freq(:,:,m-1) = sum(rej_freq_m_i,1)./N_reps;
+            % avg_e_ar1(:,:,m-1) = sum(e_ar1_betas,1)./N_reps;
+        % end
 
-% end
+    end
+    rej_freq(:,:,m-1) = sum(rej_freq_m_i,1)./N_reps;
+    avg_e_ar1(:,:,m-1) = sum(e_ar1_betas,1)./N_reps;
+end
 toc
 
 % %% Saving results %%
@@ -176,10 +178,10 @@ ear1_table = array2table(...
     cat(2,avg_e_ar1(:,:,1)',avg_e_ar1(:,:,2)'));
 ear1_table
 
-save crank_bs_ear1_2500.mat
-
-writetable(results_table,'../Products/crank_bs_ear1_sims_res_2500.csv');
-writetable(ear1_table,'../Products/crank_bs_ear1_sims_ar1_2500.csv');
+% save crank_bs_ear1_diff.mat
+% 
+% writetable(results_table,'../Products/crank_bs_ear1_sims_res_diff.csv');
+% writetable(ear1_table,'../Products/crank_bs_ear1_sims_ar1_diff.csv');
 
 %% Plotting %%
 % 

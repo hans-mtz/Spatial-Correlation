@@ -1,0 +1,229 @@
+## Kernel estimator {#sec-kernel}
+
+**UPDATE**: In this section, I compare the rejection frequencies of using a demeaned outcome variable or not, and using the same data vs using different data. I use 1,000 iterations. 
+
+@tbl-kernel-same displays the rejection frequencies for both models, using the same data.
+
+@tbl-kernel-same displays the rejection frequencies for both models, using different data. 
+
+
+I compare the results for the three different variance estimators, the HR, SCPC, and Kernel. For the Kernel estimator, I try different cut-off distances. In addition, B-Splines of different order and quantities are introduced to help improve the rejection frequency of the Kernel estimator.
+
+In the DGP, $e_l\sim\mathcal{G}_{exp}(c_{\bar\rho})$ and $X\sim[1 \;\mathcal{G}_{exp}(c_{\bar\rho}) \;\mathcal{G}_{exp}(c_{\bar\rho})]$. The average pairwise correlation is $\bar\rho=0.03$. 
+
+In the estimation process, Model 2 uses a demeaned outcome variable, whereas Model 1 does not. I'm using one and two-order splines (step functions and triangles). In addition, I'm using a Cholesky decomposition to invert the covariates matrix in the OLS estimator.
+
+For every draw and every ols regression, I estimated an AR(1) model using the residuals $\hat{e}_{l+1}=\gamma_0+\gamma_1 \hat{e}_l + u_l$, after sorting from closest to zero to closest to one. 
+
+I used 1000 iterations to calculate the rejection frequencies and the average AR(1) coefficients of the residuals.
+
+
+
+
+
+```{r}
+#| label: tbl-kernel-same
+#| tbl-cap: Rejection frequencies comparing using or not a demeaned outcome variable for the same data. 1000 iterations.
+#| tbl-cap-location: bottom
+#| echo: false
+#| warning: false
+
+kernel_results <- read.csv("../Simulations/Products/crank_bs_ear1_sims_res_same.csv")
+
+# row_names <- c(
+#     " ",
+#     "HR",
+#     "SCPC",
+#     "0.01",
+#     "0.03",
+#     "0.05",
+#     "0.07",
+#     "0.01",
+#     "0.03",
+#     "0.05",
+#     "0.07"
+# )
+
+row_names <- c(
+    # " ",
+    "HR",
+    "SCPC",
+    rep(
+        c(
+            "0.015",
+            "0.030",
+            "0.050"
+            # "0.07"
+        ),
+        9
+    )
+)
+
+col_names <- c(
+    "Estimator",
+    rep(
+        c(
+            "Cons.",
+            "$\\beta_1$"#,
+            # "$\\beta_2$"
+        ),
+        2
+    )
+)
+
+table <- cbind(row_names, kernel_results)
+
+kbl(
+    table, 
+    digits=3, 
+    booktabs = TRUE,
+    col.names = col_names,
+    # row.names = row_names,
+    escape = F
+    ) %>%
+    add_header_above(
+        c(" ","Model 1"=2,"Model 2"=2)
+    ) %>%
+    pack_rows(
+        "Kernel",3,5
+    ) %>%
+    pack_rows(
+        "B-Splines order 1 (Step functions)",6,17, latex_align = "l", hline_after = TRUE
+    ) %>%
+    pack_rows(
+        "B-Splines order 2 (Triangles)",18,29, latex_align = "l", hline_after = TRUE
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 4 splines",6,8
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 12 splines",9,11
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 24 splines",12,14
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 36 splines",15,17
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 4 splines",18,20
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 12 splines",21,23
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 24 splines",24,26
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 36 splines",27,29
+    ) #%>%
+ 
+
+
+
+```
+
+
+```{r}
+#| label: tbl-kernel-diff
+#| tbl-cap: Rejection frequencies comparing using or not a demeaned outcome variable for different data. 1000 iterations.
+#| tbl-cap-location: bottom
+#| echo: false
+#| warning: false
+
+kernel_results <- read.csv("../Simulations/Products/crank_bs_ear1_sims_res_diff.csv")
+
+# row_names <- c(
+#     " ",
+#     "HR",
+#     "SCPC",
+#     "0.01",
+#     "0.03",
+#     "0.05",
+#     "0.07",
+#     "0.01",
+#     "0.03",
+#     "0.05",
+#     "0.07"
+# )
+
+row_names <- c(
+    # " ",
+    "HR",
+    "SCPC",
+    rep(
+        c(
+            "0.015",
+            "0.030",
+            "0.050"
+            # "0.07"
+        ),
+        9
+    )
+)
+
+col_names <- c(
+    "Estimator",
+    rep(
+        c(
+            "Cons.",
+            "$\\beta_1$"#,
+            # "$\\beta_2$"
+        ),
+        2
+    )
+)
+
+table <- cbind(row_names, kernel_results)
+
+kbl(
+    table, 
+    digits=3, 
+    booktabs = TRUE,
+    col.names = col_names,
+    # row.names = row_names,
+    escape = F
+    ) %>%
+    add_header_above(
+        c(" ","Model 1"=2,"Model 2"=2)
+    ) %>%
+    pack_rows(
+        "Kernel",3,5
+    ) %>%
+    pack_rows(
+        "B-Splines order 1 (Step functions)",6,17, latex_align = "l", hline_after = TRUE
+    ) %>%
+    pack_rows(
+        "B-Splines order 2 (Triangles)",18,29, latex_align = "l", hline_after = TRUE
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 4 splines",6,8
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 12 splines",9,11
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 24 splines",12,14
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 36 splines",15,17
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 4 splines",18,20
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 12 splines",21,23
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 24 splines",24,26
+    ) %>%
+    pack_rows(
+        "Kernel + B-S, 36 splines",27,29
+    ) #%>%
+ 
+
+
+
+```
+
+
