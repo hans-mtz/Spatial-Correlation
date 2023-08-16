@@ -1,9 +1,13 @@
 ## Evenly spaced locations (time series)
 
+**UPDATE**: @tbl-rho-bar-ar1 displays the average pairwise correlation for groups of different cut-off distances. The average pairwise correlation was estimated as follows 
+
+$$
+\bar\rho=(T(T-1))^{-1}\Sigma_{l=1}^T\Sigma_{l\not=\text{l}}^T[e_le_{\text{l}}\mathbb{I}(|s_l-s_{\text{l}}|<L)]
+$$
 
 In this exercise, locations are evenly spaced from $\frac{1}{250}$ to 1. The error terms and the regressors are autocorrelated following an AR(1) process $e_{l+1}=\gamma e_l+ u_l$, where $u_l\sim N(0,1)$, and $\gamma=0.79$. Likewise, $x_{l+1}=\lambda x_l+ v_l$, where $v_l\sim N(0,1)$, and $\lambda=0.79$. The DGP for y is same as before $y_l=\beta_0+\beta_1 x_l+e_l$ with $(\beta_0, \beta_1)=(1, 1.5)$.
 
-**UPDATE**: @tbl-rho-bar-ar1 displays the average pairwise correlation for groups of different cut-off distances.
 
 @tbl-grid displays the rejection frequencies of 250 simulations. SCPC is omitted because it could not find a reasonable value of $c_{min}$ for the default value of $\bar\rho=0.03$ with the evenly distributed locations.
 
@@ -12,7 +16,7 @@ In this exercise, locations are evenly spaced from $\frac{1}{250}$ to 1. The err
 
 ```{r}
 #| label: tbl-rho-bar-ar1
-#| tbl-cap: Average pairwise correlation for groups of different distances.
+#| tbl-cap: Average pairwise correlation within observations of groups for different distances. $\bar\rho=(T(T-1))^{-1}\Sigma_{l=1}^T\Sigma_{l\not=\text{l}}^T[e_le_{\text{l}}\mathbb{I}(|s_l-s_{\text{l}}|<L)]$
 #| echo: false
 #| warning: false
 

@@ -26,11 +26,11 @@ end
 
 % Models
 switch model
-    case 3
+    case 2
         X = [ones(T,1) X_mat'];
         y_0 = X*beta + u;
         y = y_0 - mean(y_0);
-    case 2 % Spatially correlated
+    case 1 % Spatially correlated
         X = [ones(T,1) X_mat'];
         y = X*beta + u;
     otherwise %iid

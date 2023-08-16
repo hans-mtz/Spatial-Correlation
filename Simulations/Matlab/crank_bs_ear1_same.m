@@ -167,7 +167,7 @@ toc
 %% Saving results %%
 %     
 
-load crank_bs_ear1_diff.mat
+% load crank_bs_ear1_same.mat
 
 results_table = array2table(...
     cat(2,rej_freq(:,:,1)',rej_freq(:,:,2)'));
@@ -176,10 +176,10 @@ ear1_table = array2table(...
     cat(2,avg_e_ar1(:,:,1)',avg_e_ar1(:,:,2)'));
 ear1_table
 
-% save crank_bs_ear1_same.mat
+save crank_bs_ear1_same.mat
 
-writetable(results_table,'../Products/crank_bs_ear1_sims_res_diff.csv');
-writetable(ear1_table,'../Products/crank_bs_ear1_sims_ar1_diff.csv');
+writetable(results_table,'../Products/crank_bs_ear1_sims_res_same.csv');
+writetable(ear1_table,'../Products/crank_bs_ear1_sims_ar1_same.csv');
 
 %% Plotting %%
 % 

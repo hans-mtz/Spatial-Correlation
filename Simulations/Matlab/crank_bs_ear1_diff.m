@@ -51,14 +51,14 @@ rej_freq_m_i = NaN(N_reps,k,N_estimators, N_models);
 e_ar1_betas = NaN(N_reps,2,N_ols, N_models);
 
 tic
-% for m=1:2%1:2
+for m=1:2%1:2
 for r=1:N_reps
     
     % generate data      
     [y, X, D_mat] = DGP(beta,s,rho_bar,1);
 
 %         writetable(table(y, X, s), strcat('../Stata/data_splines.csv')); % Saving
-    for m=1:2
+    % for m=1:2
 
         fprintf('model %d, rep %d \n',m,r);
         % Running OLS
@@ -167,7 +167,7 @@ toc
 %% Saving results %%
 %     
 
-load crank_bs_ear1_diff.mat
+% load crank_bs_ear1_diff.mat
 
 results_table = array2table(...
     cat(2,rej_freq(:,:,1)',rej_freq(:,:,2)'));
@@ -176,7 +176,7 @@ ear1_table = array2table(...
     cat(2,avg_e_ar1(:,:,1)',avg_e_ar1(:,:,2)'));
 ear1_table
 
-% save crank_bs_ear1_same.mat
+save crank_bs_ear1_diff.mat
 
 writetable(results_table,'../Products/crank_bs_ear1_sims_res_diff.csv');
 writetable(ear1_table,'../Products/crank_bs_ear1_sims_ar1_diff.csv');

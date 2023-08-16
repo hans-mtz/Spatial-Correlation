@@ -30,7 +30,7 @@ end
 V_hat0 = V_hat/T;
 
 % V_kernel = (XX_inv)*V_hat*(XX_inv)'*T/(T-k); Stata's DF
-V_kernel = (ZX_inv)*V_hat0*(ZX_inv)'/T;
+V_kernel = (ZX_inv)*V_hat0*(ZX_inv)'/(T-k); % Adjusting for d.f. (before only T)
 
 SE = sqrt(diag(V_kernel));
 
