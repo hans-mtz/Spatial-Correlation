@@ -22,6 +22,7 @@ rng(333) % Setting seed
 
 %% Setting up parameters
 global T k beta rho_bar L
+N_reps = 2;
 T = 250; % obs
 beta = [ 1; 1.5];
 k= length(beta); % number of covariates
@@ -35,9 +36,6 @@ models = ['iid' 'AR(1)'];
 cholesky_flag = 'chol';
 spatial = 0; % 1 s ~ U(0,1); 0 s ~ [1:T]./T
 N_order_splines = 2;
-N_models = length(models);
-N_reps = 250;
-
 N_cutoffs = length(L);
 N_triangles = length(R);
 N_estimators = 1+N_cutoffs+N_cutoffs*N_triangles*N_order_splines; 
@@ -51,99 +49,101 @@ else % Time series
     s = (1:T)'./T;
 end
 
-rej_freq = NaN(k,N_estimators,N_models);
-avg_e_ar1 = NaN(2,N_ols, N_models);
+rej_freq = NaN(k,N_estimators);
+avg_e_ar1 = NaN(2,N_ols);
 
 tic
-for m=2%1:2 %2:3
-    
-    rej_freq_m_i = NaN(N_reps,k,N_estimators);
-    e_ar1_betas = NaN(N_reps,2,N_ols);
+rej_freq_m_i = NaN(N_reps,k,N_estimators);
+e_ar1_betas = NaN(N_reps,2,N_ols);
 
-    for r=1:N_reps
-        fprintf('model %d: rep %d \n',m,r);
-        % generate data      
+ar1_cell = {};
+rej_f_cell = {};
+
+for r=1:N_reps
+    fprintf('model %d: rep %d \n',m,r);
+    % generate data      
 %         [y, X, D_mat] = DGP(beta,s,rho_bar,m,spatial); %y and X change every draw
-        [y, X] = DGP_ts(beta, 0.79,T,m);
+    [y, X] = DGP_ts(beta, 0.79,T,0);
 %         writetable(table(y, X, s), strcat('../Stata/data_',num2str(m),'.csv')); % Saving
-        
-        % Running OLS
-        [beta_hat, u_hat] = ols(y,X,X,cholesky_flag);
-        
-        % Residuals' AR(1)
-        [u_t, u_t_1] = sort_u(u_hat,s);
-        e_ar1_betas(r,:,1) = ols(u_t, u_t_1, u_t_1, cholesky_flag);
-        
-        % Getting SE from HR and SCPC estimatots
-        se_hr = HR_var(u_hat,X,X);
+    
+    % Running OLS
+    [beta_hat, u_hat] = ols(y,X,X,cholesky_flag);
+    
+    % Residuals' AR(1)
+    [u_t, u_t_1] = sort_u(u_hat,s);
+    e_ar1_betas(r,:,1) = ols(u_t, u_t_1, u_t_1, cholesky_flag);
+    
+    % Getting SE from HR and SCPC estimatots
+    se_hr = HR_var(u_hat,X,X);
 %         [se_scpc, cv_scpc] = scpc_var(u_hat,beta_hat,s,X,rho_bar,0.95,0);
-        
-        % Testing HR and SCPC
+    
+    % Testing HR and SCPC
+    H_0 = (beta_hat - beta);
 
-        H_0 = (beta_hat - beta);
-
-        t_stat_hr = H_0./se_hr;
-        rej_hr = abs(t_stat_hr) > 1.96;
-        rej_freq_m_i(r,:,1) = rej_hr;
+    t_stat_hr = H_0./se_hr;
+    rej_hr = abs(t_stat_hr) > 1.96;
+    rej_freq_m_i(r,:,1) = rej_hr;
 
 %         t_stat_scpc = H_0./se_scpc;
 %         rej_scpc = abs(t_stat_scpc) > abs(cv_scpc);
 %         rej_freq_m_i(r,:,2) = rej_scpc; 
 
-        % Kernel for l\in L
-        D_mat = getdistmat(s,false);
-        i=2;
-        for l=L
-            se_kernel = kernel_var(u_hat,X,X,D_mat,l,cholesky_flag);
-            t_stat_kernel = H_0./se_kernel;
-            rej_kernel = abs(t_stat_kernel) > 1.96;
-            rej_freq_m_i(r,:,i) = rej_kernel;
-            i=i+1;
-        end
-        % Kernel + BSplines
-        j=i; %2+length(L)+1;
-        n=2;
-        for o=1:N_order_splines
-            for q=R %Number of splines
-
-                S=get_bspline_mat(s,q,o); % Matrix of BSplines on locations
-                X_bs = [X(:,2:end) S];
-                [beta_hat_bs, u_hat_bs] = ols(y,X_bs,X_bs, cholesky_flag); % OLS + BSplines, NO Constant
-                
-                % Residuals' AR(1)
-                [u_t_bs, u_t_1_bs] = sort_u(u_hat_bs,s);
-                e_ar1_betas(r,:,n) = ols(u_t_bs, u_t_1_bs, u_t_1_bs, cholesky_flag);
-                
-                for p=L %Cutoff lengths for Kernel
-                    
-                    se_kernel_bs = kernel_var(u_hat_bs,X_bs,X_bs,D_mat,p, cholesky_flag);
-                    t_stat_kernel_bs = (beta_hat_bs(1:k-1)-beta(2:k))./se_kernel_bs(1:k-1);
-                    rej_kernel_bs = abs(t_stat_kernel_bs) > 1.96;
-                    rej_freq_m_i(r,:,j) = [NaN; rej_kernel_bs];
-                    j=j+1;
-                    
-                end
-                % advancing error AR(1) beta matrix index
-                n=n+1;
-            end
-        end 
+    % Kernel for l\in L
+    D_mat = getdistmat(s,false);
+    i=2;
+    for l=L
+        se_kernel = kernel_var(u_hat,X,X,D_mat,l,cholesky_flag);
+        t_stat_kernel = H_0./se_kernel;
+        rej_kernel = abs(t_stat_kernel) > 1.96;
+        rej_freq_m_i(r,:,i) = rej_kernel;
+        i=i+1;
     end
+    % Kernel + BSplines
+    j=i; %2+length(L)+1;
+    n=2;
+    for o=1:N_order_splines
+        for q=R %Number of splines
 
-    rej_freq(:,:,m) = sum(rej_freq_m_i,1)./N_reps;
-    avg_e_ar1(:,:,m) = sum(e_ar1_betas,1)./N_reps;
+            S=get_bspline_mat(s,q,o); % Matrix of BSplines on locations
+            X_bs = [X(:,2:end) S];
+            [beta_hat_bs, u_hat_bs] = ols(y,X_bs,X_bs, cholesky_flag); % OLS + BSplines, NO Constant
+            
+            % Residuals' AR(1)
+            [u_t_bs, u_t_1_bs] = sort_u(u_hat_bs,s);
+            e_ar1_betas(r,:,n) = ols(u_t_bs, u_t_1_bs, u_t_1_bs, cholesky_flag);
+            
+            for p=L %Cutoff lengths for Kernel
+                
+                se_kernel_bs = kernel_var(u_hat_bs,X_bs,X_bs,D_mat,p, cholesky_flag);
+                t_stat_kernel_bs = (beta_hat_bs(1:k-1)-beta(2:k))./se_kernel_bs(1:k-1);
+                rej_kernel_bs = abs(t_stat_kernel_bs) > 1.96;
+                rej_freq_m_i(r,:,j) = [NaN; rej_kernel_bs];
+                j=j+1;
+                
+            end
+            % advancing error AR(1) beta matrix index
+            n=n+1;
+        end
+    end 
 end
+
+rej_freq(:,:) = sum(rej_freq_m_i,1)./N_reps;
+avg_e_ar1(:,:) = sum(e_ar1_betas,1)./N_reps;
+
 toc
 
-save gridSims.mat
+%% Preparing tables %%
     
 results_table = array2table(...
-    rej_freq(:,:,2)',...
+    rej_freq(:,:)',...
     'VariableNames', {'Cons.' 'Beta'});
 results_table
 
 ear1_table = array2table(...
-    avg_e_ar1(:,:,2)');
+    avg_e_ar1(:,:)');
 ear1_table
 
+%% Saving results %%
+save gridSims.mat
 writetable(results_table,'../Products/grid_sims_res.csv');
 writetable(ear1_table,'../Products/grid_sims_ar1.csv');

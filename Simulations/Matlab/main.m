@@ -11,13 +11,13 @@ end
 
 % run('crank_bs_sims_chol')
 % run('crank_bs_ear1_sims')
-% run('grid_sims')
+run('grid_sims')
 % run('e_ar1')
 
-fprintf("Using different data\n")
-run('crank_bs_ear1_diff')
-fprintf("Using same data\n")
-run('crank_bs_ear1_same')
+% fprintf("Using different data\n")
+% run('crank_bs_ear1_diff')
+% fprintf("Using same data\n")
+% run('crank_bs_ear1_same')
 
 % %----- Generating data ------%
 % % Setting up parameters
