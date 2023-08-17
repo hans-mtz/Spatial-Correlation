@@ -22,7 +22,7 @@ rng(333) % Setting seed
 
 %% Setting up parameters
 global T k beta rho_bar L
-N_reps = 2;
+N_reps = 1000;
 T = 250; % obs
 beta = [ 1; 1.5];
 k= length(beta); % number of covariates
@@ -32,7 +32,7 @@ L = [0.015 0.03 0.05]; % Vector of cutoff distances
 R = [4 12 36 64 88 102 124];
 % R = 40:48; % 43 for order 1 splines
 % R = 64:84; %82 for order 2 splines
-models = ['iid' 'AR(1)'];
+% models = ['iid' 'AR(1)'];
 cholesky_flag = 'chol';
 spatial = 0; % 1 s ~ U(0,1); 0 s ~ [1:T]./T
 N_order_splines = 2;
@@ -56,11 +56,8 @@ tic
 rej_freq_m_i = NaN(N_reps,k,N_estimators);
 e_ar1_betas = NaN(N_reps,2,N_ols);
 
-ar1_cell = {};
-rej_f_cell = {};
-
 for r=1:N_reps
-    fprintf('model %d: rep %d \n',m,r);
+    fprintf('rep %d \n',r);
     % generate data      
 %         [y, X, D_mat] = DGP(beta,s,rho_bar,m,spatial); %y and X change every draw
     [y, X] = DGP_ts(beta, 0.79,T,0);

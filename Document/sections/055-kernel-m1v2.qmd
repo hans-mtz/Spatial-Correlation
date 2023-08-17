@@ -1,11 +1,8 @@
-## Kernel estimator {#sec-kernel}
+## Kernel estimator {#sec-kernel-m1vm2}
 
-**UPDATE**: In this section, I compare the rejection frequencies of using a demeaned outcome variable or not, and using the same data vs using different data. I use 1,000 iterations. 
+In this section, I compare the rejection frequencies of using a demeaned outcome variable or not, and using the same data vs using different data. I use 1,000 iterations. 
 
-@tbl-kernel-same displays the rejection frequencies for both models, using the same data.
-
-@tbl-kernel-same displays the rejection frequencies for both models, using different data. 
-
+@tbl-kernel-same displays the rejection frequencies for both models, using the same data. @tbl-kernel-diff displays the rejection frequencies for both models, using different data. 
 
 I compare the results for the three different variance estimators, the HR, SCPC, and Kernel. For the Kernel estimator, I try different cut-off distances. In addition, B-Splines of different order and quantities are introduced to help improve the rejection frequency of the Kernel estimator.
 

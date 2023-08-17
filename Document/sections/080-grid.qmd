@@ -1,57 +1,24 @@
 ## Evenly spaced locations (time series)
 
-**UPDATE**: @tbl-rho-bar-ar1 displays the average pairwise correlation for groups of different cut-off distances. The average pairwise correlation was estimated as follows 
+In this exercise, locations are evenly spaced from $\frac{1}{250}$ to 1. The error terms and the regressors are autocorrelated following an AR(1) process $e_{l+1}=\gamma e_l+ u_l$, where $u_l\sim N(0,1)$, and $\gamma=0.79$. Likewise, $x_{l+1}=\lambda x_l+ v_l$, where $v_l\sim N(0,1)$, and $\lambda=0.79$. The DGP for y is same as before $y_l=\beta_0+\beta_1 x_l+e_l$ with $(\beta_0, \beta_1)=(1, 1.5)$.
+
+@tbl-grid-all displays the rejection frequencies of 1000 simulations. SCPC is omitted because it could not find a reasonable value of $c_{min}$ for the default value of $\bar\rho=0.03$ with the evenly distributed locations. In addition, columns 6 and 7 display the average coefficients of an AR(1) model using the residuals of the OLS regression without and with splines for every iteration.
+
+@tbl-rho-bar-ar1 displays the average pairwise correlation for groups of different cut-off distances. The average pairwise correlation was estimated as follows 
 
 $$
 \bar\rho=(T(T-1))^{-1}\Sigma_{l=1}^T\Sigma_{l\not=\text{l}}^T[e_le_{\text{l}}\mathbb{I}(|s_l-s_{\text{l}}|<L)]
 $$
 
-In this exercise, locations are evenly spaced from $\frac{1}{250}$ to 1. The error terms and the regressors are autocorrelated following an AR(1) process $e_{l+1}=\gamma e_l+ u_l$, where $u_l\sim N(0,1)$, and $\gamma=0.79$. Likewise, $x_{l+1}=\lambda x_l+ v_l$, where $v_l\sim N(0,1)$, and $\lambda=0.79$. The DGP for y is same as before $y_l=\beta_0+\beta_1 x_l+e_l$ with $(\beta_0, \beta_1)=(1, 1.5)$.
 
 
-@tbl-grid displays the rejection frequencies of 250 simulations. SCPC is omitted because it could not find a reasonable value of $c_{min}$ for the default value of $\bar\rho=0.03$ with the evenly distributed locations.
-
-@tbl-grid-ar1-mean displays the average coefficients of an AR(1) model using the residuals of the OLS regression without and with splines for every iteration.
-
-
-```{r}
-#| label: tbl-rho-bar-ar1
-#| tbl-cap: Average pairwise correlation within observations of groups for different distances. $\bar\rho=(T(T-1))^{-1}\Sigma_{l=1}^T\Sigma_{l\not=\text{l}}^T[e_le_{\text{l}}\mathbb{I}(|s_l-s_{\text{l}}|<L)]$
-#| echo: false
-#| warning: false
-
-
-rho_bar_groups <- read.csv("../Simulations/Products/pairwise_corr.csv")
-
-# row_names <- c(
-#     "0.01",
-#     "0.05",
-#     "0.10",
-#     "0.50"
-# )
-
-col_names <- c(
-    "Distance",
-    "$\\bar\\rho$"
-)
-
-# rho_tbl <- cbind(row_names, rho_bar_groups)
-
-kbl(
-    rho_bar_groups,
-    digits=3, 
-    booktabs = TRUE,
-    col.names = col_names,
-    escape = F
-)
-
-```
 
 ```{r}
 #| label: tbl-grid
 #| tbl-cap: Rejection frequencies for different variance estimators
 #| echo: false
 #| warning: false
+#| include: false
 
 kernel_results <- read.csv("../Simulations/Products/grid_sims_res.csv")
 
@@ -84,6 +51,24 @@ row_names <- c(
     )
 )
 
+row_names_ar1 <- c(
+    rep(
+        "No splines",
+        4
+    ),
+    rep(
+        c(
+        "4 splines",
+        "12 splines",
+        "36 splines",
+        "64 splines",
+        "88 splines",
+        "102 splines",
+        "124 splines"
+        ),
+        each=3
+    )
+)
 col_names <- c(
     "Estimator",
     rep(
@@ -173,6 +158,7 @@ kbl(
 #| tbl-cap: Average coefficients of the AR(1) model for the residuals
 #| echo: false
 #| warning: false
+#| include: false
 
 
 e_ar1_tbl <- read.csv("../Simulations/Products/grid_sims_ar1.csv")
@@ -234,3 +220,242 @@ kbl(
 
 ```
 
+```{r}
+#| label: tbl-grid-all
+#| tbl-cap: Rejection frequencies estimators using time series data.
+#| echo: false
+#| warning: false
+
+options(knitr.kable.NA = '')
+
+kernel_results <- read.csv("../Simulations/Products/grid_sims_res.csv", na.strings="NaN")
+
+e_ar1_tbl <- read.csv("../Simulations/Products/grid_sims_ar1.csv")
+
+
+row_names_kernel <- c(
+    # " ",
+    "HR",
+    # "SCPC",
+    rep(
+        c(
+            "Kernel-0.015",
+            "Kernel-0.030",
+            "Kernel-0.050"
+            # "0.07"
+        ),
+        15
+    )
+)
+
+row_names_ar1_kernel <- c(
+    rep(
+        "No splines",
+        4
+    ),
+    rep(
+        c(
+        "4 splines",
+        "12 splines",
+        "36 splines",
+        "64 splines",
+        "88 splines",
+        "102 splines",
+        "124 splines"
+        ),
+        each=3,
+        times =2
+    )
+)
+aux <- c(
+    rep(
+        "",
+        4
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        each = 21
+    )
+)
+kernel_id<-paste0(aux, row_names_ar1_kernel)
+
+col_names <- c(
+    "Spline order",
+    "No. of splines",
+    "Estimator",
+    "Cons.",
+    "$\\beta_1$",
+    "Cons.",
+    "$\\gamma$"
+)
+
+table_kernel <- cbind(
+    aux,
+    row_names_ar1_kernel,
+    row_names_kernel, 
+    kernel_results, 
+    kernel_id
+)
+names(table_kernel)<- c(
+    "","No. Splines",
+    "Estimator",
+    "Cons.",
+    "$\\beta_1$",
+    "id"
+)
+
+row_names_ar1 <- c(
+    "No splines",
+    rep(
+        c(
+        "4 splines",
+        "12 splines",
+        "36 splines",
+        "64 splines",
+        "88 splines",
+        "102 splines",
+        "124 splines"
+        ),
+        2
+    )
+)
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        each = 7
+    )
+)
+ar1_id<-paste0(aux2, row_names_ar1)
+table_ar1 <-cbind(
+    ar1_id,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "id",
+    "Cons.",
+    "$\\gamma$"
+)
+
+table<-merge(table_kernel,table_ar1, by="id",sort=FALSE)
+
+kbl(
+    table[,2:ncol(table)], 
+    digits=3, 
+    booktabs = TRUE,
+    longtable = TRUE,
+    col.names = col_names,
+    # row.names = row_names,
+    escape = F
+    ) %>%
+    add_header_above(
+        c(" "=2,"T.S. data"=3,"Residuals AR1"=2)#,"Model 2"=2)
+    ) %>%
+    collapse_rows(
+        c(1:2,6:7),
+        latex_hline = "custom",
+        custom_latex_hline = 1:2,
+        valign = "top"#,
+        # row_group_label_position = "stack"
+    ) #%>%
+    # kable_styling(latex_options = c("repeat_header")) 
+    # pack_rows(
+    #     "Kernel",3-1,5-1
+    # ) %>%
+    # pack_rows(
+    #     "B-Splines order 1 (Step functions)",6-1,26-1, latex_align = "l", hline_after = TRUE
+    # ) %>%
+    # pack_rows(
+    #     "B-Splines order 2 (Triangles)",27-1,47-1, latex_align = "l", hline_after = TRUE
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 4 splines",6-1,8-1
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 12 splines",9-1,11-1
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 36 splines",12-1,14-1
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 64 splines",15-1,17-1
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 88 splines",18-1,20-1
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 102 splines",21-1,23-1
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 124 splines",24-1,26-1
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 4 splines",27-1,29-1
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 12 splines",30-1,32-1
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 36 splines",33-1,35-1
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 64 splines",36-1,38-1
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 88 splines",39-1,41-1
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 102 splines",42-1,44-1
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 124 splines",45-1,47-1
+    # ) %>% 
+
+ 
+
+
+
+```
+
+
+```{r}
+#| label: tbl-rho-bar-ar1
+#| tbl-cap: Average pairwise correlation within observations of groups for different distances. $\bar\rho=(T(T-1))^{-1}\Sigma_{l=1}^T\Sigma_{l\not=\text{l}}^T[e_le_{\text{l}}\mathbb{I}(|s_l-s_{\text{l}}|<L)]$
+#| echo: false
+#| warning: false
+
+
+rho_bar_groups <- read.csv("../Simulations/Products/pairwise_corr.csv")
+
+# row_names <- c(
+#     "0.01",
+#     "0.05",
+#     "0.10",
+#     "0.50"
+# )
+
+col_names <- c(
+    "Distance",
+    "$\\bar\\rho$"
+)
+
+# rho_tbl <- cbind(row_names, rho_bar_groups)
+
+kbl(
+    rho_bar_groups,
+    digits=3, 
+    booktabs = TRUE,
+    col.names = col_names,
+    escape = F
+)
+
+```

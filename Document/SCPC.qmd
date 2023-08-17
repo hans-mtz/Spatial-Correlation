@@ -24,22 +24,22 @@ library(knitr)
 
 library(kableExtra)
 options(
-    knitr.table.format = "latex") 
+    knitr.table.format = "latex",
+    knitr.kable.NA = "")
+
 ```
 
 ## UPDATES {-}
 
-- [@tbl-kernel-same; and -@tbl-kernel-diff] compare the rejection frequencies of using and not using a demeaned outcome variable when using the same and different data. 1,000 iterations for 250 observations.
-
-- Average pairwise correlation by groups of different cut-off distances displayed in @tbl-rho-bar-ar1.
+- @tbl-grid-all updated. It now adjusts for the degrees of freedom and includes the results of the AR(1) estimation using the residuals.
 
 
+<!-- Evenly spaced -->
+{{< include sections/080-grid.qmd >}}
 
 <!-- Kernel -->
 {{< include sections/055-kernel-m1v2.qmd >}}
 
-<!-- Evenly spaced -->
-{{< include sections/080-grid.qmd >}}
 
 <!-- Locations and distances-->
 {{< include sections/090-locs.qmd >}}

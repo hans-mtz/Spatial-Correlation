@@ -14,5 +14,6 @@
 /Simulations/Matlab/212*
 *.Rout
 *.log
+*.fdb_latexmk
 # */*.RData
 # *.RData

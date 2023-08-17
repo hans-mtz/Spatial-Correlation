@@ -1,6 +1,5 @@
 ## Kernel estimator {#sec-kernel}
 
-**UPDATE**: I used 2500 obs. Rejection frequencies drop significantly as expected.
 
 I compare the results for the three different variance estimators, the HR, SCPC, and Kernel. For the Kernel estimator, I try different cut-off distances. In addition, B-Splines of different order and quantities are introduced to help improve the rejection frequency of the Kernel estimator.
 
@@ -10,17 +9,15 @@ In the estimation process, Model 2 uses a demeaned outcome variable, whereas Mod
 
 For every draw and every ols regression, I estimated an AR(1) model using the residuals $\hat{e}_{l+1}=\gamma_0+\gamma_1 \hat{e}_l + u_l$, after sorting from closest to zero to closest to one. 
 
-I used 100 iterations to calculate the rejection frequencies and the average AR(1) coefficients of the residuals.
+I used 100 iterations and 2500 observations to calculate the rejection frequencies and the average AR(1) coefficients of the residuals.
 
-@tbl-kernel displays the rejection frequencies for the different estimators. 
-
-@tbl-ar1-mean displays the average AR(1) coefficients of the residuals.
+@tbl-kernel displays the rejection frequencies for the different estimators. @tbl-ar1-mean displays the average AR(1) coefficients of the residuals.
 
 
 
 ```{r}
 #| label: tbl-kernel
-#| tbl-cap: Rejection frequencies for different variance estimators
+#| tbl-cap: Rejection frequencies for different variance estimators. 2,500 observations. 100 iterations.
 #| echo: false
 #| warning: false
 
@@ -121,7 +118,7 @@ kbl(
 
 ```{r}
 #| label: tbl-ar1-mean
-#| tbl-cap: Average coefficients of the AR(1) model for the residuals
+#| tbl-cap: Average coefficients of the AR(1) model for the residuals. Spatial data. 2500 obs. 100 iterations.
 #| echo: false
 #| warning: false
 
