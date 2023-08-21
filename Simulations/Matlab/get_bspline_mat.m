@@ -1,4 +1,4 @@
-function [S] = get_bspline_mat(x,n_nodes,order)
+function [S, delta, n_dropped] = get_bspline_mat(x,n_nodes,order,drop_flag)
     K = order;
     n = length(x);
     a = 0; %min(x);
@@ -35,5 +35,11 @@ function [S] = get_bspline_mat(x,n_nodes,order)
 %     S(:,[1,T-1])=[]; % Removing columns outside the range [1,T-1] bc they are only zeros
     % Removing one dummy column, this is the reference dummy to avoid
     % multicolinearity
-%     S = bspline_mat(:,2:(size(bspline_mat,2)-1));
+    if drop_flag==1
+        select=sum(S,1)<=1;
+        n_dropped=sum(select);
+        S(:,select)=[];
+    else
+        n_dropped=0;
+    end
 end

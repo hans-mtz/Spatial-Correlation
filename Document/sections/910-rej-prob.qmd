@@ -8,7 +8,7 @@ Description of the stata output from the post-estimation command `scpc`:
 - "P>|t|": This value corresponds to the maximum rejection probability for the adjusted t-statistic. The maximum rejection probability, $\mathbb{P}_{c\ge c_{max}}(\cdot)$, is the maximum of the rejection probabilities computed for a range of $c$ values, that go from $c_{min}$ to $c_{max}$. $c_{min}$ is provided by the researcher as a maximum average pairwise correlation, $\bar\rho$. The default is $\bar\rho=0.03$. $c_{max}$ is the maximum value for which size control is checked. In the code, $c_{max}$ corresponds to a minimum average pairwise correlation of $0.00001$ (line 478, `scpc.ado`).
 - Confidence interval: The `scpc` command computes the CI using the critical value that corresponds to a $5\%$ maximum rejection probability. For the range of $c$ values $\in[c_{min},c_{max}]$, the algorithm searches for the critical value that corresponds to a maximum rejection probability $\alpha=0.05$, the desred size of the test.
 
-## Computing rejection probability
+## Computing SCPC's rejection probability
 
 $\mathbb{P}_{c\ge c_{max}}(\cdot)$ computes the maximum rejection probability for a range of $c$ values that go from $c_{min}$ —which corresponds to $\hat\rho$— to $c_{max}$, a minimum value for which size control is checked. In the code, this value corresponds to a minimum average pairwise correlation of $0.00001$ (line 478, `scpc.ado`).
 

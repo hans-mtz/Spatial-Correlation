@@ -1,0 +1,1139 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+]{article}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\usepackage[figon, printfigures]{figcaps}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\makeatother
+\makeatletter
+\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Spatial correlation},
+  pdfauthor={Hans Martinez},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Spatial correlation}
+\author{Hans Martinez}
+\date{2023-08-21}
+
+\begin{document}
+\maketitle
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, interior hidden, frame hidden, borderline west={3pt}{0pt}{shadecolor}, breakable, boxrule=0pt, enhanced]}{\end{tcolorbox}}\fi
+
+\hypertarget{updates}{%
+\section*{Updates}\label{updates}}
+\addcontentsline{toc}{section}{Updates}
+
+\begin{itemize}
+\tightlist
+\item
+  Uniformly distributed locations: Table~\ref{tbl-kernel} updated.
+  Damian's BIC and Kernel distance. SCPC and C-SCPC rejection
+  frequencies. Splines of high order. Average number of dropped splines.
+\item
+  Evenly distributed locations: Table~\ref{tbl-grid-all} updated.
+  Damian's BIC and Kernel distance.
+\end{itemize}
+
+\hypertarget{to-do}{%
+\section*{To-Do}\label{to-do}}
+\addcontentsline{toc}{section}{To-Do}
+
+\begin{itemize}
+\tightlist
+\item
+  Evenly distributed locations: SCPC adjusting \(\bar\rho\) to avoid
+  crashing.
+\item
+  Power curves for SCPC method
+\item
+  Cluster version of Kernel estimator
+\item
+  Measurement error in the locations
+
+  \begin{enumerate}
+  \def\labelenumi{\alph{enumi}.}
+  \tightlist
+  \item
+    Get rejection freq.
+  \item
+    Plot distances (true vs.~mismeasured)
+  \end{enumerate}
+\end{itemize}
+
+\hypertarget{sec-kernel}{%
+\section{Kernel estimator}\label{sec-kernel}}
+
+I compare the results for the four different variance estimators, the
+HR, SCPC, C-SCPC, and Kernel. For the Kernel estimator, I try different
+cut-off distances. In addition, B-Splines of different order and
+quantities are introduced to help improve the rejection frequency of the
+Kernel estimator.
+
+I'm using one and two-order B-Splines (step functions and triangles).
+During the estimation, a spline was dropped if it contained one
+observation or less.
+
+In the DGP, \(y=\beta_0 + \beta_1 x_l +e_l\), where
+\(e_l\sim\mathcal{G}_{exp}(c_{\bar\rho})\) and
+\(X\sim[1 \;\mathcal{G}_{exp}(c_{\bar\rho})]\). The true parameters are
+\(\beta=(1, 1.5)'\), and the average pairwise correlation is
+\(\bar\rho=0.03\).
+
+For every ols regression, I estimated an AR(1) model using the residuals
+\(\hat{e}_{l+1}=\gamma_0+\gamma_1 \hat{e}_l + u_l\), after sorting from
+closest to zero to closest to one.
+
+I used 1000 iterations and 250 observations to calculate the rejection
+frequencies and the average AR(1) coefficients of the residuals.
+
+Table~\ref{tbl-kernel} displays the rejection frequencies for the
+different estimators, the average AR(1) slope coefficient of the
+residuals \(\gamma_1\), the average BIC for two methods, and the average
+number of splines dropped.
+
+\hypertarget{bic}{%
+\subsection{BIC}\label{bic}}
+
+Hansen's BIC is estimated as
+\(BIC_H=T\log(2\pi\hat{\sigma}^2_{e_l})+T+(k+1)\log(T)\) (Hansen 2020),
+while Damian's is estimated
+\(BIC_D=T\log(\hat{\sigma}^2_{e_l})+k\log(T)\)
+
+\hypertarget{tbl-kernel}{}
+\begin{longtable}[t]{lllrrrrrr}
+\caption{\label{tbl-kernel}Rejection frequencies for different variance estimators. Spatial data.
+250 observations. 1000 iterations. }\tabularnewline
+
+\toprule
+\multicolumn{5}{c}{ } & \multicolumn{4}{c}{Residuals} \\
+\cmidrule(l{3pt}r{3pt}){6-9}
+\multicolumn{2}{c}{B-Splines} & \multicolumn{3}{c}{Spatial data} & \multicolumn{1}{c}{ } & \multicolumn{2}{c}{BIC} \\
+\cmidrule(l{3pt}r{3pt}){1-2} \cmidrule(l{3pt}r{3pt}){3-5} \cmidrule(l{3pt}r{3pt}){7-8}
+Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's & Dropped\\
+\midrule \endhead
+ &  & HR & 0.498 & 0.385 &  &  &  & \\
+
+ &  & SCPC & 0.067 & 0.073 &  &  &  & \\
+
+ &  & C-SCPC & 0.055 & 0.054 &  &  &  & \\
+
+ &  & Kernel-0.015 & 0.138 & 0.107 &  &  &  & \\
+
+ &  & Kernel-0.030 & 0.101 & 0.117 &  &  &  & \\
+
+\multirow[t]{-6}{*}{\raggedright\arraybackslash } & \multirow[t]{-6}{*}{\raggedright\arraybackslash No splines} & Kernel-0.050 & 0.114 & 0.135 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.770} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 708.622} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash -6.368} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
+\cmidrule{1-9}
+\multirow[t]{45}{*}{\raggedright\arraybackslash Order 1} &  & HR &  & 0.428 &  &  &  & \multirow[t]{20}{*}{\raggedleft\arraybackslash 0}\\
+
+ &  & Kernel-0.015 &  & 0.129 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.111 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.128 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 4 splines} & Damian's &  & 1.000 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.805} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 761.473} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 46.483} & \\
+\cmidrule{2-8}
+ &  & HR &  & 0.388 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.135 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.136 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.155 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 12 splines} & Damian's &  & 0.295 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.730} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 726.707} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 11.716} & \\
+\cmidrule{2-8}
+ &  & HR &  & 0.339 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.132 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.105 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.097 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 24 splines} & Damian's &  & 0.175 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.588} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 680.585} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -34.406} & \\
+\cmidrule{2-8} \pagebreak
+ &  & HR &  & 0.269 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.100 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.088 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.102 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 36 splines} & Damian's &  & 0.135 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.469} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 671.021} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -43.970} & \\
+\cmidrule{2-9}
+ &  & HR &  & 0.231 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.085 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.073 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.094 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 48 splines} & Damian's &  & 0.110 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.382} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 666.330} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -48.661} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 3}\\
+\cmidrule{2-9}
+ &  & HR &  & 0.148 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.056 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.071 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.086 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 64 splines} & Damian's &  & 0.085 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.208} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 677.826} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -37.165} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 6}\\
+\cmidrule{2-9}
+ &  & HR &  & 0.122 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.055 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.056 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.071 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 88 splines} & Damian's &  & 0.060 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.172} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 736.732} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 21.741} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 20}\\
+\cmidrule{2-9}
+ &  & HR &  & 0.102 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.053 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.064 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.082 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 102 splines} & Damian's &  & 0.064 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.152} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 773.159} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 58.168} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 31}\\
+\cmidrule{2-9}
+ &  & HR &  & 0.117 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.060 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.062 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.078 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 124 splines} & Damian's &  & 0.059 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.212} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 841.395} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 126.404} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 51}\\
+\cmidrule{1-9}
+\multirow[t]{45}{*}{\raggedright\arraybackslash Order 2} &  & HR &  & 0.351 &  &  &  & \multirow[t]{30}{*}{\raggedleft\arraybackslash 0}\\
+
+ &  & Kernel-0.015 &  & 0.118 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.129 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.152 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 4 splines} & Damian's &  & 1.000 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.747} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 699.310} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -15.681} & \\
+\cmidrule{2-8}
+ &  & HR &  & 0.348 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.138 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.141 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.136 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 12 splines} & Damian's &  & 0.292 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.668} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 671.336} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -43.654} & \\
+\cmidrule{2-8}
+ &  & HR &  & 0.316 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.163 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.127 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.124 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 24 splines} & Damian's &  & 0.191 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.532} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 638.916} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -76.075} & \\
+\cmidrule{2-8}
+ &  & HR &  & 0.271 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.133 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.098 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.107 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 36 splines} & Damian's &  & 0.147 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.392} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 615.293} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -99.698} & \\
+\cmidrule{2-8}
+ &  & HR &  & 0.221 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.082 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.067 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.081 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 48 splines} & Damian's &  & 0.086 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.252} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 600.864} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -114.127} & \\
+\cmidrule{2-8}
+ &  & HR &  & 0.165 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.066 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.065 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.077 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 64 splines} & Damian's &  & 0.073 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.107} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 601.697} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -113.294} & \\
+\cmidrule{2-9}
+ &  & HR &  & 0.137 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.036 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.041 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.055 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 88 splines} & Damian's &  & 0.046 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -0.054} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 613.701} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -101.289} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 6}\\
+\cmidrule{2-9}
+ &  & HR &  & 0.085 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.036 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.037 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.048 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 102 splines} & Damian's &  & 0.037 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -0.118} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 656.343} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -58.648} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 13}\\
+\cmidrule{2-9}
+ &  & HR &  & 0.086 &  &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.045 &  &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.053 &  &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.072 &  &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 124 splines} & Damian's &  & 0.050 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -0.055} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 718.384} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 3.393} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 28}\\
+\bottomrule
+\end{longtable}
+
+\hypertarget{evenly-spaced-locations-time-series}{%
+\section{Evenly spaced locations (time
+series)}\label{evenly-spaced-locations-time-series}}
+
+In this exercise, locations are evenly spaced from \(\frac{1}{250}\) to
+1. The error terms and the regressors are autocorrelated following an
+AR(1) process \(e_{l+1}=\gamma e_l+ u_l\), where \(u_l\sim N(0,1)\), and
+\(\gamma=0.79\). Likewise, \(x_{l+1}=\lambda x_l+ v_l\), where
+\(v_l\sim N(0,1)\), and \(\lambda=0.79\). The DGP for y is therefore,
+\(y_l=\beta_0+\beta_1 x_l+e_l\) with \((\beta_0, \beta_1)=(1, 1.5)'\).
+
+Table~\ref{tbl-grid-all} displays the rejection frequencies of 1000
+simulations. SCPC is omitted because it could not find a reasonable
+value of \(c_{min}\) for the default value of \(\bar\rho=0.03\) with the
+evenly distributed locations. In addition, the table also displays
+\(\gamma_1\), the average slope coefficient of an AR(1) model using the
+residuals of the OLS regression for every iteration, and the BIC for two
+methods as described in Section~\ref{sec-kernel}.
+
+\hypertarget{tbl-grid-all}{}
+\begin{longtable}[t]{lllrrrrr}
+\caption{\label{tbl-grid-all}Rejection frequencies estimators using time series data. }\tabularnewline
+
+\toprule
+\multicolumn{5}{c}{ } & \multicolumn{3}{c}{Residuals} \\
+\cmidrule(l{3pt}r{3pt}){6-8}
+\multicolumn{2}{c}{B-Splines} & \multicolumn{3}{c}{T.S. data} & \multicolumn{1}{c}{ } & \multicolumn{2}{c}{BIC} \\
+\cmidrule(l{3pt}r{3pt}){1-2} \cmidrule(l{3pt}r{3pt}){3-5} \cmidrule(l{3pt}r{3pt}){7-8}
+Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma$ & Hansen's & Damian's\\
+\midrule \endhead
+ &  & HR & 0.514 & 0.352 &  &  & \\
+
+ &  & Kernel-0.015 & 0.157 & 0.089 &  &  & \\
+
+ &  & Kernel-0.030 & 0.108 & 0.079 &  &  & \\
+
+\multirow[t]{-4}{*}{\raggedright\arraybackslash } & \multirow[t]{-4}{*}{\raggedright\arraybackslash No splines} & Kernel-0.050 & 0.103 & 0.104 & \multirow[t]{-4}{*}{\raggedleft\arraybackslash 0.769} & \multirow[t]{-4}{*}{\raggedleft\arraybackslash 954.080} & \multirow[t]{-4}{*}{\raggedleft\arraybackslash 239.089}\\
+\cmidrule{1-8}
+\multirow[t]{45}{*}{\raggedright\arraybackslash Order 1} &  & HR &  & 0.349 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.088 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.075 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.090 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 4 splines} & Kernel-Damian's &  & 1.000 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.776} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 971.112} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 256.121}\\
+\cmidrule{2-8} \pagebreak
+ &  & HR &  & 0.317 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.120 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.125 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.114 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 12 splines} & Kernel-Damian's &  & 0.279 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.692} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 942.313} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 227.323}\\
+\cmidrule{2-8}
+ &  & HR &  & 0.263 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.121 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.084 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.080 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 24 splines} & Kernel-Damian's &  & 0.167 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.546} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 922.166} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 207.175}\\
+\cmidrule{2-8}
+ &  & HR &  & 0.182 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.095 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.069 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.077 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 36 splines} & Kernel-Damian's &  & 0.105 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.404} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 923.559} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 208.568}\\
+\cmidrule{2-8}
+ &  & HR &  & 0.149 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.070 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.057 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.078 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 48 splines} & Kernel-Damian's &  & 0.086 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.269} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 936.482} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 221.491}\\
+\cmidrule{2-8}
+ &  & HR &  & 0.089 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.035 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.041 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.053 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 64 splines} & Kernel-Damian's &  & 0.054 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.088} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 960.101} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 245.110}\\
+\cmidrule{2-8}
+ &  & HR &  & 0.080 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.032 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.035 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.058 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 88 splines} & Kernel-Damian's &  & 0.037 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -0.130} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 1007.323} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 292.332}\\
+\cmidrule{2-8}
+ &  & HR &  & 0.070 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.017 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.029 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.040 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 102 splines} & Kernel-Damian's &  & 0.029 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -0.204} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 1055.792} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 340.801}\\
+\cmidrule{2-8} \pagebreak
+ &  & HR &  & 0.052 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.014 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.017 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.027 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 124 splines} & Kernel-Damian's &  & 0.018 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -0.368} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 1108.835} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 393.845}\\
+\cmidrule{1-8}
+\multirow[t]{45}{*}{\raggedright\arraybackslash Order 2} &  & HR &  & 0.337 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.100 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.105 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.124 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 4 splines} & Kernel-Damian's &  & 1.000 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.744} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 944.787} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 229.796}\\
+\cmidrule{2-8}
+ &  & HR &  & 0.299 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.141 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.151 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.133 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 12 splines} & Kernel-Damian's &  & 0.273 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.659} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 914.959} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 199.969}\\
+\cmidrule{2-8}
+ &  & HR &  & 0.244 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.138 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.095 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.104 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 24 splines} & Kernel-Damian's &  & 0.175 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.515} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 886.166} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 171.175}\\
+\cmidrule{2-8}
+ &  & HR &  & 0.187 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.130 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.084 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.089 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 36 splines} & Kernel-Damian's &  & 0.135 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.359} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 871.928} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 156.937}\\
+\cmidrule{2-8}
+ &  & HR &  & 0.161 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.089 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.076 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.082 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 48 splines} & Kernel-Damian's &  & 0.092 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.207} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 872.475} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 157.484}\\
+\cmidrule{2-8}
+ &  & HR &  & 0.110 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.056 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.050 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.056 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 64 splines} & Kernel-Damian's &  & 0.058 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.024} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 890.449} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 175.458}\\
+\cmidrule{2-8} \pagebreak
+ &  & HR &  & 0.078 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.044 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.041 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.055 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 88 splines} & Kernel-Damian's &  & 0.043 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -0.219} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 934.837} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 219.846}\\
+\cmidrule{2-8}
+ &  & HR &  & 0.064 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.022 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.029 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.044 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 102 splines} & Kernel-Damian's &  & 0.029 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -0.343} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 965.463} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 250.472}\\
+\cmidrule{2-8}
+ &  & HR &  & 0.056 &  &  & \\
+
+ &  & Kernel-0.015 &  & 0.012 &  &  & \\
+
+ &  & Kernel-0.030 &  & 0.020 &  &  & \\
+
+ &  & Kernel-0.050 &  & 0.035 &  &  & \\
+
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 124 splines} & Kernel-Damian's &  & 0.015 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -0.508} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 1018.641} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 303.650}\\
+\bottomrule
+\end{longtable}
+
+Table~\ref{tbl-rho-bar-ar1} displays the average pairwise correlation
+for groups of different cut-off distances. The average pairwise
+correlation was estimated as follows
+
+\[
+\bar\rho=(T(T-1))^{-1}\Sigma_{l=1}^T\Sigma_{l\not=\text{l}}^T[e_le_{\text{l}}\mathbb{I}(|s_l-s_{\text{l}}|<L)]
+\]
+
+\hypertarget{tbl-rho-bar-ar1}{}
+\begin{table}
+\caption{\label{tbl-rho-bar-ar1}Average pairwise correlation within observations of groups for different
+distances.
+\(\bar\rho=(T(T-1))^{-1}\Sigma_{l=1}^T\Sigma_{l\not=\text{l}}^T[e_le_{\text{l}}\mathbb{I}(|s_l-s_{\text{l}}|<L)]\) }\tabularnewline
+
+\centering
+\begin{tabular}[t]{rr}
+\toprule
+Distance & $\bar\rho$\\
+\midrule
+0.015 & 1.007\\
+0.050 & 0.279\\
+0.100 & 0.085\\
+0.500 & 0.003\\
+1.000 & -0.008\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{locations-and-distances-new}{%
+\section{Locations and distances
+(NEW)}\label{locations-and-distances-new}}
+
+Figure~\ref{fig-loc} shows the histogram of 250 locations when they are
+uniformly distributed and evenly spaced. Figure~\ref{fig-dist} shows the
+histogram of the corresponding pairwise distances.
+Figure~\ref{fig-hist-loc-x10} shows the same graphs but for 2,500
+locations.
+
+As the number of locations increases, the plots of the uniformly
+distributed locations look more like the ones that are evenly spaced.
+
+\begin{figure}
+
+\begin{minipage}[t]{\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_loc.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-loc}Locations}
+\end{minipage}%
+\newline
+\begin{minipage}[t]{\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_dist.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-dist}Distances}
+\end{minipage}%
+
+\caption{\label{fig-hist-loc}Histograms of uniformly distributed
+locations (blue) and evenly-spaced (time-series) locations (red) and
+their corresponding pairwise distances. 250 locations.}
+
+\end{figure}
+
+\begin{figure}
+
+\begin{minipage}[t]{\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_loc_2500.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-loc-x10}Locations}
+\end{minipage}%
+\newline
+\begin{minipage}[t]{\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_dist_2500.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-dist-x10}Distances}
+\end{minipage}%
+
+\caption{\label{fig-hist-loc-x10}Histograms of uniformly distributed
+locations (blue) and evenly-spaced (time-series) locations (red) and
+their corresponding pairwise distances. 2,500 locations.}
+
+\end{figure}
+
+\hypertarget{scpc-limitations}{%
+\section{SCPC limitations}\label{scpc-limitations}}
+
+Open questions to address in Spatial Correlation Principal Component
+(SCPC) (Müller and Watson 2022b, 2022a):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  What's the ``worst case'' covariance matrix? How does that work? A:
+  See section on that Section~\ref{sec-worstcov}
+\item
+  Can SCPC accommodate a vector of variables? A: Not currently. It only
+  works for scalars. The authors discuss that the main challenge for the
+  multivariate version of the SCPC is specifying the worst-case
+  benchmark model and numerically determining the critical value. In the
+  case of the C-SCPC, the challenge is to specify an appropriate
+  multivariate extension of the heteroscedastic model foe \(e_l\) given
+  \(e_l=x^s_la_l\).
+\item
+  Does the method work if there exists measurement error in the
+  locations?
+\end{enumerate}
+
+\hypertarget{dgps-covariance-structure}{%
+\section{DGP's covariance structure}\label{dgps-covariance-structure}}
+
+Figure~\ref{fig-dist-cov} to \ref{fig-extras} show graphically the
+covariance structure of the DGP, in particular with respect to locations
+and distance.
+
+\begin{figure}
+
+{\centering \includegraphics{SCPC_files/figure-pdf/fig-dist-cov-1.pdf}
+
+}
+
+\caption{\label{fig-dist-cov}Distance vs Covariance}
+
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics{SCPC_files/figure-pdf/fig-cov-hist-1.pdf}
+
+}
+
+\caption{\label{fig-cov-hist}Covariance histogram}
+
+\end{figure}
+
+\begin{figure}
+
+\begin{minipage}[t]{0.50\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{SCPC_files/figure-pdf/fig-extras-1.pdf}
+
+}
+
+}
+
+\subcaption{\label{fig-extras-1}Distance}
+\end{minipage}%
+%
+\begin{minipage}[t]{0.50\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{SCPC_files/figure-pdf/fig-extras-2.pdf}
+
+}
+
+}
+
+\subcaption{\label{fig-extras-2}Locations}
+\end{minipage}%
+
+\caption{\label{fig-extras}Distance and location histograms}
+
+\end{figure}
+
+\hypertarget{power-of-the-test-using-scpc}{%
+\section{Power of the test using
+SCPC}\label{power-of-the-test-using-scpc}}
+
+Müller and Watson (2022b) discuss briefly the power of the tests using
+their variance estimator. They discuss the difference in the power of
+the tests using the conditional and the unconditional SCPC, the
+trade-off in the length of the CI and the number of the principal
+components used to calculate \(\sigma_{SCPC}\), and the expected length
+of the CI as a function of \(\bar\rho_{max}\).
+
+\hypertarget{conditional-vs.-unconditional-scpc-p.8}{%
+\subsection{Conditional vs.~Unconditional SCPC
+(p.8)}\label{conditional-vs.-unconditional-scpc-p.8}}
+
+The authors argue that the size-adjusted power (average length of the
+confidence intervals) of SCPC and C-SCPC (conditional) are identical
+because both methods are based on the same \emph{t}-statistic and only
+differ in their critical values. The authors argue that the differences
+in the average confidence interval lengths of both methods are small.
+They based their argument on an unreported comparison realized for only
+one experiment design (p.~8).
+
+The authors acknowledge that the size-adjusted Kernel method is
+``somewhat'' more efficient than SCPC and C-SCPC. The authors argue
+however that this is not a reason to prefer the Kernel method because in
+practice the ``size-adjustment that adjust for the larger bias in the
+\(\hat\sigma_{K}^2\)'' is not feasible.
+
+\hypertarget{trade-off-in-choosing-q-p.4}{%
+\subsection{Trade-off in choosing q
+(p.4)}\label{trade-off-in-choosing-q-p.4}}
+
+The authors discuss that there is a trade-off between the number of
+principal components \(q\) and the expected length of the 95\%
+confidence intervals. In particular, for a fixed critical value, the
+expected length of the confidence interval falls as \(q\) increases, but
+larger \(q\) requires larger critical values to control coverage. The
+authors suggest that minimizing the expected 95\% confidence interval
+length under the iid benchmark yields a value of \(q\) that works well
+for a range of values of \(c\).
+
+\hypertarget{expected-length-of-confidence-intervals-as-a-function-of-barrho_max-p.1112}{%
+\subsection{\texorpdfstring{Expected length of confidence intervals as a
+function of \(\bar\rho_{max}\)
+(p.11,12)}{Expected length of confidence intervals as a function of \textbackslash bar\textbackslash rho\_\{max\} (p.11,12)}}\label{expected-length-of-confidence-intervals-as-a-function-of-barrho_max-p.1112}}
+
+The authors also discuss what happens to the rejection frequencies and
+confidence intervals if the researcher misjudges the spatial correlation
+\(\bar\rho_{max}\). For example, if the researcher provides a
+significantly low average pairwise correlation \(\bar\rho_{max}=0.03\)
+when the true is actually higher \(\bar\rho=0.10\), the authors argue
+that the average rejection increases but marginally. The authors
+performed a set of 14 experiments with different DGPs, first with the
+true \(\bar\rho=0.03\) and then increased to 0.10, but they kept the
+provided \(\bar\rho_{max}=0.03\). They observed that the average
+rejection frequency increased from 0.04 to 0.07. However, when you look
+at the supplemental materials the rejection frequency for some of the
+experiments went up even above 0.4.
+
+The authors also discuss how the confidence intervals increase if the
+researcher gives a higher value of \(\bar\rho_{max}\) than the true
+\(\bar\rho\). The authors compare the CI generated by the C-SCPC method
+to the length of the oracle \(\pm 1.96\) interval length when the
+\(\bar\rho_{max}={0.1, 0.03,0.01,0.003}\). The authors find that the
+average C-SCPC CI is 1.55, 1.2, 1.1, and 1.05 times larger than the
+oracle \(\pm 1.96\) CI. The authors conclude that the cost of the
+default value of \(\bar\rho=0.03\) is about a 20\% increase in the CI
+lengths.
+
+\hypertarget{summary-of-the-scpc-stata-output}{%
+\section{\texorpdfstring{Summary of the \texttt{scpc} stata
+output}{Summary of the scpc stata output}}\label{summary-of-the-scpc-stata-output}}
+
+Description of the stata output from the post-estimation command
+\texttt{scpc}:
+
+\begin{itemize}
+\tightlist
+\item
+  Coefficient
+\item
+  S.E.: The \texttt{scpc} post-estimation command displays the standard
+  error as the SCPC estimated variance using eq. 5 modified as follows
+  \(\hat\sigma_{SCPC}/(\sqrt{n}\sqrt{q})\) (line 559,
+  \texttt{scpc.ado}).
+\item
+  t: The command reports the t-statistic, using eq. 4, but using the
+  SCPC variance estimator (eq. 5)
+\item
+  ``P\textgreater\textbar t\textbar{}'': This value corresponds to the
+  maximum rejection probability for the adjusted t-statistic. The
+  maximum rejection probability, \(\mathbb{P}_{c\ge c_{max}}(\cdot)\),
+  is the maximum of the rejection probabilities computed for a range of
+  \(c\) values, that go from \(c_{min}\) to \(c_{max}\). \(c_{min}\) is
+  provided by the researcher as a maximum average pairwise correlation,
+  \(\bar\rho\). The default is \(\bar\rho=0.03\). \(c_{max}\) is the
+  maximum value for which size control is checked. In the code,
+  \(c_{max}\) corresponds to a minimum average pairwise correlation of
+  \(0.00001\) (line 478, \texttt{scpc.ado}).
+\item
+  Confidence interval: The \texttt{scpc} command computes the CI using
+  the critical value that corresponds to a \(5\%\) maximum rejection
+  probability. For the range of \(c\) values \(\in[c_{min},c_{max}]\),
+  the algorithm searches for the critical value that corresponds to a
+  maximum rejection probability \(\alpha=0.05\), the desred size of the
+  test.
+\end{itemize}
+
+\hypertarget{computing-scpcs-rejection-probability}{%
+\section{Computing SCPC's rejection
+probability}\label{computing-scpcs-rejection-probability}}
+
+\(\mathbb{P}_{c\ge c_{max}}(\cdot)\) computes the maximum rejection
+probability for a range of \(c\) values that go from \(c_{min}\)
+---which corresponds to \(\hat\rho\)--- to \(c_{max}\), a minimum value
+for which size control is checked. In the code, this value corresponds
+to a minimum average pairwise correlation of \(0.00001\) (line 478,
+\texttt{scpc.ado}).
+
+The rejection probability is computed using a Gaussian quadrature and
+the eigenvalues of \(\Omega(c)\) (pag. 12), for a given critical value.
+
+Then, the critical value is selected such that the rejection probability
+is the desired, for example, \(\alpha=0.05\) (line 144,
+\texttt{scpc.ado})
+
+\hypertarget{the-setting}{%
+\section{The setting}\label{the-setting}}
+
+\[
+y_l = x_l\beta + e_l
+\]
+
+\(\mathbb{E}[e_l|x_l]=0\), and \((y_l, x_l, e_l)\) are associated with
+observed spatial location \(s_l \in \mathbb{R}^d\). Spatial location in
+time is \(d=1\), two dimensions, like in altitude and latitude, \(d=2\),
+and so on.
+
+\(e_l\) is generated by a Gaussian process with covariance function
+\(cov(e_l,e_{l'})=\exp(-c||s_l-s_{l'}||)\), where \(s_l\) and \(s_{l'}\)
+denote the spatial locations of \(e_l\) and \(e_{l'}\), and \(c>0\) is a
+parameter that governs the strength of the spatial correlation. The
+value of \(c\) is calibrated to induce a specific average pairwise
+correlation
+\(\bar{\rho}=[n(n-1)]^{-1}\sum_{l,l'\not=l}cov(e_l,e_{l'})\). In other
+words, \(c=c_{\bar{\rho}}\) solves
+\([n(n-1)]^{-1}\sum_{l,l'\not=l}\exp(-c_{\bar{\rho}}||s_l-s_{l'}||)=\bar{\rho}\).
+
+Let \(\Sigma(c)\) be the covariance matrix of \(e_l\) evaluated at the
+sample locations, so that \(\Sigma(c)_{l,l'}=\exp(-c||s_l-s_{l'} ||)\),
+and let \(\bar{\rho}(c)\) denote the resulting average pairwise
+correlation
+\(\bar{\rho}(c)=[n(n-1)]^{-1}\sum_{l,l'\not=l}\Sigma(c)_{l,l'}\). If the
+researcher desires a test that controls size for values of
+\(\bar{\rho}\) as large as \(\bar{\rho}_{max}\), then he can choose
+\(c_{min}\) such that \(\bar{\rho}(c_{min})=\bar{\rho}_{max}\). Then,
+\(\Sigma(c_{min})\) is the \textbf{worst case} covariance matrix in the
+sense that it induces the largest value of \(\sigma^2\) among all
+\(\Sigma(c)\) with \(\bar{\rho}\le \bar{\rho}_{max}\)
+
+\hypertarget{sec-worstcov}{%
+\section{SCPC's worst case covariance function}\label{sec-worstcov}}
+
+Müller and Watson (2022b) assume a functional form for the covariance
+function of the error term that depends on a single parameter. This
+single parameter has a unique value for a specific average pairwise
+correlation. The researcher has to provide before the estimation, a
+maximum average pairwise correlation. Then, because the average pairwise
+correlation is a decreasing function of the parameter of the covariance
+function, this parameter induces the largest value of the error variance
+for the given average pairwise correlation, according to the authors. In
+the STATA and MATLAB codes, this parameter is set to 0.03 in both, like
+in their paper. The authors provide instructions on how to adjust the
+parameter in the help section of the STATA code. In the MATLAB code, a
+parameter can be adjusted before estimations.
+
+\hypertarget{literature-review}{%
+\section{Literature Review}\label{literature-review}}
+
+\hypertarget{muller2022jbes}{%
+\subsection{Müller and Watson (2022b)}\label{muller2022jbes}}
+
+The objective of the paper is to develop a robustified version of their
+Spatial Correlation Principal Components (SCPC) (Müller and Watson
+2022a). In particular, the authors propose modifications to deal with
+non-stationarities and strong dependence in finite samples (small
+samples).
+
+According to the authors, the SPCPC method addresses the challenge of
+spatial correlation robust inference under small samples and
+\emph{empirically relevant} forms of strong dependence (which ones?).
+
+According to the authors, Conley (1999) doesn't work well in small
+samples because it relies on the consistency of the estimator of
+\(\sigma^2\), while SCPC (and fixed-b type approaches) rely on the
+\emph{stationarity} of \(u_l\). Stationarity might break in practice,
+for example, when \(x_l\) is a dummy for treatment, and treatment is
+more likely in one region than another region.
+
+The SCPC method is based on a principal component estimator of
+\(\sigma^2\) based on a pre-specified ``worst-case'' exponential
+covariance function conditional on the observed locations.
+
+(On going\ldots)
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-Conley1999}{}}%
+Conley, T G. 1999. {``GMM Estimation with Cross Sectional Dependence.''}
+\emph{Journal of Econometrics} 92: 1--45.
+
+\leavevmode\vadjust pre{\hypertarget{ref-Hansen2020}{}}%
+Hansen, Bruce E. 2020. \emph{ECONOMETRICS}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-Muller2022ECTA}{}}%
+Müller, Ulrich K, and Mark W Watson. 2022a. {``SPATIAL CORRELATION
+ROBUST INFERENCE.''} \emph{Econometrica} 90: 2901--35.
+\url{https://doi.org/10.3982/ECTA19465}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-Muller2022JBES}{}}%
+---------. 2022b. {``Spatial Correlation Robust Inference in Linear
+Regression and Panel Models.''} \emph{Journal of Business \& Economic
+Statistics} 00: 1--15.
+\url{https://doi.org/10.1080/07350015.2022.2127737}.
+
+\end{CSLReferences}
+
+
+
+\end{document}

@@ -1,115 +1,231 @@
 ## Kernel estimator {#sec-kernel}
 
 
-I compare the results for the three different variance estimators, the HR, SCPC, and Kernel. For the Kernel estimator, I try different cut-off distances. In addition, B-Splines of different order and quantities are introduced to help improve the rejection frequency of the Kernel estimator.
+I compare the results for the four different variance estimators, the HR, SCPC, C-SCPC, and Kernel. For the Kernel estimator, I try different cut-off distances. In addition, B-Splines of different order and quantities are introduced to help improve the rejection frequency of the Kernel estimator.
 
-In the DGP, $e_l\sim\mathcal{G}_{exp}(c_{\bar\rho})$ and $X\sim[1 \;\mathcal{G}_{exp}(c_{\bar\rho}) \;\mathcal{G}_{exp}(c_{\bar\rho})]$. The average pairwise correlation is $\bar\rho=0.03$. 
+I'm using one and two-order B-Splines (step functions and triangles). During the estimation, a spline was dropped if it contained one observation or less.
 
-In the estimation process, Model 2 uses a demeaned outcome variable, whereas Model 1 does not. I'm using one and two-order splines (step functions and triangles). In addition, I'm using a Cholesky decomposition to invert the covariates matrix in the OLS estimator.
+In the DGP, $y=\beta_0 + \beta_1 x_l +e_l$, where $e_l\sim\mathcal{G}_{exp}(c_{\bar\rho})$ and $X\sim[1 \;\mathcal{G}_{exp}(c_{\bar\rho})]$. The true parameters are $\beta=(1, 1.5)'$, and the average pairwise correlation is $\bar\rho=0.03$. 
 
-For every draw and every ols regression, I estimated an AR(1) model using the residuals $\hat{e}_{l+1}=\gamma_0+\gamma_1 \hat{e}_l + u_l$, after sorting from closest to zero to closest to one. 
+For every ols regression, I estimated an AR(1) model using the residuals $\hat{e}_{l+1}=\gamma_0+\gamma_1 \hat{e}_l + u_l$, after sorting from closest to zero to closest to one. 
 
-I used 100 iterations and 2500 observations to calculate the rejection frequencies and the average AR(1) coefficients of the residuals.
+I used 1000 iterations and 250 observations to calculate the rejection frequencies and the average AR(1) coefficients of the residuals.
 
-@tbl-kernel displays the rejection frequencies for the different estimators. @tbl-ar1-mean displays the average AR(1) coefficients of the residuals.
+@tbl-kernel displays the rejection frequencies for the different estimators, the average AR(1) slope coefficient of the residuals $\gamma_1$, the average BIC for two methods, and the average number of splines dropped.
+
+
+### BIC
+
+Hansen's BIC is estimated as $BIC_H=T\log(2\pi\hat{\sigma}^2_{e_l})+T+(k+1)\log(T)$ [@Hansen2020], while Damian's is estimated $BIC_D=T\log(\hat{\sigma}^2_{e_l})+k\log(T)$
 
 
 
 ```{r}
 #| label: tbl-kernel
-#| tbl-cap: Rejection frequencies for different variance estimators. 2,500 observations. 100 iterations.
+#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data. 250 observations. 1000 iterations.
+#| tbl-cap-location: bottom
 #| echo: false
 #| warning: false
 
-kernel_results <- read.csv("../Simulations/Products/crank_bs_ear1_sims_res_2500.csv")
+kernel_results <- read.csv("../Simulations/Products/crank_bs_ear1_sims_res.csv")
 
-# row_names <- c(
-#     " ",
-#     "HR",
-#     "SCPC",
-#     "0.01",
-#     "0.03",
-#     "0.05",
-#     "0.07",
-#     "0.01",
-#     "0.03",
-#     "0.05",
-#     "0.07"
-# )
+e_ar1_tbl <- read.csv("../Simulations/Products/crank_bs_ear1_sims_ar1.csv")
 
-row_names <- c(
+
+row_names_kernel <- c(
     # " ",
     "HR",
     "SCPC",
+    "C-SCPC",
     rep(
         c(
-            "0.015",
-            "0.030",
-            "0.050"
+            "Kernel-0.015",
+            "Kernel-0.030",
+            "Kernel-0.050"#,
+            # "Damian's"
             # "0.07"
         ),
-        9
+        1
+    ),
+        rep(
+        c(
+            "HR",
+            "Kernel-0.015",
+            "Kernel-0.030",
+            "Kernel-0.050",
+            "Damian's"
+            # "0.07"
+        ),
+        18
     )
 )
 
-col_names <- c(
-    "Estimator",
+row_names_ar1_kernel <- c(
+    rep(
+        "No splines",
+        4+2
+    ),
     rep(
         c(
-            "Cons.",
-            "$\\beta_1$"#,
-            # "$\\beta_2$"
+        "4 splines",
+        "12 splines",
+        "24 splines",
+        "36 splines",
+        "48 splines",
+        "64 splines",
+        "88 splines",
+        "102 splines",
+        "124 splines"
+        ),
+        each=5,
+        times =2
+    )
+)
+aux <- c(
+    rep(
+        "",
+        4+2
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        each = 45
+    )
+)
+kernel_id<-paste0(aux, row_names_ar1_kernel)
+
+table_kernel <- cbind(
+    aux,
+    row_names_ar1_kernel,
+    row_names_kernel, 
+    kernel_results, 
+    kernel_id
+)
+names(table_kernel)<- c(
+    "Order", "Qty.",
+    "Estimator",
+    "Cons.",
+    "$\\beta_1$",
+    "id"
+)
+
+
+row_names_ar1 <- c(
+    "No splines",
+    rep(
+        c(
+        "4 splines",
+        "12 splines",
+        "24 splines",
+        "36 splines",
+        "48 splines",
+        "64 splines",
+        "88 splines",
+        "102 splines",
+        "124 splines"
         ),
         2
     )
 )
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        each = 9
+    )
+)
+ar1_id<-paste0(aux2, row_names_ar1)
+table_ar1 <-cbind(
+    ar1_id,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "id",
+    "Cons2",
+    "$\\gamma_1$",
+    "Hansen's",
+    "Damian's",
+    "Dropped"
+)
+table<-merge(table_kernel,table_ar1, by="id",sort=FALSE)
 
-table <- cbind(row_names, kernel_results)
+# col_names <- c(
+#     "Estimator",
+#     rep(
+#         c(
+#             "Cons.",
+#             "$\\beta_1$"#,
+#             # "$\\beta_2$"
+#         ),
+#         2
+#     )
+# )
+
+# table <- cbind(row_names, kernel_results)
 
 kbl(
-    table, 
+    table[,-c(1,7)], #- id, 
     digits=3, 
     booktabs = TRUE,
-    col.names = col_names,
+    longtable = TRUE,
+    # col.names = col_names,
     # row.names = row_names,
     escape = F
     ) %>%
     add_header_above(
-        c(" ","Model 1"=2,"Model 2"=2)
+        c("B-Splines"=2,"Spatial data"=3," "=1,"BIC"=2)
     ) %>%
-    pack_rows(
-        "Kernel",3,5
+    add_header_above(
+        c(" "=5,"Residuals"=4)
     ) %>%
-    pack_rows(
-        "B-Splines order 1 (Step functions)",6,17, latex_align = "l", hline_after = TRUE
-    ) %>%
-    pack_rows(
-        "B-Splines order 2 (Triangles)",18,29, latex_align = "l", hline_after = TRUE
-    ) %>%
-    pack_rows(
-        "Kernel + B-S, 4 splines",6,8
-    ) %>%
-    pack_rows(
-        "Kernel + B-S, 12 splines",9,11
-    ) %>%
-    pack_rows(
-        "Kernel + B-S, 24 splines",12,14
-    ) %>%
-    pack_rows(
-        "Kernel + B-S, 36 splines",15,17
-    ) %>%
-    pack_rows(
-        "Kernel + B-S, 4 splines",18,20
-    ) %>%
-    pack_rows(
-        "Kernel + B-S, 12 splines",21,23
-    ) %>%
-    pack_rows(
-        "Kernel + B-S, 24 splines",24,26
-    ) %>%
-    pack_rows(
-        "Kernel + B-S, 36 splines",27,29
+    collapse_rows(
+        c(1:2,6:9),
+        latex_hline = "custom",
+        custom_latex_hline = 1:2,
+        valign = "top"#,
+        # row_group_label_position = "stack"
     ) #%>%
+    # pack_rows(
+    #     "Kernel",3,5
+    # ) %>%
+    # pack_rows(
+    #     "B-Splines order 1 (Step functions)",6,17, latex_align = "l", hline_after = TRUE
+    # ) %>%
+    # pack_rows(
+    #     "B-Splines order 2 (Triangles)",18,29, latex_align = "l", hline_after = TRUE
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 4 splines",6,8
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 12 splines",9,11
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 24 splines",12,14
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 36 splines",15,17
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 4 splines",18,20
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 12 splines",21,23
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 24 splines",24,26
+    # ) %>%
+    # pack_rows(
+    #     "Kernel + B-S, 36 splines",27,29
+    # ) #%>%
  
 
 
@@ -121,6 +237,8 @@ kbl(
 #| tbl-cap: Average coefficients of the AR(1) model for the residuals. Spatial data. 2500 obs. 100 iterations.
 #| echo: false
 #| warning: false
+#| eval: false
+#| include: false
 
 
 e_ar1_tbl <- read.csv("../Simulations/Products/crank_bs_ear1_sims_ar1_2500.csv")

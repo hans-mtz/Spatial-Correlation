@@ -15,5 +15,11 @@
 *.Rout
 *.log
 *.fdb_latexmk
+*.aux
+*.fls
+*.lof
+*.lot
+*.gz
+*.pdf
 # */*.RData
 # *.RData

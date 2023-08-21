@@ -4,6 +4,8 @@ format:
     pdf:
         documentclass: article
         colorlinks: true
+        include-in-header: packages.tex
+        keep-tex: true
 number-sections: true
 author: Hans Martinez
 date: today
@@ -29,24 +31,33 @@ options(
 
 ```
 
-## UPDATES {-}
+## Updates {-}
 
-- @tbl-grid-all updated. It now adjusts for the degrees of freedom and includes the results of the AR(1) estimation using the residuals.
+- Uniformly distributed locations: @tbl-kernel updated. Damian's BIC and Kernel distance. SCPC and C-SCPC rejection frequencies. Splines of high order. Average number of dropped splines.
+- Evenly distributed locations: @tbl-grid-all updated. Damian's BIC and Kernel distance.
 
+## To-Do {-}
 
-<!-- Evenly spaced -->
-{{< include sections/080-grid.qmd >}}
+- Evenly distributed locations: SCPC adjusting $\bar\rho$ to avoid crashing.
+- Power curves for SCPC method
+- Cluster version of Kernel estimator
+- Measurement error in the locations
+    a.	Get rejection freq.
+    b.	Plot distances (true vs. mismeasured)
 
-<!-- Kernel -->
-{{< include sections/055-kernel-m1v2.qmd >}}
-
-
-<!-- Locations and distances-->
-{{< include sections/090-locs.qmd >}}
 
 <!-- Kernel -->
 {{< include sections/050-kernel.qmd >}}
 
+<!-- Evenly spaced -->
+{{< include sections/080-grid.qmd >}}
+
+<!-- Locations and distances-->
+{{< include sections/090-locs.qmd >}}
+
+
+<!-- Kernel
+{{< include sections/055-kernel-m1v2.qmd >}}-->
 
 <!-- Step by step
 {{< include sections/005-step-by-step.qmd >}} -->

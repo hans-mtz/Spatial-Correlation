@@ -1,12 +1,4 @@
-## Next steps
-
-1.	Adding C-SCPC to the table (to have both)
-3.	Add measurement error
-    a.	Get rejection freq.
-    b.	Plot distances (true vs. mismeasured)
-
-
-## Miscellaneous
+## SCPC limitations
 
 Open questions to address in Spatial Correlation Principal Component (SCPC) [@Muller2022JBES; @Muller2022ECTA]:
 
@@ -14,9 +6,4 @@ Open questions to address in Spatial Correlation Principal Component (SCPC) [@Mu
 2. Can SCPC accommodate a vector of variables? A: Not currently. It only works for scalars. The authors discuss that the main challenge for the multivariate version of the SCPC is specifying the worst-case benchmark model and numerically determining the critical value. In the case of the C-SCPC, the challenge is to specify an appropriate multivariate extension of the heteroscedastic model foe $e_l$ given $e_l=x^s_la_l$.
 3. Does the method work if there exists measurement error in the locations?
 
-To do:
-
-1. Power curves for SCPC method
-1. Cluster version of Kernel estimator
-1. Measurement error in the locations
 

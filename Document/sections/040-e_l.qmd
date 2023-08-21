@@ -1,4 +1,4 @@
-## Covariance structure
+## DGP's covariance structure
 
 @fig-dist-cov to [-@fig-extras] show graphically the covariance structure of the DGP, in particular with respect to locations and distance.
 

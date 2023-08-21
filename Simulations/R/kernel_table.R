@@ -28,19 +28,18 @@ kernel_results <- read.csv("Simulations/Products/grid_sims_res.csv", na.strings=
 
 e_ar1_tbl <- read.csv("Simulations/Products/grid_sims_ar1.csv")
 
-
 row_names_kernel <- c(
     # " ",
-    "HR",
     # "SCPC",
     rep(
         c(
+            "HR",
             "Kernel-0.015",
             "Kernel-0.030",
             "Kernel-0.050"
             # "0.07"
         ),
-        15
+        19
     )
 )
 
@@ -53,13 +52,15 @@ row_names_ar1_kernel <- c(
         c(
         "4 splines",
         "12 splines",
+        "24 splines",
         "36 splines",
+        "48 splines",
         "64 splines",
         "88 splines",
         "102 splines",
         "124 splines"
         ),
-        each=3,
+        each=4,
         times =2
     )
 )
@@ -70,22 +71,13 @@ aux <- c(
     ),
     rep(
         c(
-            "Order 1 (Step fn.)-",
-            "Order 2 (Triangles)-"
+            "Order 1",
+            "Order 2"
         ),
-        each = 21
+        each = 36
     )
 )
 kernel_id<-paste0(aux, row_names_ar1_kernel)
-
-col_names <- c(
-    "B-Spline",
-    "Estimator",
-    "Cons.",
-    "$\\beta_1$",
-    "Cons.",
-    "$\\gamma_1$"
-)
 
 table_kernel <- cbind(
     aux,
@@ -95,7 +87,7 @@ table_kernel <- cbind(
     kernel_id
 )
 names(table_kernel)<- c(
-    "order","No. Splines",
+    "Spline order", "Spline qty.",
     "Estimator",
     "Cons.",
     "$\\beta_1$",
@@ -108,7 +100,9 @@ row_names_ar1 <- c(
         c(
         "4 splines",
         "12 splines",
+        "24 splines",
         "36 splines",
+        "48 splines",
         "64 splines",
         "88 splines",
         "102 splines",
@@ -124,10 +118,10 @@ aux2 <- c(
     ),
     rep(
         c(
-            "Order 1 (Step fn.)-",
-            "Order 2 (Triangles)-"
+            "Order 1",
+            "Order 2"
         ),
-        each = 7
+        each = 9
     )
 )
 ar1_id<-paste0(aux2, row_names_ar1)
@@ -137,8 +131,22 @@ table_ar1 <-cbind(
 )
 names(table_ar1)<-c(
     "id",
-    "Cons.",
-    "$\\gamma$"
+    "Cons2",
+    "$\\gamma$",
+    "BIC"
 )
 
 table<-merge(table_kernel,table_ar1, by="id",sort=FALSE)
+
+col_names <- c(
+    "Spline order",
+    "No. of splines",
+    "Estimator",
+    "Cons.",
+    "$\\beta_1$",
+    # "Cons.",
+    "$\\gamma$",
+    "BIC"
+)
+
+table[, -c(1,7)] |> head()
