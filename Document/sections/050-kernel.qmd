@@ -1,7 +1,7 @@
 ## Kernel estimator {#sec-kernel}
 
 
-I compare the results for the four different variance estimators, the HR, SCPC, C-SCPC, and Kernel. For the Kernel estimator, I try different cut-off distances. In addition, B-Splines of different order and quantities are introduced to help improve the rejection frequency of the Kernel estimator.
+I compare the results for the four different variance estimators, the HR, SCPC, C-SCPC, and Kernel. For the Kernel estimator, I try different cut-off distances. Damian's distance is two times the length of the spline. In addition, B-Splines of different order and quantities are introduced to help improve the rejection frequency of the Kernel estimator.
 
 I'm using one and two-order B-Splines (step functions and triangles). During the estimation, a spline was dropped if it contained one observation or less.
 
@@ -27,9 +27,9 @@ Hansen's BIC is estimated as $BIC_H=T\log(2\pi\hat{\sigma}^2_{e_l})+T+(k+1)\log(
 #| echo: false
 #| warning: false
 
-kernel_results <- read.csv("../Simulations/Products/crank_bs_ear1_sims_res.csv")
+kernel_results <- read.csv("../Simulations/Products/crank_bs_ear1_sims_res_dd2x.csv")
 
-e_ar1_tbl <- read.csv("../Simulations/Products/crank_bs_ear1_sims_ar1.csv")
+e_ar1_tbl <- read.csv("../Simulations/Products/crank_bs_ear1_sims_ar1_dd2x.csv")
 
 
 row_names_kernel <- c(

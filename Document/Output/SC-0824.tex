@@ -189,24 +189,23 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, enhanced, frame hidden, interior hidden, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, frame hidden, enhanced, borderline west={3pt}{0pt}{shadecolor}, interior hidden, breakable, sharp corners]}{\end{tcolorbox}}\fi
 
 \hypertarget{updates}{%
 \section*{Updates}\label{updates}}
 \addcontentsline{toc}{section}{Updates}
 
 \begin{itemize}
-
+\item
+  Table~\ref{tbl-kernel} and Table~\ref{tbl-grid-all} now display the
+  length of Damian's distance. Damian's distance is two times the length
+  of the spline in this iteration. Both tables now show the results in
+  intervals of 12 splines.
 \item
   Table~\ref{tbl-bic} displays the rejection frequencies for the optimal
   number of splines. The optimal number of splines was selected as the
   number of splines for which the OLS residuals produced the lowest
-  Hansen's BIC (Equation~\ref{eq-hansen-bic}) using a Matlab's minimizer.
-\item
-  Table~\ref{tbl-bic-grid} displays the rejection frequencies for the optimal
-  number of splines where the optimal number of splines was selected as the
-  number of splines for which the OLS residuals produced the lowest
-  Hansen's BIC (Equation~\ref{eq-hansen-bic}) using a coarse grid of the number of splines (5 to 90 splines, gaps of 5).
+  Hansen's BIC Equation~\ref{eq-hansen-bic}.
 \end{itemize}
 
 \hypertarget{to-do}{%
@@ -342,7 +341,7 @@ splines). }\tabularnewline
 \multicolumn{1}{c}{ } & \multicolumn{3}{c}{Spatial data} & \multicolumn{1}{c}{ } & \multicolumn{2}{c}{BIC} \\
 \cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){6-7}
 Splines & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's & Dropped\\
-\midrule \endhead
+\midrule
  & HR & 0.498 & 0.385 &  &  &  & \\
 
  & SCPC & 0.067 & 0.073 &  &  &  & \\
@@ -354,7 +353,7 @@ Splines & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's & Dro
  & Kernel 0.030 & 0.101 & 0.117 &  &  &  & \\
 
 \multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.080 & 0.114 & 0.135 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.770} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 708.622} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash -6.368} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
-\cmidrule{1-8} \pagebreak
+\cmidrule{1-8}
  & HR &  & 0.258 &  &  &  & \\
 
  & Kernel 0.015 &  & 0.119 &  &  &  & \\
@@ -470,7 +469,7 @@ with uniformly distributed locations. 250 observations. 1000 iterations. }\tabul
 \multicolumn{2}{c}{B-Splines} & \multicolumn{3}{c}{Spatial data} & \multicolumn{1}{c}{ } & \multicolumn{2}{c}{BIC} \\
 \cmidrule(l{3pt}r{3pt}){1-2} \cmidrule(l{3pt}r{3pt}){3-5} \cmidrule(l{3pt}r{3pt}){7-8}
 Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's & Dropped\\
-\midrule \endhead
+\midrule
  &  & HR & 0.498 & 0.385 &  &  &  & \\
 
  &  & SCPC & 0.067 & 0.073 &  &  &  & \\
@@ -483,7 +482,7 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's 
 
 \multirow[t]{-6}{*}{\raggedright\arraybackslash } & \multirow[t]{-6}{*}{\raggedright\arraybackslash No splines} & Kernel 0.080 & 0.114 & 0.135 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.770} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 708.622} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash -6.368} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
 \cmidrule{1-9}
-\multirow[t]{40}{*}{\raggedright\arraybackslash Order 1} &  & HR &  & 0.428 &  &  &  & \multirow[t]{25}{*}{\raggedleft\arraybackslash 0}\\
+ &  & HR &  & 0.428 &  &  &  & \\
 
  &  & Kernel 0.015 &  & 0.129 &  &  &  & \\
 
@@ -522,7 +521,7 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's 
  &  & Kernel 0.05 &  & 0.097 &  &  &  & \\
 
  & \multirow[t]{-5}{*}{\raggedright\arraybackslash 24 splines} & Damian's 0.087 &  & 0.130 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.588} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 680.585} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -34.406} & \\
-\cmidrule{2-8} \pagebreak
+\cmidrule{2-8}
  &  & HR &  & 0.269 &  &  &  & \\
 
  &  & Kernel 0.015 &  & 0.100 &  &  &  & \\
@@ -531,7 +530,7 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's 
 
  &  & Kernel 0.05 &  & 0.102 &  &  &  & \\
 
- & \multirow[t]{-5}{*}{\raggedright\arraybackslash 36 splines} & Damian's 0.057 &  & 0.116 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.469} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 671.021} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -43.970} & \\
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 36 splines} & Damian's 0.057 &  & 0.116 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.469} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 671.021} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -43.970} & \multirow[t]{-25}{*}{\raggedleft\arraybackslash 0}\\
 \cmidrule{2-9}
  &  & HR &  & 0.231 &  &  &  & \\
 
@@ -561,9 +560,9 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's 
 
  &  & Kernel 0.05 &  & 0.083 &  &  &  & \\
 
- & \multirow[t]{-5}{*}{\raggedright\arraybackslash 72 splines} & Damian's 0.028 &  & 0.058 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.175} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 702.936} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -12.055} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 12}\\
+\multirow[t]{-40}{*}{\raggedright\arraybackslash Order 1} & \multirow[t]{-5}{*}{\raggedright\arraybackslash 72 splines} & Damian's 0.028 &  & 0.058 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.175} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 702.936} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -12.055} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 12}\\
 \cmidrule{1-9}
-\multirow[t]{40}{*}{\raggedright\arraybackslash Order 2} &  & HR &  & 0.351 &  &  &  & \multirow[t]{30}{*}{\raggedleft\arraybackslash 0}\\
+ &  & HR &  & 0.351 &  &  &  & \\
 
  &  & Kernel 0.015 &  & 0.118 &  &  &  & \\
 
@@ -621,7 +620,7 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's 
 
  &  & Kernel 0.05 &  & 0.081 &  &  &  & \\
 
- & \multirow[t]{-5}{*}{\raggedright\arraybackslash 48 splines} & Damian's 0.085 &  & 0.107 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.252} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 600.864} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -114.127} & \\
+ & \multirow[t]{-5}{*}{\raggedright\arraybackslash 48 splines} & Damian's 0.085 &  & 0.107 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.252} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 600.864} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -114.127} & \multirow[t]{-30}{*}{\raggedleft\arraybackslash 0}\\
 \cmidrule{2-9}
  &  & HR &  & 0.204 &  &  &  & \\
 
@@ -641,7 +640,7 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's 
 
  &  & Kernel 0.05 &  & 0.073 &  &  &  & \\
 
- & \multirow[t]{-5}{*}{\raggedright\arraybackslash 72 splines} & Damian's 0.056 &  & 0.083 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.060} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 603.015} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -111.976} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 3}\\
+\multirow[t]{-40}{*}{\raggedright\arraybackslash Order 2} & \multirow[t]{-5}{*}{\raggedright\arraybackslash 72 splines} & Damian's 0.056 &  & 0.083 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.060} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 603.015} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -111.976} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 3}\\
 \bottomrule
 \end{longtable}
 
@@ -675,7 +674,7 @@ data with evenly distributed locations. 250 obs. 1000 iterations. }\tabularnewli
 \multicolumn{2}{c}{B-Splines} & \multicolumn{3}{c}{T.S. data} & \multicolumn{1}{c}{ } & \multicolumn{2}{c}{BIC} \\
 \cmidrule(l{3pt}r{3pt}){1-2} \cmidrule(l{3pt}r{3pt}){3-5} \cmidrule(l{3pt}r{3pt}){7-8}
 Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma$ & Hansen's & Damian's\\
-\midrule \endhead
+\midrule
  &  & HR & 0.522 & 0.344 &  &  & \\
 
  &  & Kernel 0.015 & 0.180 & 0.101 &  &  & \\
@@ -684,7 +683,7 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma$ & Hansen's & Damian's\\
 
 \multirow[t]{-4}{*}{\raggedright\arraybackslash } & \multirow[t]{-4}{*}{\raggedright\arraybackslash No splines} & Kernel 0.080 & 0.113 & 0.119 & \multirow[t]{-4}{*}{\raggedleft\arraybackslash 0.770} & \multirow[t]{-4}{*}{\raggedleft\arraybackslash 954.493} & \multirow[t]{-4}{*}{\raggedleft\arraybackslash 239.503}\\
 \cmidrule{1-8}
-\multirow[t]{40}{*}{\raggedright\arraybackslash Order 1} &  & HR &  & 0.372 &  &  & \\
+ &  & HR &  & 0.372 &  &  & \\
 
  &  & Kernel 0.015 &  & 0.125 &  &  & \\
 
@@ -733,7 +732,7 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma$ & Hansen's & Damian's\\
  &  & Kernel 0.05 &  & 0.081 &  &  & \\
 
  & \multirow[t]{-5}{*}{\raggedright\arraybackslash 36 splines} & Damian's 0.057 &  & 0.090 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.408} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 925.243} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 210.252}\\
-\cmidrule{2-8} \pagebreak
+\cmidrule{2-8}
  &  & HR &  & 0.161 &  &  & \\
 
  &  & Kernel 0.015 &  & 0.082 &  &  & \\
@@ -762,9 +761,9 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma$ & Hansen's & Damian's\\
 
  &  & Kernel 0.05 &  & 0.068 &  &  & \\
 
- & \multirow[t]{-5}{*}{\raggedright\arraybackslash 72 splines} & Damian's 0.028 &  & 0.055 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.029} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 980.039} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 265.048}\\
+\multirow[t]{-40}{*}{\raggedright\arraybackslash Order 1} & \multirow[t]{-5}{*}{\raggedright\arraybackslash 72 splines} & Damian's 0.028 &  & 0.055 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.029} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 980.039} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 265.048}\\
 \cmidrule{1-8}
-\multirow[t]{40}{*}{\raggedright\arraybackslash Order 2} &  & HR &  & 0.326 &  &  & \\
+ &  & HR &  & 0.326 &  &  & \\
 
  &  & Kernel 0.015 &  & 0.105 &  &  & \\
 
@@ -842,7 +841,7 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma$ & Hansen's & Damian's\\
 
  &  & Kernel 0.05 &  & 0.058 &  &  & \\
 
- & \multirow[t]{-5}{*}{\raggedright\arraybackslash 72 splines} & Damian's 0.056 &  & 0.064 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -0.059} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 902.928} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 187.938}\\
+\multirow[t]{-40}{*}{\raggedright\arraybackslash Order 2} & \multirow[t]{-5}{*}{\raggedright\arraybackslash 72 splines} & Damian's 0.056 &  & 0.064 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -0.059} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 902.928} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 187.938}\\
 \bottomrule
 \end{longtable}
 

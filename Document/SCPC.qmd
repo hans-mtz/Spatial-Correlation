@@ -6,6 +6,9 @@ format:
         colorlinks: true
         include-in-header: packages.tex
         keep-tex: true
+        resource-path: 
+            - "Simulations/Products"
+        latex-output-dir: Output
 number-sections: true
 author: Hans Martinez
 date: today
@@ -33,27 +36,34 @@ options(
 
 ## Updates {-}
 
-- Uniformly distributed locations: @tbl-kernel updated. Damian's BIC and Kernel distance. SCPC and C-SCPC rejection frequencies. Splines of high order. Average number of dropped splines.
-- Evenly distributed locations: @tbl-grid-all updated. Damian's BIC and Kernel distance.
+- @tbl-bic displays the rejection frequencies for the optimal number of splines. The optimal number of splines was selected as the number of splines for which the OLS residuals produced the lowest Hansen's BIC ([@eq-hansen-bic]).
+
+- @tbl-bic-grid displays the rejection frequencies for the optimal number of splines where the optimal number of splines was selected as the number of splines for which the OLS residuals produced the lowest Hansen's BIC ([@eq-hansen-bic]) using a coarse grid of the number of splines (5 to 90 splines, gaps of 5).
 
 ## To-Do {-}
 
 - Evenly distributed locations: SCPC adjusting $\bar\rho$ to avoid crashing.
-- Power curves for SCPC method
-- Cluster version of Kernel estimator
-- Measurement error in the locations
+- Power curves for the SCPC and C-SCPC methods.
+- Cluster version of Kernel estimator.
+- Measurement error in the locations.
     a.	Get rejection freq.
-    b.	Plot distances (true vs. mismeasured)
+    b.	Plot distances (true vs. mismeasured).
 
-
-<!-- Kernel -->
-{{< include sections/050-kernel.qmd >}}
 
 <!-- Evenly spaced -->
-{{< include sections/080-grid.qmd >}}
+{{< include sections/100-bic.qmd >}}
 
-<!-- Locations and distances-->
-{{< include sections/090-locs.qmd >}}
+<!-- Kernel -->
+{{< include sections/051-kernel.qmd >}}
+
+<!-- Evenly spaced -->
+{{< include sections/081-grid.qmd >}}
+
+
+
+
+<!-- Locations and distances
+{{< include sections/090-locs.qmd >}} -->
 
 
 <!-- Kernel
@@ -71,14 +81,14 @@ options(
 <!-- Intro -->
 {{< include sections/010-intro.qmd >}}
 
-<!-- Plots -->
-{{< include sections/040-e_l.qmd >}}
+<!-- Plots
+{{< include sections/040-e_l.qmd >}} -->
 
-<!-- Power -->
-{{< include sections/920-power.qmd >}}
+<!-- Power
+{{< include sections/920-power.qmd >}} -->
 
-<!-- Rejection prob -->
-{{< include sections/910-rej-prob.qmd >}}
+<!-- Rejection prob
+{{< include sections/910-rej-prob.qmd >}} -->
 
 <!-- Follow-up
 {{< include sections/900-followup.qmd >}}
@@ -88,8 +98,8 @@ options(
 <!-- Setting -->
 {{< include sections/030-setting.qmd >}}
 
-<!-- Worst case covariance function -->
-{{< include sections/800-worst-cov.qmd >}}
+<!-- Worst case covariance function
+{{< include sections/800-worst-cov.qmd >}} -->
 
 <!-- Lit Rev -->
 {{< include sections/00-lit-rev.qmd >}}

@@ -185,28 +185,27 @@
 
 \title{Spatial correlation}
 \author{Hans Martinez}
-\date{2023-08-24}
+\date{2023-08-23}
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, enhanced, frame hidden, interior hidden, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, borderline west={3pt}{0pt}{shadecolor}, interior hidden, breakable, sharp corners, frame hidden, boxrule=0pt]}{\end{tcolorbox}}\fi
 
 \hypertarget{updates}{%
 \section*{Updates}\label{updates}}
 \addcontentsline{toc}{section}{Updates}
 
 \begin{itemize}
-
+\item
+  Table~\ref{tbl-kernel} and Table~\ref{tbl-grid-all} now display the
+  length of Damian's distance. Damian's distance is two times the length
+  of the spline in this iteration. Both tables now show the results in
+  intervals of 12 splines.
 \item
   Table~\ref{tbl-bic} displays the rejection frequencies for the optimal
   number of splines. The optimal number of splines was selected as the
   number of splines for which the OLS residuals produced the lowest
-  Hansen's BIC (Equation~\ref{eq-hansen-bic}) using a Matlab's minimizer.
-\item
-  Table~\ref{tbl-bic-grid} displays the rejection frequencies for the optimal
-  number of splines where the optimal number of splines was selected as the
-  number of splines for which the OLS residuals produced the lowest
-  Hansen's BIC (Equation~\ref{eq-hansen-bic}) using a coarse grid of the number of splines (5 to 90 splines, gaps of 5).
+  Hansen's BIC Equation~\ref{eq-hansen-bic}.
 \end{itemize}
 
 \hypertarget{to-do}{%
@@ -234,186 +233,6 @@
     Plot distances (true vs.~mismeasured).
   \end{enumerate}
 \end{itemize}
-
-\hypertarget{bic-selection-of-spline-quantity}{%
-\section{BIC selection of spline
-quantity}\label{bic-selection-of-spline-quantity}}
-
-Table~\ref{tbl-bic} displays the rejection frequencies for the optimal
-number of splines. The optimal number of splines was selected as the
-number of splines for which the OLS residuals produced the lowest
-Hansen's BIC Equation~\ref{eq-hansen-bic}.
-
-\newpage
-
-\hypertarget{tbl-bic}{}
-\begin{longtable}[t]{llrrrrrr}
-\caption{\label{tbl-bic}Rejection frequencies for different variance estimators. Spatial data.
-Selecting the number of splines using Hansen's BIC. }\tabularnewline
-
-\toprule
-\multicolumn{4}{c}{ } & \multicolumn{4}{c}{Residuals} \\
-\cmidrule(l{3pt}r{3pt}){5-8}
-\multicolumn{1}{c}{ } & \multicolumn{3}{c}{Spatial data} & \multicolumn{1}{c}{ } & \multicolumn{2}{c}{BIC} \\
-\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){6-7}
-Splines & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's & Dropped\\
-\midrule \endhead
- & HR & 0.526 & 0.364 &  &  &  & \\
-
- & SCPC & 0.060 & 0.067 &  &  &  & \\
-
- & C-SCPC & 0.049 & 0.039 &  &  &  & \\
-
- & Kernel 0.015 & 0.134 & 0.104 &  &  &  & \\
-
- & Kernel 0.030 & 0.094 & 0.116 &  &  &  & \\
-
-\multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.080 & 0.096 & 0.143 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.773} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 709.900} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash -5.090} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
-\cmidrule{1-8}
- & HR &  & 0.252 &  &  &  & \\
-
- & Kernel 0.015 &  & 0.124 &  &  &  & \\
-
- & Kernel 0.030 &  & 0.109 &  &  &  & \\
-
- & Kernel 0.080 &  & 0.127 &  &  &  & \\
-
-\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 1} & Damian's &  & 0.135 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.357} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 635.231} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -79.760} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 1.122}\\
-\cmidrule{1-8}
- & HR &  & 0.216 &  &  &  & \\
-
- & Kernel 0.015 &  & 0.110 &  &  &  & \\
-
- & Kernel 0.030 &  & 0.087 &  &  &  & \\
-
- & Kernel 0.080 &  & 0.102 &  &  &  & \\
-
-\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 2} & Damian's &  & 0.144 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.163} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 573.211} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -141.779} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.514}\\
-\bottomrule
-\end{longtable}
-
-\begin{figure}
-
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{"../Simulations/Products/hist_n_splines_o1_bic_dd_2x.png"}
-
-}
-
-}
-
-\subcaption{\label{fig-bic-o1}Order 1}
-\end{minipage}%
-%
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{"../Simulations/Products/hist_n_splines_o2_bic_dd_2x.png"}
-
-}
-
-}
-
-\subcaption{\label{fig-bic-o2}Order 2}
-\end{minipage}%
-
-\caption{\label{fig-bic-nsplines}Distribution of the number of splines
-selected by the lowest BIC.}
-
-\end{figure}
-
-\hypertarget{tbl-bic-grid}{}
-\begin{longtable}[t]{llrrrrrr}
-\caption{\label{tbl-bic-grid}Rejection frequencies for different variance estimators. Spatial data.
-Selecting the number of splines using Hansen's BIC. The lowest BIC was
-found by a coarse grid of spline numbers (5 to 90, in steps of 5
-splines). }\tabularnewline
-
-\toprule
-\multicolumn{4}{c}{ } & \multicolumn{4}{c}{Residuals} \\
-\cmidrule(l{3pt}r{3pt}){5-8}
-\multicolumn{1}{c}{ } & \multicolumn{3}{c}{Spatial data} & \multicolumn{1}{c}{ } & \multicolumn{2}{c}{BIC} \\
-\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){6-7}
-Splines & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's & Dropped\\
-\midrule \endhead
- & HR & 0.498 & 0.385 &  &  &  & \\
-
- & SCPC & 0.067 & 0.073 &  &  &  & \\
-
- & C-SCPC & 0.055 & 0.054 &  &  &  & \\
-
- & Kernel 0.015 & 0.138 & 0.107 &  &  &  & \\
-
- & Kernel 0.030 & 0.101 & 0.117 &  &  &  & \\
-
-\multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.080 & 0.114 & 0.135 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.770} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 708.622} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash -6.368} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
-\cmidrule{1-8} \pagebreak
- & HR &  & 0.258 &  &  &  & \\
-
- & Kernel 0.015 &  & 0.119 &  &  &  & \\
-
- & Kernel 0.030 &  & 0.110 &  &  &  & \\
-
- & Kernel 0.080 &  & 0.125 &  &  &  & \\
-
-\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 1} & Damian's &  & 0.124 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.323} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 631.914} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -83.077} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 3.365}\\
-\cmidrule{1-8}
- & HR &  & 0.225 &  &  &  & \\
-
- & Kernel 0.015 &  & 0.104 &  &  &  & \\
-
- & Kernel 0.030 &  & 0.101 &  &  &  & \\
-
- & Kernel 0.080 &  & 0.121 &  &  &  & \\
-
-\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 2} & Damian's &  & 0.160 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.117} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 564.398} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -150.593} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 1.854}\\
-\bottomrule
-\end{longtable}
-
-\begin{figure}
-
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{"../Simulations/Products/hist_n_splines_o1_bic_grid.png"}
-
-}
-
-}
-
-\subcaption{\label{fig-bic-o1-grid}Order 1}
-\end{minipage}%
-%
-\begin{minipage}[t]{0.50\linewidth}
-
-{\centering 
-
-\raisebox{-\height}{
-
-\includegraphics{"../Simulations/Products/hist_n_splines_o2_bic_grid.png"}
-
-}
-
-}
-
-\subcaption{\label{fig-bic-o2-grid}Order 2}
-\end{minipage}%
-
-\caption{\label{fig-bic-nsplines-grid}Distribution of the number of
-splines selected by the lowest BIC using a grid with intervals of 5
-splines.}
-
-\end{figure}
 
 \hypertarget{sec-kernel}{%
 \section{Kernel estimator}\label{sec-kernel}}
@@ -448,6 +267,11 @@ different estimators, the average AR(1) slope coefficient of the
 residuals \(\gamma_1\), the average BIC for two methods, and the average
 number of splines dropped.
 
+Table~\ref{tbl-bic} displays the rejection frequencies for the optimal
+number of splines. The optimal number of splines was selected as the
+number of splines for which the OLS residuals produced the lowest
+Hansen's BIC Equation~\ref{eq-hansen-bic}.
+
 \hypertarget{bic}{%
 \subsection{BIC}\label{bic}}
 
@@ -460,7 +284,7 @@ while Damian's BIC is defined as
 \(BIC_D=T\log(\hat{\sigma}^2_{e_l})+k\log(T)\).
 
 \hypertarget{tbl-kernel}{}
-\begin{longtable}[t]{lllrrrrrr}
+\begin{longtable}[l]{lllrrrrrr}
 \caption{\label{tbl-kernel}Rejection frequencies for different variance estimators. Spatial data
 with uniformly distributed locations. 250 observations. 1000 iterations. }\tabularnewline
 
@@ -522,7 +346,7 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's 
  &  & Kernel 0.05 &  & 0.097 &  &  &  & \\
 
  & \multirow[t]{-5}{*}{\raggedright\arraybackslash 24 splines} & Damian's 0.087 &  & 0.130 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.588} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 680.585} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -34.406} & \\
-\cmidrule{2-8} \pagebreak
+\cmidrule{2-8}
  &  & HR &  & 0.269 &  &  &  & \\
 
  &  & Kernel 0.015 &  & 0.100 &  &  &  & \\
@@ -645,6 +469,52 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's 
 \bottomrule
 \end{longtable}
 
+\hypertarget{tbl-bic}{}
+\begin{longtable}[t]{llrrrrrr}
+\caption{\label{tbl-bic}Rejection frequencies for different variance estimators. Spatial data.
+Selecting the number of splines using Hansen's BIC. }\tabularnewline
+
+\toprule
+\multicolumn{4}{c}{ } & \multicolumn{4}{c}{Residuals} \\
+\cmidrule(l{3pt}r{3pt}){5-8}
+\multicolumn{1}{c}{ } & \multicolumn{3}{c}{Spatial data} & \multicolumn{1}{c}{ } & \multicolumn{2}{c}{BIC} \\
+\cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){6-7}
+Splines & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's & Dropped\\
+\midrule
+ & HR & 0.526 & 0.364 &  &  &  & \\
+
+ & SCPC & 0.060 & 0.067 &  &  &  & \\
+
+ & C-SCPC & 0.049 & 0.039 &  &  &  & \\
+
+ & Kernel 0.015 & 0.134 & 0.104 &  &  &  & \\
+
+ & Kernel 0.030 & 0.094 & 0.116 &  &  &  & \\
+
+\multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.080 & 0.096 & 0.143 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.773} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 709.900} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash -5.090} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
+\cmidrule{1-8}
+ & HR &  & 0.252 &  &  &  & \\
+
+ & Kernel 0.015 &  & 0.124 &  &  &  & \\
+
+ & Kernel 0.030 &  & 0.109 &  &  &  & \\
+
+ & Kernel 0.080 &  & 0.127 &  &  &  & \\
+
+\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 1} & Damian's &  & 0.135 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.357} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 635.231} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -79.760} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 1.122}\\
+\cmidrule{1-8}
+ & HR &  & 0.216 &  &  &  & \\
+
+ & Kernel 0.015 &  & 0.110 &  &  &  & \\
+
+ & Kernel 0.030 &  & 0.087 &  &  &  & \\
+
+ & Kernel 0.080 &  & 0.102 &  &  &  & \\
+
+\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 2} & Damian's &  & 0.144 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.163} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 573.211} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -141.779} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.514}\\
+\bottomrule
+\end{longtable}
+
 \hypertarget{evenly-spaced-locations-time-series}{%
 \section{Evenly spaced locations (time
 series)}\label{evenly-spaced-locations-time-series}}
@@ -663,6 +533,8 @@ evenly distributed locations. In addition, the table also displays
 \(\gamma_1\), the average slope coefficient of an AR(1) model using the
 residuals of the OLS regression for every iteration, and the BIC for two
 methods as described in Section~\ref{sec-kernel}.
+
+\newpage
 
 \hypertarget{tbl-grid-all}{}
 \begin{longtable}[t]{lllrrrrr}
@@ -733,7 +605,7 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma$ & Hansen's & Damian's\\
  &  & Kernel 0.05 &  & 0.081 &  &  & \\
 
  & \multirow[t]{-5}{*}{\raggedright\arraybackslash 36 splines} & Damian's 0.057 &  & 0.090 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.408} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 925.243} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 210.252}\\
-\cmidrule{2-8} \pagebreak
+\cmidrule{2-8}
  &  & HR &  & 0.161 &  &  & \\
 
  &  & Kernel 0.015 &  & 0.082 &  &  & \\
@@ -743,7 +615,7 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma$ & Hansen's & Damian's\\
  &  & Kernel 0.05 &  & 0.079 &  &  & \\
 
  & \multirow[t]{-5}{*}{\raggedright\arraybackslash 48 splines} & Damian's 0.043 &  & 0.078 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.270} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 935.469} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 220.478}\\
-\cmidrule{2-8}
+\cmidrule{2-8} \pagebreak
  &  & HR &  & 0.114 &  &  & \\
 
  &  & Kernel 0.015 &  & 0.044 &  &  & \\
@@ -874,6 +746,94 @@ Distance & $\bar\rho$\\
 \end{tabular}
 \end{table}
 
+\hypertarget{locations-and-distances-new}{%
+\section{Locations and distances
+(NEW)}\label{locations-and-distances-new}}
+
+Figure~\ref{fig-hist-loc} shows the histogram of 250 locations when they
+are uniformly distributed and evenly spaced, and the histogram of the
+corresponding pairwise distances. Figure~\ref{fig-hist-loc-x10} shows
+the same graphs but for 2,500 locations.
+
+As the number of locations increases, the plots of the uniformly
+distributed locations look more like the ones that are evenly spaced.
+
+\begin{figure}
+
+\begin{minipage}[t]{\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_loc.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-loc}Locations}
+\end{minipage}%
+\newline
+\begin{minipage}[t]{\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_dist.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-dist}Distances}
+\end{minipage}%
+
+\caption{\label{fig-hist-loc}Histograms of uniformly distributed
+locations (blue) and evenly-spaced (time-series) locations (red) and
+their corresponding pairwise distances. 250 locations.}
+
+\end{figure}
+
+\begin{figure}
+
+\begin{minipage}[t]{\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_loc_2500.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-loc-x10}Locations}
+\end{minipage}%
+\newline
+\begin{minipage}[t]{\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_dist_2500.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-dist-x10}Distances}
+\end{minipage}%
+
+\caption{\label{fig-hist-loc-x10}Histograms of uniformly distributed
+locations (blue) and evenly-spaced (time-series) locations (red) and
+their corresponding pairwise distances. 2,500 locations.}
+
+\end{figure}
+
 \hypertarget{scpc-limitations}{%
 \section{SCPC limitations}\label{scpc-limitations}}
 
@@ -885,7 +845,7 @@ Open questions to address in Spatial Correlation Principal Component
 \tightlist
 \item
   What's the ``worst case'' covariance matrix? How does that work? A:
-  See section on that \textbf{?@sec-worstcov}
+  See section on that Section~\ref{sec-worstcov}
 \item
   Can SCPC accommodate a vector of variables? A: Not currently. It only
   works for scalars. The authors discuss that the main challenge for the
@@ -898,6 +858,196 @@ Open questions to address in Spatial Correlation Principal Component
   Does the method work if there exists measurement error in the
   locations?
 \end{enumerate}
+
+\hypertarget{dgps-covariance-structure}{%
+\section{DGP's covariance structure}\label{dgps-covariance-structure}}
+
+Figure~\ref{fig-dist-cov} to \ref{fig-extras} show graphically the
+covariance structure of the DGP, in particular with respect to locations
+and distance.
+
+\begin{figure}
+
+{\centering \includegraphics{SCPC_files/figure-pdf/fig-dist-cov-1.pdf}
+
+}
+
+\caption{\label{fig-dist-cov}Distance vs Covariance}
+
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics{SCPC_files/figure-pdf/fig-cov-hist-1.pdf}
+
+}
+
+\caption{\label{fig-cov-hist}Covariance histogram}
+
+\end{figure}
+
+\begin{figure}
+
+\begin{minipage}[t]{0.50\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{SCPC_files/figure-pdf/fig-extras-1.pdf}
+
+}
+
+}
+
+\subcaption{\label{fig-extras-1}Distance}
+\end{minipage}%
+%
+\begin{minipage}[t]{0.50\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{SCPC_files/figure-pdf/fig-extras-2.pdf}
+
+}
+
+}
+
+\subcaption{\label{fig-extras-2}Locations}
+\end{minipage}%
+
+\caption{\label{fig-extras}Distance and location histograms}
+
+\end{figure}
+
+\hypertarget{power-of-the-test-using-scpc}{%
+\section{Power of the test using
+SCPC}\label{power-of-the-test-using-scpc}}
+
+Müller and Watson (2022b) discuss briefly the power of the tests using
+their variance estimator. They discuss the difference in the power of
+the tests using the conditional and the unconditional SCPC, the
+trade-off in the length of the CI and the number of the principal
+components used to calculate \(\sigma_{SCPC}\), and the expected length
+of the CI as a function of \(\bar\rho_{max}\).
+
+\hypertarget{conditional-vs.-unconditional-scpc-p.8}{%
+\subsection{Conditional vs.~Unconditional SCPC
+(p.8)}\label{conditional-vs.-unconditional-scpc-p.8}}
+
+The authors argue that the size-adjusted power (average length of the
+confidence intervals) of SCPC and C-SCPC (conditional) are identical
+because both methods are based on the same \emph{t}-statistic and only
+differ in their critical values. The authors argue that the differences
+in the average confidence interval lengths of both methods are small.
+They based their argument on an unreported comparison realized for only
+one experiment design (p.~8).
+
+The authors acknowledge that the size-adjusted Kernel method is
+``somewhat'' more efficient than SCPC and C-SCPC. The authors argue
+however that this is not a reason to prefer the Kernel method because in
+practice the ``size-adjustment that adjust for the larger bias in the
+\(\hat\sigma_{K}^2\)'' is not feasible.
+
+\hypertarget{trade-off-in-choosing-q-p.4}{%
+\subsection{Trade-off in choosing q
+(p.4)}\label{trade-off-in-choosing-q-p.4}}
+
+The authors discuss that there is a trade-off between the number of
+principal components \(q\) and the expected length of the 95\%
+confidence intervals. In particular, for a fixed critical value, the
+expected length of the confidence interval falls as \(q\) increases, but
+larger \(q\) requires larger critical values to control coverage. The
+authors suggest that minimizing the expected 95\% confidence interval
+length under the iid benchmark yields a value of \(q\) that works well
+for a range of values of \(c\).
+
+\hypertarget{expected-length-of-confidence-intervals-as-a-function-of-barrho_max-p.1112}{%
+\subsection{\texorpdfstring{Expected length of confidence intervals as a
+function of \(\bar\rho_{max}\)
+(p.11,12)}{Expected length of confidence intervals as a function of \textbackslash bar\textbackslash rho\_\{max\} (p.11,12)}}\label{expected-length-of-confidence-intervals-as-a-function-of-barrho_max-p.1112}}
+
+The authors also discuss what happens to the rejection frequencies and
+confidence intervals if the researcher misjudges the spatial correlation
+\(\bar\rho_{max}\). For example, if the researcher provides a
+significantly low average pairwise correlation \(\bar\rho_{max}=0.03\)
+when the true is actually higher \(\bar\rho=0.10\), the authors argue
+that the average rejection increases but marginally. The authors
+performed a set of 14 experiments with different DGPs, first with the
+true \(\bar\rho=0.03\) and then increased to 0.10, but they kept the
+provided \(\bar\rho_{max}=0.03\). They observed that the average
+rejection frequency increased from 0.04 to 0.07. However, when you look
+at the supplemental materials the rejection frequency for some of the
+experiments went up even above 0.4.
+
+The authors also discuss how the confidence intervals increase if the
+researcher gives a higher value of \(\bar\rho_{max}\) than the true
+\(\bar\rho\). The authors compare the CI generated by the C-SCPC method
+to the length of the oracle \(\pm 1.96\) interval length when the
+\(\bar\rho_{max}={0.1, 0.03,0.01,0.003}\). The authors find that the
+average C-SCPC CI is 1.55, 1.2, 1.1, and 1.05 times larger than the
+oracle \(\pm 1.96\) CI. The authors conclude that the cost of the
+default value of \(\bar\rho=0.03\) is about a 20\% increase in the CI
+lengths.
+
+\hypertarget{summary-of-the-scpc-stata-output}{%
+\section{\texorpdfstring{Summary of the \texttt{scpc} stata
+output}{Summary of the scpc stata output}}\label{summary-of-the-scpc-stata-output}}
+
+Description of the stata output from the post-estimation command
+\texttt{scpc}:
+
+\begin{itemize}
+\tightlist
+\item
+  Coefficient
+\item
+  S.E.: The \texttt{scpc} post-estimation command displays the standard
+  error as the SCPC estimated variance using eq. 5 modified as follows
+  \(\hat\sigma_{SCPC}/(\sqrt{n}\sqrt{q})\) (line 559,
+  \texttt{scpc.ado}).
+\item
+  t: The command reports the t-statistic, using eq. 4, but using the
+  SCPC variance estimator (eq. 5)
+\item
+  ``P\textgreater\textbar t\textbar{}'': This value corresponds to the
+  maximum rejection probability for the adjusted t-statistic. The
+  maximum rejection probability, \(\mathbb{P}_{c\ge c_{max}}(\cdot)\),
+  is the maximum of the rejection probabilities computed for a range of
+  \(c\) values, that go from \(c_{min}\) to \(c_{max}\). \(c_{min}\) is
+  provided by the researcher as a maximum average pairwise correlation,
+  \(\bar\rho\). The default is \(\bar\rho=0.03\). \(c_{max}\) is the
+  maximum value for which size control is checked. In the code,
+  \(c_{max}\) corresponds to a minimum average pairwise correlation of
+  \(0.00001\) (line 478, \texttt{scpc.ado}).
+\item
+  Confidence interval: The \texttt{scpc} command computes the CI using
+  the critical value that corresponds to a \(5\%\) maximum rejection
+  probability. For the range of \(c\) values \(\in[c_{min},c_{max}]\),
+  the algorithm searches for the critical value that corresponds to a
+  maximum rejection probability \(\alpha=0.05\), the desred size of the
+  test.
+\end{itemize}
+
+\hypertarget{computing-scpcs-rejection-probability}{%
+\section{Computing SCPC's rejection
+probability}\label{computing-scpcs-rejection-probability}}
+
+\(\mathbb{P}_{c\ge c_{max}}(\cdot)\) computes the maximum rejection
+probability for a range of \(c\) values that go from \(c_{min}\)
+---which corresponds to \(\hat\rho\)--- to \(c_{max}\), a minimum value
+for which size control is checked. In the code, this value corresponds
+to a minimum average pairwise correlation of \(0.00001\) (line 478,
+\texttt{scpc.ado}).
+
+The rejection probability is computed using a Gaussian quadrature and
+the eigenvalues of \(\Omega(c)\) (pag. 12), for a given critical value.
+
+Then, the critical value is selected such that the rejection probability
+is the desired, for example, \(\alpha=0.05\) (line 144,
+\texttt{scpc.ado})
 
 \hypertarget{the-setting}{%
 \section{The setting}\label{the-setting}}
@@ -932,6 +1082,22 @@ researcher desires a test that controls size for values of
 \(\Sigma(c_{min})\) is the \textbf{worst case} covariance matrix in the
 sense that it induces the largest value of \(\sigma^2\) among all
 \(\Sigma(c)\) with \(\bar{\rho}\le \bar{\rho}_{max}\)
+
+\hypertarget{sec-worstcov}{%
+\section{SCPC's worst case covariance function}\label{sec-worstcov}}
+
+Müller and Watson (2022b) assume a functional form for the covariance
+function of the error term that depends on a single parameter. This
+single parameter has a unique value for a specific average pairwise
+correlation. The researcher has to provide before the estimation, a
+maximum average pairwise correlation. Then, because the average pairwise
+correlation is a decreasing function of the parameter of the covariance
+function, this parameter induces the largest value of the error variance
+for the given average pairwise correlation, according to the authors. In
+the STATA and MATLAB codes, this parameter is set to 0.03 in both, like
+in their paper. The authors provide instructions on how to adjust the
+parameter in the help section of the STATA code. In the MATLAB code, a
+parameter can be adjusted before estimations.
 
 \hypertarget{literature-review}{%
 \section{Literature Review}\label{literature-review}}

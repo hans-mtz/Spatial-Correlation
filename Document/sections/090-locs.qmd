@@ -1,7 +1,7 @@
 ## Locations and distances (NEW)
 
 
-@fig-loc shows the histogram of 250 locations when they are uniformly distributed and evenly spaced. @fig-dist shows the histogram of the corresponding pairwise distances. @fig-hist-loc-x10 shows the same graphs but for 2,500 locations.
+@fig-hist-loc shows the histogram of 250 locations when they are uniformly distributed and evenly spaced, and the histogram of the corresponding pairwise distances. @fig-hist-loc-x10 shows the same graphs but for 2,500 locations.
 
 As the number of locations increases, the plots of the uniformly distributed locations look more like the ones that are evenly spaced.
 

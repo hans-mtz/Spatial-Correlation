@@ -1,0 +1,202 @@
+## Kernel estimator {#sec-kernel}
+
+I compare the results for the four different variance estimators, the HR, SCPC, C-SCPC, and Kernel. For the Kernel estimator, I try different cut-off distances. Damian's distance is two times the length of the spline.
+
+In addition, B-Splines of different order and quantities are introduced to help improve the rejection frequency of the Kernel estimator.
+
+I'm using one and two-order B-Splines (step functions and triangles). *During the estimation, a spline was dropped if it contained one observation or less.*
+
+In the DGP, $y=\beta_0 + \beta_1 x_l +e_l$, where $e_l\sim\mathcal{G}_{exp}(c_{\bar\rho})$ and $X\sim[1 \;\mathcal{G}_{exp}(c_{\bar\rho})]$. The true parameters are $\beta=(1, 1.5)'$, and the average pairwise correlation is $\bar\rho=0.03$. 
+
+For every ols regression, I estimated an AR(1) model using the residuals $\hat{e}_{l+1}=\gamma_0+\gamma_1 \hat{e}_l + u_l$, after sorting from closest to zero to closest to one. 
+
+I used 1000 iterations and 250 observations to calculate the rejection frequencies and the average AR(1) coefficients of the residuals.
+
+@tbl-kernel displays the rejection frequencies for the different estimators, the average AR(1) slope coefficient of the residuals $\gamma_1$, the average BIC for two methods, and the average number of splines dropped.
+
+### BIC
+
+Hansen's BIC [@Hansen2020] is estimated as 
+$$
+BIC_H=T\log(2\pi\hat{\sigma}^2_{e_l})+T+(k+1)\log(T)
+$$ {#eq-hansen-bic}
+
+while Damian's BIC is defined as $BIC_D=T\log(\hat{\sigma}^2_{e_l})+k\log(T)$.
+
+
+
+```{r}
+#| label: tbl-kernel
+#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data with uniformly distributed locations. 250 observations. 1000 iterations.
+#| tbl-cap-location: bottom
+#| echo: false
+#| warning: false
+
+kernel_results <- read.csv("../Simulations/Products/crank_bs_ear1_sims_res_dd_2x.csv")
+
+e_ar1_tbl <- read.csv("../Simulations/Products/crank_bs_ear1_sims_ar1_dd_2x.csv")
+
+dist_v_tbl <- read.csv("../Simulations/Products/crank_bs_ear1_sims_dist_v_dd_2x.csv")
+
+
+aux0<- c(
+    # " ",
+    "HR",
+    "SCPC",
+    "C-SCPC",
+    rep(
+        c(
+            "Kernel ",
+            "Kernel ",
+            "Kernel "#,
+            # "Damian's"
+            # "0.07"
+        ),
+        1
+    ),
+        rep(
+        c(
+            "HR",
+            "Kernel ",
+            "Kernel ",
+            "Kernel ",
+            "Damian's "
+            # "0.07"
+        ),
+        16
+    )
+)
+
+dist_tbl <- c(
+    rep(
+        "",
+        3
+    ),
+    "0.015",
+    "0.030",
+    "0.080",
+    gsub("NaN"," ", round(dist_v_tbl[[1]],3))
+)
+row_names_kernel <- paste0(aux0,dist_tbl)
+
+row_names_ar1_kernel <- c(
+    rep(
+        "No splines",
+        4+2
+    ),
+    rep(
+        c(
+        "4 splines",
+        "8 splines",
+        "12 splines",
+        "24 splines",
+        "36 splines",
+        "48 splines",
+        "60 splines",
+        "72 splines"#,
+        # "102 splines",
+        # "124 splines"
+        ),
+        each=5,
+        times =2
+    )
+)
+aux <- c(
+    rep(
+        "",
+        4+2
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        each = 40
+    )
+)
+kernel_id<-paste0(aux, row_names_ar1_kernel)
+
+table_kernel <- cbind(
+    aux,
+    row_names_ar1_kernel,
+    row_names_kernel, 
+    kernel_results, 
+    kernel_id
+)
+names(table_kernel)<- c(
+    "Order", "Qty.",
+    "Estimator",
+    "Cons.",
+    "$\\beta_1$",
+    "id"
+)
+
+
+row_names_ar1 <- c(
+    "No splines",
+    rep(
+        c(
+        "4 splines",
+        "8 splines",
+        "12 splines",
+        "24 splines",
+        "36 splines",
+        "48 splines",
+        "60 splines",
+        "72 splines"
+        ),
+        2
+    )
+)
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        each = 8
+    )
+)
+ar1_id<-paste0(aux2, row_names_ar1)
+table_ar1 <-cbind(
+    ar1_id,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "id",
+    "Cons2",
+    "$\\gamma_1$",
+    "Hansen's",
+    "Damian's",
+    "Dropped"
+)
+table<-merge(table_kernel,table_ar1, by="id",sort=FALSE)
+
+kbl(
+    table[,-c(1,7)], #- id, 
+    digits=3, 
+    booktabs = TRUE,
+    longtable = TRUE,
+    # col.names = col_names,
+    # row.names = row_names,
+    escape = F
+    ) %>%
+    add_header_above(
+        c("B-Splines"=2,"Spatial data"=3," "=1,"BIC"=2)
+    ) %>%
+    add_header_above(
+        c(" "=5,"Residuals"=4)
+    ) %>%
+    collapse_rows(
+        c(1:2,6:9),
+        latex_hline = "custom",
+        custom_latex_hline = 1:2,
+        valign = "top"#,
+        # row_group_label_position = "stack"
+    ) 
+
+```
