@@ -125,14 +125,14 @@ kbl(
 
 
 
-::: {#fig-bic-nsplines layout-ncol=2}
+<!-- ::: {#fig-bic-nsplines layout-ncol=2}
 
 ![Order 1]("../Simulations/Products/hist_n_splines_o1_bic_dd_2x.png"){#fig-bic-o1}
 
 ![Order 2]("../Simulations/Products/hist_n_splines_o2_bic_dd_2x.png"){#fig-bic-o2}
 
 Distribution of the number of splines selected by the lowest BIC.
-:::
+::: -->
 
 ```{r}
 #| label: tbl-bic-grid
@@ -256,11 +256,11 @@ kbl(
 
 
 
-::: {#fig-bic-nsplines-grid layout-ncol=2}
+::: {#fig-bic-nsplines layout-ncol=2}
 
-![Order 1]("../Simulations/Products/hist_n_splines_o1_bic_grid.png"){#fig-bic-o1-grid}
+![Order 1]("../Simulations/Products/hist_n_splines_o1.png"){#fig-bic-o1-grid}
 
-![Order 2]("../Simulations/Products/hist_n_splines_o2_bic_grid.png"){#fig-bic-o2-grid}
+![Order 2]("../Simulations/Products/hist_n_splines_o2.png"){#fig-bic-o2-grid}
 
-Distribution of the number of splines selected by the lowest BIC using a grid with intervals of 5 splines.
+Distribution of the number of splines selected by the lowest BIC. Blue: using Matlab's `fminbnd`. Red: using a grid with intervals of 5 splines from 5 to 90.
 :::

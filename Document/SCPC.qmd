@@ -40,6 +40,8 @@ options(
 
 - @tbl-bic-grid displays the rejection frequencies for the optimal number of splines where the optimal number of splines was selected as the number of splines for which the OLS residuals produced the lowest Hansen's BIC ([@eq-hansen-bic]) using a coarse grid of the number of splines (5 to 90 splines, gaps of 5).
 
+- @fig-bic-nsplines show the distribution of the number of splines chosen by the minimizer routine and the grid.
+
 ## To-Do {-}
 
 - Evenly distributed locations: SCPC adjusting $\bar\rho$ to avoid crashing.

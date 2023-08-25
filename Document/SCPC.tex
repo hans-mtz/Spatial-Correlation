@@ -189,24 +189,27 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, enhanced, frame hidden, interior hidden, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, enhanced, sharp corners, interior hidden, borderline west={3pt}{0pt}{shadecolor}, breakable, boxrule=0pt]}{\end{tcolorbox}}\fi
 
 \hypertarget{updates}{%
 \section*{Updates}\label{updates}}
 \addcontentsline{toc}{section}{Updates}
 
 \begin{itemize}
-
 \item
   Table~\ref{tbl-bic} displays the rejection frequencies for the optimal
   number of splines. The optimal number of splines was selected as the
   number of splines for which the OLS residuals produced the lowest
-  Hansen's BIC (Equation~\ref{eq-hansen-bic}) using a Matlab's minimizer.
+  Hansen's BIC (Equation~\ref{eq-hansen-bic}).
 \item
-  Table~\ref{tbl-bic-grid} displays the rejection frequencies for the optimal
-  number of splines where the optimal number of splines was selected as the
-  number of splines for which the OLS residuals produced the lowest
-  Hansen's BIC (Equation~\ref{eq-hansen-bic}) using a coarse grid of the number of splines (5 to 90 splines, gaps of 5).
+  Table~\ref{tbl-bic-grid} displays the rejection frequencies for the
+  optimal number of splines where the optimal number of splines was
+  selected as the number of splines for which the OLS residuals produced
+  the lowest Hansen's BIC (Equation~\ref{eq-hansen-bic}) using a coarse
+  grid of the number of splines (5 to 90 splines, gaps of 5).
+\item 
+  Figure~\ref{fig-bic-nsplines} show the distribution of the number of splines
+  chosen by the minimizer routine and the grid.
 \end{itemize}
 
 \hypertarget{to-do}{%
@@ -243,9 +246,7 @@ Table~\ref{tbl-bic} displays the rejection frequencies for the optimal
 number of splines. The optimal number of splines was selected as the
 number of splines for which the OLS residuals produced the lowest
 Hansen's BIC Equation~\ref{eq-hansen-bic}.
-
 \newpage
-
 \hypertarget{tbl-bic}{}
 \begin{longtable}[t]{llrrrrrr}
 \caption{\label{tbl-bic}Rejection frequencies for different variance estimators. Spatial data.
@@ -257,77 +258,77 @@ Selecting the number of splines using Hansen's BIC. }\tabularnewline
 \multicolumn{1}{c}{ } & \multicolumn{3}{c}{Spatial data} & \multicolumn{1}{c}{ } & \multicolumn{2}{c}{BIC} \\
 \cmidrule(l{3pt}r{3pt}){2-4} \cmidrule(l{3pt}r{3pt}){6-7}
 Splines & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's & Dropped\\
-\midrule \endhead
- & HR & 0.526 & 0.364 &  &  &  & \\
+\midrule
+ & HR & 0.498 & 0.385 &  &  &  & \\
 
- & SCPC & 0.060 & 0.067 &  &  &  & \\
+ & SCPC & 0.067 & 0.073 &  &  &  & \\
 
- & C-SCPC & 0.049 & 0.039 &  &  &  & \\
+ & C-SCPC & 0.055 & 0.054 &  &  &  & \\
 
- & Kernel 0.015 & 0.134 & 0.104 &  &  &  & \\
+ & Kernel 0.015 & 0.138 & 0.107 &  &  &  & \\
 
- & Kernel 0.030 & 0.094 & 0.116 &  &  &  & \\
+ & Kernel 0.030 & 0.101 & 0.117 &  &  &  & \\
 
-\multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.080 & 0.096 & 0.143 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.773} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 709.900} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash -5.090} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
+\multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.080 & 0.114 & 0.135 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.770} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 708.622} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash -6.368} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
 \cmidrule{1-8}
- & HR &  & 0.252 &  &  &  & \\
+ & HR &  & 0.274 &  &  &  & \\
 
- & Kernel 0.015 &  & 0.124 &  &  &  & \\
+ & Kernel 0.015 &  & 0.121 &  &  &  & \\
 
- & Kernel 0.030 &  & 0.109 &  &  &  & \\
+ & Kernel 0.030 &  & 0.105 &  &  &  & \\
 
- & Kernel 0.080 &  & 0.127 &  &  &  & \\
+ & Kernel 0.080 &  & 0.117 &  &  &  & \\
 
-\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 1} & Damian's &  & 0.135 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.357} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 635.231} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -79.760} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 1.122}\\
+\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 1} & Damian's &  & 0.123 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.364} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 639.784} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -75.207} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 2.584}\\
 \cmidrule{1-8}
- & HR &  & 0.216 &  &  &  & \\
+ & HR &  & 0.231 &  &  &  & \\
 
- & Kernel 0.015 &  & 0.110 &  &  &  & \\
+ & Kernel 0.015 &  & 0.130 &  &  &  & \\
 
- & Kernel 0.030 &  & 0.087 &  &  &  & \\
+ & Kernel 0.030 &  & 0.114 &  &  &  & \\
 
- & Kernel 0.080 &  & 0.102 &  &  &  & \\
+ & Kernel 0.080 &  & 0.129 &  &  &  & \\
 
-\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 2} & Damian's &  & 0.144 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.163} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 573.211} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -141.779} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.514}\\
+\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 2} & Damian's &  & 0.161 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.162} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 570.141} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -144.850} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.853}\\
 \bottomrule
 \end{longtable}
 
-\begin{figure}
+% \begin{figure}
 
-\begin{minipage}[t]{0.50\linewidth}
+% \begin{minipage}[t]{0.50\linewidth}
 
-{\centering 
+% {\centering 
 
-\raisebox{-\height}{
+% \raisebox{-\height}{
 
-\includegraphics{"../Simulations/Products/hist_n_splines_o1_bic_dd_2x.png"}
+% \includegraphics{"../Simulations/Products/hist_n_splines_o1_bic_dd_2x.png"}
 
-}
+% }
 
-}
+% }
 
-\subcaption{\label{fig-bic-o1}Order 1}
-\end{minipage}%
-%
-\begin{minipage}[t]{0.50\linewidth}
+% \subcaption{\label{fig-bic-o1}Order 1}
+% \end{minipage}%
+% %
+% \begin{minipage}[t]{0.50\linewidth}
 
-{\centering 
+% {\centering 
 
-\raisebox{-\height}{
+% \raisebox{-\height}{
 
-\includegraphics{"../Simulations/Products/hist_n_splines_o2_bic_dd_2x.png"}
+% \includegraphics{"../Simulations/Products/hist_n_splines_o2_bic_dd_2x.png"}
 
-}
+% }
 
-}
+% }
 
-\subcaption{\label{fig-bic-o2}Order 2}
-\end{minipage}%
+% \subcaption{\label{fig-bic-o2}Order 2}
+% \end{minipage}%
 
-\caption{\label{fig-bic-nsplines}Distribution of the number of splines
-selected by the lowest BIC.}
+% \caption{\label{fig-bic-nsplines}Distribution of the number of splines
+% selected by the lowest BIC.}
 
-\end{figure}
+% \end{figure}
 
 \hypertarget{tbl-bic-grid}{}
 \begin{longtable}[t]{llrrrrrr}
@@ -385,7 +386,7 @@ Splines & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's & Dro
 
 \raisebox{-\height}{
 
-\includegraphics{"../Simulations/Products/hist_n_splines_o1_bic_grid.png"}
+\includegraphics{"../Simulations/Products/hist_n_splines_o1.png"}
 
 }
 
@@ -400,7 +401,7 @@ Splines & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's & Dro
 
 \raisebox{-\height}{
 
-\includegraphics{"../Simulations/Products/hist_n_splines_o2_bic_grid.png"}
+\includegraphics{"../Simulations/Products/hist_n_splines_o2.png"}
 
 }
 
@@ -409,8 +410,8 @@ Splines & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's & Dro
 \subcaption{\label{fig-bic-o2-grid}Order 2}
 \end{minipage}%
 
-\caption{\label{fig-bic-nsplines-grid}Distribution of the number of
-splines selected by the lowest BIC using a grid with intervals of 5
+\caption{\label{fig-bic-nsplines}Distribution of the number of
+splines selected by the lowest BIC. Blue: using Matlab's \emph{fminbnd}. Red: using a grid with intervals of 5
 splines.}
 
 \end{figure}
