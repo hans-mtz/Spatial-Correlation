@@ -1,0 +1,158 @@
+## Principal components
+
+@tbl-pc displays the rejection frequencies for the optimal number of the Principal Components of the 64 order 1 and order 2 B-Splines evaluated on the locations. The optimal number of PCs was selected using BIC. PCs were sorted before being selected, so the PCs with more information were always picked first.
+
+
+```{r}
+#| label: tbl-pc
+#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data. PCs of the 64 B-Spline on locations for orders 1 and 2 were used to reduce error correlation. PCs were selected using BIC.
+#| echo: false
+#| warning: false
+#| eval: true
+#| include: true
+
+kernel_results <- read.csv("../Simulations/Products/opt_pc_spline_res_pc_bic.csv")
+
+e_ar1_tbl <- read.csv("../Simulations/Products/opt_pc_spline_ar1_pc_bic.csv")
+
+notes <- c(rep("",5),"$^a$",rep("",3),"$^b$",rep("",4),"$^c$","$^d$")
+row_names_kernel<- c(
+    "HR",
+    "SCPC",
+    "C-SCPC",
+    rep(
+        c(
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.050"#,
+            # "Damian's"
+        ),
+        1
+    ),
+        rep(
+        c(
+            "HR",
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.050",
+            "Damian's "
+
+        ),
+        2
+    )
+)
+row_names_kernel_notes <-paste0(row_names_kernel,notes)
+aux <- c(
+    rep(
+        "",
+        4+2
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        each = 5
+    )
+)
+
+table_kernel <- cbind(
+    aux,
+    row_names_kernel_notes, 
+    kernel_results#, 
+)
+names(table_kernel)<- c(
+    "Splines",
+    "Estimator",
+    "Cons.",
+    "$\\beta_1$",
+    "S.E. Cons,",
+    "S.E. $\\beta_1$"
+)
+
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        1
+    )
+)
+
+table_ar1 <-cbind(
+    aux2,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "Splines",
+    "Cons2",
+    "$\\gamma_1$",
+    "Hansen's",
+    "Damian's",
+    "Dropped"
+)
+table<-merge(table_kernel,table_ar1, by="Splines",sort=FALSE)
+
+kbl(
+    table[,-c(5,7)], #- id, 
+    digits=3,#c(3,3,5,3), 
+    booktabs = TRUE,
+    longtable = TRUE,
+    # col.names = col_names,
+    # row.names = row_names,
+    escape = F,
+    position = "p"#,
+    # format.args = list(scientific=TRUE)
+    ) %>%
+    add_header_above(
+        c(" "=1,"Spatial data"=4," "=1,"BIC"=2)
+    ) %>%
+    add_header_above(
+        c(" "=5,"Residuals"=4)
+    ) %>%
+    collapse_rows(
+        c(1,(5+1):(8+1)),
+        latex_hline = "custom",
+        custom_latex_hline = 1,
+        valign = "top"#,
+        # row_group_label_position = "stack"
+    ) %>%
+    footnote(
+        general = "Average S.E. are all real except where indicated.",
+        alphabet = c(
+            "No splines Kernel (0.050) S.E. 0.11563-8.2203e-05i;",
+            "Order 1 splines Kernel (0.050) S.E. 0.12952-6.8368e-05i",
+            "Order 2 splines Kernel (0.050) S.E. 0.10616-1.9795e-05i",
+            "Order 2 splines Kernel (Damian's cutoff) S.E. 0.10335-0.00014435i"
+            )
+    )
+
+
+
+```
+
+
+
+::: {#fig-gamma-pc layout-ncol=2}
+
+![Order 1]("../Simulations/Products/hist_gamma_o1_pc_bic.png"){#fig-gamma-pc-o1-spatial}
+
+![Order 2]("../Simulations/Products/hist_gamma_o2_pc_bic.png"){#fig-gamma-pc-o2-spatial}
+
+Distribution of the residuals' AR(1) slope $\gamma$ in simulations. Selecting the number of PCs of the 64 B-Spline for orders 1 and 2 using BIC. Spatial data.
+:::
+
+::: {#fig-pc layout-ncol=2}
+
+![Order 1]("../Simulations/Products/hist_pc_o1_pc_bic.png"){#fig-pc-o1-spatial}
+
+![Order 2]("../Simulations/Products/hist_pc_o2_pc_bic.png"){#fig-pc-o2-spatial}
+
+Distribution of the number of PCs selected in simulations. Selecting the number of PCs of the 64 B-Spline for orders 1 and 2 using BIC. Spatial data.
+:::
+

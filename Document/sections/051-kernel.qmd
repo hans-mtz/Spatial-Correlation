@@ -74,7 +74,7 @@ dist_tbl <- c(
     ),
     "0.015",
     "0.030",
-    "0.080",
+    "0.050",
     gsub("NaN"," ", round(dist_v_tbl[[1]],3))
 )
 row_names_kernel <- paste0(aux0,dist_tbl)

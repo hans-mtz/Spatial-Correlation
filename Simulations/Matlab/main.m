@@ -7,15 +7,17 @@
 % % ----------------------------
 if batchStartupOptionUsed
   addpath(genpath('./SCPC_Matlab_Implementation_20211123'))
-  % addpath(genpath('./21200057'))
+  addpath(genpath('./21200057'))
 end
 
 % run('crank_bs_sims_chol')
 % run('crank_bs_ear1_sims')
 % run('grid_sims')
 % run('e_ar1')
-run('bic_spline_sims')
-run('plot_nspline_hist_by_min_bic')
+% run('bic_spline_sims')
+% run('optimal_spline_sims')
+run('optimal_pc_spline_sims')
+% run('plot_nspline_hist_by_min_bic')
 
 
 

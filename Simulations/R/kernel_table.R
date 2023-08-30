@@ -584,3 +584,125 @@ names(table_ar1)<-c(
 )
 
 table<-merge(table_kernel,table_ar1, by="id",sort=FALSE)
+
+##
+
+
+kernel_results <- read.csv("Simulations/Products/bic_spline_sims_res_ts_gamma.csv")
+
+e_ar1_tbl <- read.csv("Simulations/Products/bic_spline_sims_ar1_ts_gamma.csv")
+
+notes <- c(rep("",7),"$^a$",rep("",5),"$^b$")
+
+kernel_results$SE.Beta<- paste0(kernel_results$SE.Beta,notes)
+
+row_names_kernel<- c(
+    "HR",
+    # "SCPC",
+    # "C-SCPC",
+    rep(
+        c(
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.080"#,
+            # "Damian's"
+        ),
+        1
+    ),
+        rep(
+        c(
+            "HR",
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.080",
+            "Damian's "
+
+        ),
+        2
+    )
+)
+# row_names_kernel_notes <-paste0(row_names_kernel,notes)
+aux <- c(
+    rep(
+        "",
+        4#+2
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        each = 5
+    )
+)
+
+table_kernel <- cbind(
+    aux,
+    row_names_kernel, 
+    kernel_results#, 
+)
+names(table_kernel)<- c(
+    "Splines",
+    "Estimator",
+    "Cons.",
+    "$\\beta_1$",
+    "S.E. Cons,",
+    "S.E. $\\beta_1$"
+)
+
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        1
+    )
+)
+
+table_ar1 <-cbind(
+    aux2,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "Splines",
+    "Cons2",
+    "$\\gamma_1$",
+    "Hansen's",
+    "Damian's",
+    "Dropped"
+)
+table<-merge(table_kernel,table_ar1, by="Splines",sort=FALSE)
+
+kbl(
+    table[,-c(5,7)], #- id, 
+    digits=3,
+    booktabs = TRUE,
+    longtable = TRUE,
+    # col.names = col_names,
+    # row.names = row_names,
+    escape = F,
+    position = "p"#,
+    # format.args = list(scientific=TRUE)
+    ) %>%
+    add_header_above(
+        c(" "=1,"Spatial data"=4," "=1,"BIC"=2)
+    ) %>%
+    add_header_above(
+        c(" "=5,"Residuals"=4)
+    ) %>%
+    collapse_rows(
+        c(1,(5+1):(8+1)),
+        latex_hline = "custom",
+        custom_latex_hline = 1,
+        valign = "top"#,
+        # row_group_label_position = "stack"
+    ) %>%
+    footnote(
+        general = "Average S.E. are all real where indicated.",
+        alphabet = c("S.E. 0.10471-4.0992e-05i","S.E. 0.090848-0.00013041i")
+    )

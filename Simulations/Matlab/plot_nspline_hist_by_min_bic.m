@@ -1,8 +1,13 @@
 %% Loading %%
 clear;
-excercise = 'dd_2x';%'grid';%
+excercise = 'gamma';%'dd_2x';%'grid';%
 
 load(['bic_spline_' excercise '.mat'])
+
+%% AR(1) gama histogram %%
+
+histogram(e_ar1_betas(:,2,1));
+
 
 %% Plotting %%
 fprintf('Plotting\n');
@@ -19,15 +24,12 @@ clear;
 excercise = 'dd_2x';%'grid';%
 
 load(['bic_spline_' excercise '.mat'])
-
 splines_dd_2x = splines_array;
 
 clear splines_array;
-
 excercise = 'grid';%
 
 load(['bic_spline_' excercise '.mat'])
-
 splines_grid = splines_array;
 
 %% 

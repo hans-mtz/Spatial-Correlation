@@ -3,7 +3,7 @@ clear;
 
 rng(333);
 
-L= [0.015 0.05 0.1 0.5 1];
+L= [0.015 0.05 0.1 0.5 0.9 1];
 T=250;
 beta = [1; 1.5];
 
@@ -22,6 +22,7 @@ D = getdistmat(s,0);
 % S = repmat(u_hat,1,T);
 
 %% Pairwise correlation %%
+
 rho_bar = NaN(length(L),1);
 k=1;
 for l=L
@@ -34,7 +35,7 @@ for i=1:T
 
     for j=index
         if i~=j
-            rho = [rho u_hat(i)*u_hat(j)];
+            rho = [rho (u_hat(i)*u_hat(j)-mu)];
             
         end
     end
@@ -49,6 +50,7 @@ rho_bar
 
 tbl = cat(2,L',rho_bar)
 
-% % 
+%% Saving %%
+
 writetable(array2table(tbl),'../Products/pairwise_corr.csv');
 

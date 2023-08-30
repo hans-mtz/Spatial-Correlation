@@ -36,14 +36,21 @@ options(
 
 ## Updates {-}
 
-- @tbl-bic displays the rejection frequencies for the optimal number of splines. The optimal number of splines was selected as the number of splines for which the OLS residuals produced the lowest Hansen's BIC ([@eq-hansen-bic]).
+- @tbl-pc shows the rejection frequencies for the optimal number of PCs of the 64 B-Spline for orders 1 and 2. Selecting the number of PCs using BIC. Spatial DGP.
 
-- @tbl-bic-grid displays the rejection frequencies for the optimal number of splines where the optimal number of splines was selected as the number of splines for which the OLS residuals produced the lowest Hansen's BIC ([@eq-hansen-bic]) using a coarse grid of the number of splines (5 to 90 splines, gaps of 5).
+- @fig-gamma-pc shows the distribution of $\gamma$, the residuals AR(1) slope coefficient. @fig-pc shows the distribution of the number of PCs selected in the simulations.
 
-- @fig-bic-nsplines show the distribution of the number of splines chosen by the minimizer routine and the grid.
+- @tbl-gamma displays the rejection frequencies for the optimal number of splines for a spatial DGP. The optimal number of splines was selected as the number of splines for which the OLS residuals produced the lowest AR(1) slope coefficient. @tbl-gamma-ts displays the rejection frequencies for this same exercise but using time series DGP.
+
+- @fig-gamma-nsplines and [-@fig-gamma-nsplines-ts] display the distribution of the residuals' AR(1) slope coefficient that was used to select the number of splines; for the spatial and time series DGPs.
+
+- @tbl-bic-ts displays the rejection frequencies for the optimal number of splines where the optimal number of splines was selected as the number of splines for which the OLS residuals produced the lowest Hansen's BIC ([@eq-hansen-bic]) using a time series DGP.
+
+- @fig-gamma-bic and [-@fig-gamma-bic-ts] show the distribution of the residuals' AR(1) slope coefficient that resulted from selecting the optimal number of splines using the BIC criteria, for the spatial and time series DGPs.
 
 ## To-Do {-}
 
+- Use Principal components from a matrix of 64 splines, coarse grid 4, 12,..., 64, select the number of PC's using BIC after sorting them
 - Evenly distributed locations: SCPC adjusting $\bar\rho$ to avoid crashing.
 - Power curves for the SCPC and C-SCPC methods.
 - Cluster version of Kernel estimator.
@@ -52,7 +59,13 @@ options(
     b.	Plot distances (true vs. mismeasured).
 
 
-<!-- Evenly spaced -->
+<!-- PC -->
+{{< include sections/120-pc.qmd >}}
+
+<!-- AR(1) n spline selection-->
+{{< include sections/110-gamma.qmd >}}
+
+<!-- BIC n spline selection-->
 {{< include sections/100-bic.qmd >}}
 
 <!-- Kernel -->
@@ -81,7 +94,9 @@ options(
 <!-- {{< include sections/020-replication.qmd >}} -->
 
 <!-- Intro -->
-{{< include sections/010-intro.qmd >}}
+<!---
+ {{< include sections/010-intro.qmd >}} 
+--->
 
 <!-- Plots
 {{< include sections/040-e_l.qmd >}} -->

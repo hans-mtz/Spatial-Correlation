@@ -1,21 +1,21 @@
-## BIC selection of spline quantity
+## $\gamma$ selection of spline quantity
 
-@tbl-bic displays the rejection frequencies for the optimal number of splines. The optimal number of splines was selected as the number of splines for which the OLS residuals produced the lowest Hansen's BIC [@eq-hansen-bic].
+@tbl-gamma displays the rejection frequencies for the optimal number of splines. The optimal number of splines was selected as the number of splines for which the OLS residuals produced the lowest AR(1) slope.
 
 
 ```{r}
-#| label: tbl-bic
-#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data. Selecting the number of splines using Hansen's BIC.
+#| label: tbl-gamma
+#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data. Selecting the number of splines using the lowest AR(1) correlation in residuals.
 #| echo: false
 #| warning: false
 #| eval: true
 #| include: true
 
-kernel_results <- read.csv("../Simulations/Products/bic_spline_sims_res_dd_2x.csv")
+kernel_results <- read.csv("../Simulations/Products/bic_spline_sims_res_gamma.csv")
 
-e_ar1_tbl <- read.csv("../Simulations/Products/bic_spline_sims_ar1_dd_2x.csv")
+e_ar1_tbl <- read.csv("../Simulations/Products/bic_spline_sims_ar1_gamma.csv")
 
-
+notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
 row_names_kernel<- c(
     "HR",
     "SCPC",
@@ -41,7 +41,7 @@ row_names_kernel<- c(
         2
     )
 )
-
+row_names_kernel_notes <-paste0(row_names_kernel,notes)
 aux <- c(
     rep(
         "",
@@ -58,14 +58,16 @@ aux <- c(
 
 table_kernel <- cbind(
     aux,
-    row_names_kernel, 
+    row_names_kernel_notes, 
     kernel_results#, 
 )
 names(table_kernel)<- c(
     "Splines",
     "Estimator",
     "Cons.",
-    "$\\beta_1$"#,
+    "$\\beta_1$",
+    "S.E. Cons,",
+    "S.E. $\\beta_1$"
 )
 
 aux2 <- c(
@@ -97,27 +99,33 @@ names(table_ar1)<-c(
 table<-merge(table_kernel,table_ar1, by="Splines",sort=FALSE)
 
 kbl(
-    table[,-5], #- id, 
-    digits=3, 
+    table[,-c(5,7)], #- id, 
+    digits=3,#c(3,3,5,3), 
     booktabs = TRUE,
     longtable = TRUE,
     # col.names = col_names,
     # row.names = row_names,
-    escape = F
+    escape = F,
+    position = "p"#,
+    # format.args = list(scientific=TRUE)
     ) %>%
     add_header_above(
-        c(" "=1,"Spatial data"=3," "=1,"BIC"=2)
+        c(" "=1,"Spatial data"=4," "=1,"BIC"=2)
     ) %>%
     add_header_above(
-        c(" "=4,"Residuals"=4)
+        c(" "=5,"Residuals"=4)
     ) %>%
     collapse_rows(
-        c(1,5:8),
+        c(1,(5+1):(8+1)),
         latex_hline = "custom",
         custom_latex_hline = 1,
         valign = "top"#,
         # row_group_label_position = "stack"
-    ) 
+    ) %>%
+    footnote(
+        general = "Average S.E. are all real except where indicated.",
+        alphabet = c("No splines Kernel (0.050) S.E. 0.11563-8.2203e-05i;", "Order 2 splines Kernel (Damian's cutoff) S.E. 0.11404-8.9653e-05i")
+    )
 
 
 
@@ -125,30 +133,31 @@ kbl(
 
 
 
-::: {#fig-gamma-bic layout-ncol=2}
+::: {#fig-gamma-nsplines layout-ncol=2}
 
-![Order 1]("../Simulations/Products/hist_gamma_o1_grid.png"){#fig-bic-o1}
+![Order 1]("../Simulations/Products/hist_gamma_o1_bic_gamma.png"){#fig-gamma-o1-spatial}
 
-![Order 2]("../Simulations/Products/hist_gamma_o2_grid.png"){#fig-bic-o2}
+![Order 2]("../Simulations/Products/hist_gamma_o2_bic_gamma.png"){#fig-gamma-o2-spatial}
 
-Distribution of the residuals' AR(1) slope $\gamma$ in simulations. Selecting the number of splines using Hansen's BIC. Spatial data.
-::: 
+Distribution of the residuals' AR(1) slope $\gamma$ in simulations. Selecting the number of splines using residuals' AR(1) slopes. Spatial data.
+:::
 
 
 
 ```{r}
-#| label: tbl-bic-ts
-#| tbl-cap: Rejection frequencies for different variance estimators. Time series data. Selecting the number of splines using the lowest Hansen's BIC.
+#| label: tbl-gamma-ts
+#| tbl-cap: Rejection frequencies for different variance estimators. Time series data. Selecting the number of splines using the lowest AR(1) correlation in residuals.
 #| echo: false
 #| warning: false
 #| eval: true
 #| include: true
 
-kernel_results <- read.csv("../Simulations/Products/bic_spline_sims_res_ts_bic.csv")
+kernel_results <- read.csv("../Simulations/Products/bic_spline_sims_res_ts_gamma.csv")
 
-e_ar1_tbl <- read.csv("../Simulations/Products/bic_spline_sims_ar1_ts_bic.csv")
+e_ar1_tbl <- read.csv("../Simulations/Products/bic_spline_sims_ar1_ts_gamma.csv")
 
-notes <- c(rep("",8),"$^a$",rep("",2),"$^b$","","$^c$")
+notes <- c(rep("",7),"$^a$",rep("",5),"$^b$")
+
 row_names_kernel<- c(
     "HR",
     # "SCPC",
@@ -233,7 +242,7 @@ table<-merge(table_kernel,table_ar1, by="Splines",sort=FALSE)
 
 kbl(
     table[,-c(5,7)], #- id, 
-    digits=3,#c(3,3,5,3), 
+    digits=3,
     booktabs = TRUE,
     longtable = TRUE,
     # col.names = col_names,
@@ -243,7 +252,7 @@ kbl(
     # format.args = list(scientific=TRUE)
     ) %>%
     add_header_above(
-        c(" "=1,"T.S. data"=4," "=1,"BIC"=2)
+        c(" "=1,"Time series data"=4," "=1,"BIC"=2)
     ) %>%
     add_header_above(
         c(" "=5,"Residuals"=4)
@@ -257,7 +266,7 @@ kbl(
     ) %>%
     footnote(
         general = "Average S.E. are all real except where indicated.",
-        alphabet = c("Order 1 Kernel (Damian's cutoff) S.E. 0.090117-0.00036245i", "Order 2 Kernel (0.030) S.E. 0.084676-2.0017e-05i", "Order 2 Kernel (Damian's cutoff) 0.076621-0.00076652i")
+        alphabet = c("Order 1 Splines Kernel (0.050) S.E. 0.10471-4.0992e-05i", "Order 2 Splines Kernel (Damian's cutoff) S.E. 0.090848-0.00013041i")
     )
 
 
@@ -266,11 +275,11 @@ kbl(
 
 
 
-::: {#fig-gamma-bic-ts layout-ncol=2}
+::: {#fig-gamma-nsplines-ts layout-ncol=2}
 
-![Order 1]("../Simulations/Products/hist_gamma_o1_bic_ts_bic.png"){#fig-bic-ts-o1}
+![Order 1]("../Simulations/Products/hist_gamma_o1_bic_ts_gamma.png"){#fig-gamma-o1-ts}
 
-![Order 2]("../Simulations/Products/hist_gamma_o2_bic_ts_bic.png"){#fig-bic-ts-o2}
+![Order 2]("../Simulations/Products/hist_gamma_o2_bic_ts_gamma.png"){#fig-gamma-o2-ts}
 
-Distribution of the residuals' AR(1) slope $\gamma$ in simulations. Selecting the number of splines using Hansen's BIC. Time series data.
+Distribution of the residuals' AR(1) slope $\gamma$ in simulations. Selecting the number of splines using residuals' AR(1) slopes $\gamma$. Time series data.
 :::

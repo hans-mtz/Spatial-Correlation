@@ -81,10 +81,10 @@ for r=1:N_reps
     rej_hr = abs(t_stat_hr) > 1.96;
     rej_freq_m_i(r,:,1) = rej_hr;
     
-%         [se_scpc, cv_scpc] = scpc_var(u_hat,beta_hat,s,X,rho_bar,0.95,0);
-%         t_stat_scpc = H_0./se_scpc;
-%         rej_scpc = abs(t_stat_scpc) > abs(cv_scpc);
-%         rej_freq_m_i(r,:,2) = rej_scpc; 
+    [se_scpc, cv_scpc] = scpc_var(u_hat,beta_hat,s,X,rho_bar,0.95,0);
+    t_stat_scpc = H_0./se_scpc;
+    rej_scpc = abs(t_stat_scpc) > abs(cv_scpc);
+    rej_freq_m_i(r,:,2) = rej_scpc; 
 
     % Kernel for l\in L
     D_mat = getdistmat(s,false);
@@ -157,9 +157,9 @@ ear1_table = array2table(...
 ear1_table
 
 %% Saving results %%
-save(['grid_' excercise '.mat'])
-
-writetable(results_table,['../Products/grid_sims_res_' excercise '.csv']);
-writetable(ear1_table,['../Products/grid_sims_ar1_' excercise '.csv']);
-writetable(array2table(cutoff_dist_vec) ,['../Products/grid_sims_dist_v_' excercise '.csv']);
-
+% save(['grid_' excercise '.mat'])
+% 
+% writetable(results_table,['../Products/grid_sims_res_' excercise '.csv']);
+% writetable(ear1_table,['../Products/grid_sims_ar1_' excercise '.csv']);
+% writetable(array2table(cutoff_dist_vec) ,['../Products/grid_sims_dist_v_' excercise '.csv']);
+% 
