@@ -19,8 +19,8 @@ end
 %--------------Estimators---------------%
 %HR, Kernel, Kernel + splines, SCPC
 rng(333) % Setting seed
-excercise = 'pc_bic_ts';%'ts_gamma';%'dd_2x';%'grid';
-grid = 1; % 0 for fminbnd; otherwise for 5:5:90 grid
+excercise = 'pc_bic_ts_ci';%'pc_bic_spa';%'pc_bic';
+% grid = 1; % 0 for fminbnd; otherwise for 5:5:90 grid
 method = 'bic'; % 'bic' for Hansen's BIC; otherwise for min residuals' AR(1) slope 
 spatial = 0; % 1 s ~ U(0,1); 0 s ~ [1:T]./T
 q_max = 64; %Number of splines to obtain the PC
@@ -36,11 +36,12 @@ cholesky_flag = 'chol';
 N_order_splines = 2;
 
 N_cutoffs = length(L);
-if spatial==1
-    a=3;
-else
-    a=1;
-end
+% if spatial==1
+%     a=3;
+% else
+%     a=1;
+% end
+a=3;
 N_estimators = (a+N_cutoffs)+(2+N_cutoffs)*N_order_splines; 
 N_ols = 1+N_order_splines;
 
@@ -54,11 +55,14 @@ end
 
 %% Loop
 rej_freq = NaN(k,N_estimators);
-avg_se = NaN(k,N_estimators);
+avg_cv = NaN(k,2);
+avg_ci = NaN(k,N_estimators);
 avg_e_ar1 = NaN(5,N_ols);
 t_stat_array = NaN(N_reps,k, N_estimators);
 num_array = NaN(N_reps,k, N_estimators);
 den_array = NaN(N_reps,k, N_estimators);
+ci_array = NaN(N_reps,k, N_estimators);
+cv_array = NaN(N_reps,k,2);
 rej_freq_m_i = NaN(N_reps,k,N_estimators);
 e_ar1_betas = NaN(N_reps,5,N_ols);
 pc_array = NaN(N_reps,N_order_splines+2);
@@ -109,26 +113,31 @@ for r=1:N_reps
     t_stat_array(r,:,1) = t_stat_hr;
     num_array(r,:,1) = H_0;
     den_array(r,:,1) = se_hr;
+    ci_array(r,:,1) = 2.*abs(se_hr).*1.96;
 
-    if spatial==1
-        t_stat_scpc = H_0./se_scpc;
-        rej_scpc = abs(t_stat_scpc) > abs(cv_scpc);
-        rej_freq_m_i(r,:,2) = rej_scpc;
-        
-        t_stat_array(r,:,2) = t_stat_scpc;
-        num_array(r,:,2) = H_0;
-        den_array(r,:,2) = se_scpc;
+%     if spatial==1
+    t_stat_scpc = H_0./se_scpc;
+    rej_scpc = abs(t_stat_scpc) > abs(cv_scpc);
+    rej_freq_m_i(r,:,2) = rej_scpc;
 
-        rej_cscpc = abs(t_stat_scpc) > abs(cv_cscpc);
-        rej_freq_m_i(r,:,3) = rej_cscpc;
-        
-        t_stat_array(r,:,3) = t_stat_scpc;
-        num_array(r,:,3) = H_0;
-        den_array(r,:,3) = se_scpc;
-        i=4;
-    else
-        i=2;
-    end
+    t_stat_array(r,:,2) = t_stat_scpc;
+    num_array(r,:,2) = H_0;
+    den_array(r,:,2) = se_scpc;
+    cv_array(r,:,1) = cv_scpc;
+    ci_array(r,:,2) = 2.*abs(se_scpc).*abs(cv_scpc);
+
+    rej_cscpc = abs(t_stat_scpc) > abs(cv_cscpc);
+    rej_freq_m_i(r,:,3) = rej_cscpc;
+
+    t_stat_array(r,:,3) = t_stat_scpc;
+    num_array(r,:,3) = H_0;
+    den_array(r,:,3) = se_scpc;
+    cv_array(r,:,2) = cv_cscpc;
+    ci_array(r,:,3) = 2.*abs(se_scpc).*abs(cv_cscpc);
+    i=4;
+%     else
+%         i=2;
+%     end
 
     % Kernel for l\in L
     for l=L
@@ -140,6 +149,7 @@ for r=1:N_reps
         t_stat_array(r,:,i) = t_stat_kernel;
         num_array(r,:,i) = H_0;
         den_array(r,:,i) = se_kernel;
+        ci_array(r,:,i) = 2.*abs(se_kernel).*1.96;
         i=i+1;
     end
 
@@ -181,6 +191,7 @@ for r=1:N_reps
             t_stat_array(r,:,j) = [NaN t_stat_hr_bs];
             num_array(r,:,j) = [NaN H_0_bs];
             den_array(r,:,j) = [NaN se_hr_bs(1:k-1)];
+            ci_array(r,:,j) = [NaN 2.*abs(se_hr_bs(1:k-1)).*1.96];
             
             % Residuals' AR(1)
             [u_t_bs, u_t_1_bs] = sort_u(u_hat_bs,s);
@@ -205,6 +216,7 @@ for r=1:N_reps
                 t_stat_array(r,:,j) = [NaN t_stat_kernel_bs];
                 num_array(r,:,j) = [NaN H_0_bs];
                 den_array(r,:,j) = [NaN se_kernel_bs(1:k-1)];
+                ci_array(r,:,j) = [NaN 2.*se_kernel_bs(1:k-1).*1.96];
                 
                 j=j+1; %advancing rej freq index 
             end
@@ -217,17 +229,22 @@ end
 % Taking averages across simulations
 rej_freq(:,:) = sum(rej_freq_m_i,1)./N_reps;
 avg_se(:,:) = sum(den_array,1)./N_reps;
+avg_cv(:,:) = sum(cv_array,1)./N_reps;
 avg_e_ar1(:,:) = sum(e_ar1_betas,1)./N_reps;
+index_array = ci_array == real(ci_array);
+index_table = sum(index_array,1)~=0;
+ci_array(~index_array)=NaN;
+avg_ci(:,:) = sum(ci_array,1,'omitnan')./sum(index_array,1);
 toc
 
-%% Saving results %%
-fprintf('Saving results\n');  
+%% Preparing results %%
+fprintf('Preparing results\n');  
 
 % load crank_bs_ear1_diff.mat
 
 results_table = array2table(...
-    [rej_freq(:,:)' avg_se(:,:)'],...
-    'VariableNames', {'Cons.' 'Beta' 'SE Cons.' 'SE Beta'});
+    [rej_freq(:,:)' avg_ci(:,:)'],...
+    'VariableNames', {'Cons.' 'Beta' 'CI length Cons.' 'CI length Beta'});
 results_table
 ear1_table = array2table(...
     avg_e_ar1(:,:)',...
@@ -235,22 +252,25 @@ ear1_table = array2table(...
 ear1_table
 pc_table = array2table(pc_array, 'VariableNames', {'PC Qty. O1' 'PC Qty. O2' 'DD O1' 'DD O2'});
 
+%% Saving results %%
+fprintf('Saving results\n');
+
 save(['opt_pc_spline_' excercise '.mat'])
 
 writetable(results_table,['../Products/opt_pc_spline_res_' excercise '.csv']);
 writetable(ear1_table,['../Products/opt_pc_spline_ar1_' excercise '.csv']);
 
 
-%% AR(1) gama histogram %%
-clear;
+%% Plotting %%
+% clear;
 fprintf('Plotting\n');
-excercise = 'pc_bic';%'ts_gamma';%'dd_2x';%'grid';
-load(['opt_pc_spline_' excercise '.mat'])
+% excercise = 'pc_bic';%'ts_gamma';%'dd_2x';%'grid';
+% load(['opt_pc_spline_' excercise '.mat'])
 histogram(e_ar1_betas(:,2,1));
 exportgraphics(gcf,strcat(['../Products/hist_gamma_o1_' excercise '.png']))
 histogram(e_ar1_betas(:,2,2));
 exportgraphics(gcf,strcat(['../Products/hist_gamma_o2_' excercise '.png']))
-
+% PC hist
 histogram(pc_array(:,1));
 exportgraphics(gcf,strcat(['../Products/hist_pc_o1_' excercise '.png']))
 histogram(pc_array(:,2));

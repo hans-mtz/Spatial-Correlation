@@ -11,11 +11,11 @@
 #| eval: true
 #| include: true
 
-kernel_results <- read.csv("../Simulations/Products/bic_spline_sims_res_gamma.csv")
+kernel_results <- read.csv("../Simulations/Products/opt_spline_sims_res_spa_gamma.csv")
 
-e_ar1_tbl <- read.csv("../Simulations/Products/bic_spline_sims_ar1_gamma.csv")
+e_ar1_tbl <- read.csv("../Simulations/Products/opt_spline_sims_ar1_spa_gamma.csv")
 
-notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
+# notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
 row_names_kernel<- c(
     "HR",
     "SCPC",
@@ -41,7 +41,7 @@ row_names_kernel<- c(
         2
     )
 )
-row_names_kernel_notes <-paste0(row_names_kernel,notes)
+# row_names_kernel_notes <-paste0(row_names_kernel,notes)
 aux <- c(
     rep(
         "",
@@ -58,7 +58,7 @@ aux <- c(
 
 table_kernel <- cbind(
     aux,
-    row_names_kernel_notes, 
+    row_names_kernel, 
     kernel_results#, 
 )
 names(table_kernel)<- c(
@@ -66,8 +66,8 @@ names(table_kernel)<- c(
     "Estimator",
     "Cons.",
     "$\\beta_1$",
-    "S.E. Cons,",
-    "S.E. $\\beta_1$"
+    "Cons. ",
+    "$\\beta_1$ "
 )
 
 aux2 <- c(
@@ -92,14 +92,14 @@ names(table_ar1)<-c(
     "Splines",
     "Cons2",
     "$\\gamma_1$",
-    "Hansen's",
+    "BIC",
     "Damian's",
     "Dropped"
 )
 table<-merge(table_kernel,table_ar1, by="Splines",sort=FALSE)
 
 kbl(
-    table[,-c(5,7)], #- id, 
+    table[,-c(7,10)], #- id, 
     digits=3,#c(3,3,5,3), 
     booktabs = TRUE,
     longtable = TRUE,
@@ -110,22 +110,22 @@ kbl(
     # format.args = list(scientific=TRUE)
     ) %>%
     add_header_above(
-        c(" "=1,"Spatial data"=4," "=1,"BIC"=2)
+        c(" "=4,"C.I. length"=2)
     ) %>%
     add_header_above(
-        c(" "=5,"Residuals"=4)
+        c(" "=1,"Spatial data"=5,"Residuals"=3)
     ) %>%
     collapse_rows(
-        c(1,(5+1):(8+1)),
+        c(1,7:9),
         latex_hline = "custom",
         custom_latex_hline = 1,
         valign = "top"#,
         # row_group_label_position = "stack"
-    ) %>%
-    footnote(
-        general = "Average S.E. are all real except where indicated.",
-        alphabet = c("No splines Kernel (0.050) S.E. 0.11563-8.2203e-05i;", "Order 2 splines Kernel (Damian's cutoff) S.E. 0.11404-8.9653e-05i")
-    )
+    ) #%>%
+    # footnote(
+    #     general = "Average S.E. are all real except where indicated.",
+    #     alphabet = c("No splines Kernel (0.050) S.E. 0.11563-8.2203e-05i;", "Order 2 splines Kernel (Damian's cutoff) S.E. 0.11404-8.9653e-05i")
+    # )
 
 
 
@@ -133,15 +133,23 @@ kbl(
 
 
 
-::: {#fig-gamma-nsplines layout-ncol=2}
+::: {#fig-gamma-gamma layout-ncol=2}
 
-![Order 1]("../Simulations/Products/hist_gamma_o1_bic_gamma.png"){#fig-gamma-o1-spatial}
+![Order 1]("../Simulations/Products/hist_gamma_o1_spa_gamma.png"){#fig-gamma-o1-gamma}
 
-![Order 2]("../Simulations/Products/hist_gamma_o2_bic_gamma.png"){#fig-gamma-o2-spatial}
+![Order 2]("../Simulations/Products/hist_gamma_o2_spa_gamma.png"){#fig-gamma-o2-gamma}
 
-Distribution of the residuals' AR(1) slope $\gamma$ in simulations. Selecting the number of splines using residuals' AR(1) slopes. Spatial data.
+Distribution of the residuals' AR(1) slope $\gamma$ in simulations. Selecting the number of splines using $\gamma$, residuals' AR(1) slopes. Spatial data.
 :::
 
+::: {#fig-gamma-splines layout-ncol=2}
+
+![Order 1]("../Simulations/Products/hist_spline_o1_spa_gamma.png"){#fig-spline-o1-gamma}
+
+![Order 2]("../Simulations/Products/hist_spline_o2_spa_gamma.png"){#fig-spline-o2-gamma}
+
+Distribution of the number of B-Splines selected in simulations. Selecting the number of splines using $\gamma$, the residuals' AR(1) slopes. Spatial data.
+:::
 
 
 ```{r}
@@ -152,16 +160,16 @@ Distribution of the residuals' AR(1) slope $\gamma$ in simulations. Selecting th
 #| eval: true
 #| include: true
 
-kernel_results <- read.csv("../Simulations/Products/bic_spline_sims_res_ts_gamma.csv")
+kernel_results <- read.csv("../Simulations/Products/opt_spline_sims_res_ts_gamma_ci.csv")
 
-e_ar1_tbl <- read.csv("../Simulations/Products/bic_spline_sims_ar1_ts_gamma.csv")
+e_ar1_tbl <- read.csv("../Simulations/Products/opt_spline_sims_ar1_ts_gamma_ci.csv")
 
-notes <- c(rep("",7),"$^a$",rep("",5),"$^b$")
+# notes <- c(rep("",7),"$^a$",rep("",5),"$^b$")
 
 row_names_kernel<- c(
     "HR",
-    # "SCPC",
-    # "C-SCPC",
+    "SCPC",
+    "C-SCPC",
     rep(
         c(
             "Kernel 0.015",
@@ -183,11 +191,11 @@ row_names_kernel<- c(
         2
     )
 )
-row_names_kernel_notes <-paste0(row_names_kernel,notes)
+# row_names_kernel_notes <-paste0(row_names_kernel,notes)
 aux <- c(
     rep(
         "",
-        4#+2
+        4+2
     ),
     rep(
         c(
@@ -200,7 +208,7 @@ aux <- c(
 
 table_kernel <- cbind(
     aux,
-    row_names_kernel_notes, 
+    row_names_kernel, 
     kernel_results#, 
 )
 names(table_kernel)<- c(
@@ -208,8 +216,8 @@ names(table_kernel)<- c(
     "Estimator",
     "Cons.",
     "$\\beta_1$",
-    "S.E. Cons,",
-    "S.E. $\\beta_1$"
+    "Cons. ",
+    "$\\beta_1$ "
 )
 
 aux2 <- c(
@@ -241,7 +249,7 @@ names(table_ar1)<-c(
 table<-merge(table_kernel,table_ar1, by="Splines",sort=FALSE)
 
 kbl(
-    table[,-c(5,7)], #- id, 
+    table[,-c(7,10)], #- id, 
     digits=3,
     booktabs = TRUE,
     longtable = TRUE,
@@ -252,22 +260,22 @@ kbl(
     # format.args = list(scientific=TRUE)
     ) %>%
     add_header_above(
-        c(" "=1,"Time series data"=4," "=1,"BIC"=2)
+        c(" "=4,"C.I. length"=2)
     ) %>%
     add_header_above(
-        c(" "=5,"Residuals"=4)
+        c(" "=1,"Time series data"=5,"Residuals"=3)
     ) %>%
     collapse_rows(
-        c(1,(5+1):(8+1)),
+        c(1,7:9),
         latex_hline = "custom",
         custom_latex_hline = 1,
         valign = "top"#,
         # row_group_label_position = "stack"
-    ) %>%
-    footnote(
-        general = "Average S.E. are all real except where indicated.",
-        alphabet = c("Order 1 Splines Kernel (0.050) S.E. 0.10471-4.0992e-05i", "Order 2 Splines Kernel (Damian's cutoff) S.E. 0.090848-0.00013041i")
-    )
+    ) #%>%
+    # footnote(
+    #     general = "Average S.E. are all real except where indicated.",
+    #     alphabet = c("Order 1 Splines Kernel (0.050) S.E. 0.10471-4.0992e-05i", "Order 2 Splines Kernel (Damian's cutoff) S.E. 0.090848-0.00013041i")
+    # )
 
 
 
@@ -275,11 +283,21 @@ kbl(
 
 
 
-::: {#fig-gamma-nsplines-ts layout-ncol=2}
+::: {#fig-gamma-gamma-ts layout-ncol=2}
 
-![Order 1]("../Simulations/Products/hist_gamma_o1_bic_ts_gamma.png"){#fig-gamma-o1-ts}
+![Order 1]("../Simulations/Products/hist_gamma_o1_ts_gamma_ci.png"){#fig-gamma-o1-ts}
 
-![Order 2]("../Simulations/Products/hist_gamma_o2_bic_ts_gamma.png"){#fig-gamma-o2-ts}
+![Order 2]("../Simulations/Products/hist_gamma_o2_ts_gamma_ci.png"){#fig-gamma-o2-ts}
 
 Distribution of the residuals' AR(1) slope $\gamma$ in simulations. Selecting the number of splines using residuals' AR(1) slopes $\gamma$. Time series data.
+::: 
+
+::: {#fig-gamma-splines-ts layout-ncol=2}
+
+![Order 1]("../Simulations/Products/hist_spline_o1_ts_gamma_ci.png"){#fig-spline-o1-gamma-ts}
+
+![Order 2]("../Simulations/Products/hist_spline_o2_ts_gamma_ci.png"){#fig-spline-o2-gamma-ts}
+
+Distribution of the number of B-Splines selected in simulations. Selecting the number of splines using $\gamma$, the residuals' AR(1) slopes. Time series data.
 :::
+

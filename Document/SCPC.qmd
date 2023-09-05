@@ -36,22 +36,13 @@ options(
 
 ## Updates {-}
 
-- @tbl-pc shows the rejection frequencies for the optimal number of PCs of the 64 B-Spline for orders 1 and 2. Selecting the number of PCs using BIC. Spatial DGP.
-
-- @fig-gamma-pc shows the distribution of $\gamma$, the residuals AR(1) slope coefficient. @fig-pc shows the distribution of the number of PCs selected in the simulations.
-
-- @tbl-gamma displays the rejection frequencies for the optimal number of splines for a spatial DGP. The optimal number of splines was selected as the number of splines for which the OLS residuals produced the lowest AR(1) slope coefficient. @tbl-gamma-ts displays the rejection frequencies for this same exercise but using time series DGP.
-
-- @fig-gamma-nsplines and [-@fig-gamma-nsplines-ts] display the distribution of the residuals' AR(1) slope coefficient that was used to select the number of splines; for the spatial and time series DGPs.
-
-- @tbl-bic-ts displays the rejection frequencies for the optimal number of splines where the optimal number of splines was selected as the number of splines for which the OLS residuals produced the lowest Hansen's BIC ([@eq-hansen-bic]) using a time series DGP.
-
-- @fig-gamma-bic and [-@fig-gamma-bic-ts] show the distribution of the residuals' AR(1) slope coefficient that resulted from selecting the optimal number of splines using the BIC criteria, for the spatial and time series DGPs.
+- @tbl-pc, [-@tbl-pc-ts], [-@tbl-gamma], [-@tbl-gamma-ts], [-@tbl-bic], and [-@tbl-bic-ts] now show the average confidence interval length instead of the average s.e.
+- Time series @tbl-pc-ts, [-@tbl-gamma-ts], and [-@tbl-bic-ts] now show the results for the SCPC and C-SCPC estimators.
+- The average C.V. of the SCPC is 2.2856 for the constant and the slope. The average C.V. of the C-SCPC is 2.3656 for the constant and 2.4971 for the slope.
 
 ## To-Do {-}
 
-- Use Principal components from a matrix of 64 splines, coarse grid 4, 12,..., 64, select the number of PC's using BIC after sorting them
-- Evenly distributed locations: SCPC adjusting $\bar\rho$ to avoid crashing.
+- Move to two-dimension spatial locations. Use Nearest Neighbor instead of $\gamma$. When using evenly spaced locations, jitter locations. If $s\sim U(0,1)$ jitter by $\iota\sim U(-0.001,0.001)$.
 - Power curves for the SCPC and C-SCPC methods.
 - Cluster version of Kernel estimator.
 - Measurement error in the locations.
@@ -73,7 +64,6 @@ options(
 
 <!-- Evenly spaced -->
 {{< include sections/081-grid.qmd >}}
-
 
 
 
