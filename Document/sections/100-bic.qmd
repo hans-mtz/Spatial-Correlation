@@ -7,7 +7,7 @@
 
 ```{r}
 #| label: tbl-bic
-#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data. Selecting the number of splines using Hansen's BIC.
+#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data. Selecting the number of splines using the lowest residuals' BIC from a grid starting at 45 up to 90 in steps of 5 splines.
 #| echo: false
 #| warning: false
 #| eval: true
@@ -150,7 +150,7 @@ Distribution of the number of B-Splines selected in simulations. Selecting the n
 
 ```{r}
 #| label: tbl-bic-ts
-#| tbl-cap: Rejection frequencies for different variance estimators. Time series data. Selecting the number of splines using the lowest Hansen's BIC.
+#| tbl-cap: Rejection frequencies for different variance estimators. Time series data. Selecting the number of splines using the lowest residuals' BIC from a grid starting at 45 up to 90 in steps of 5 splines.
 #| echo: false
 #| warning: false
 #| eval: true

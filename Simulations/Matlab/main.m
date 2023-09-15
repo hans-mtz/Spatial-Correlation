@@ -15,10 +15,11 @@ end
 % run('grid_sims')
 % run('e_ar1')
 % run('bic_spline_sims')
-run('optimal_spline_sims')
+% run('optimal_spline_sims')
 % run('optimal_pc_spline_sims')
 % run('plot_nspline_hist_by_min_bic')
-
+% run('simulate_optimal')
+run('simulate_grid')
 
 
 

@@ -1,11 +1,11 @@
 ## $\gamma$ selection of spline quantity
 
-@tbl-gamma displays the rejection frequencies for the optimal number of splines. The optimal number of splines was selected as the number of splines for which the OLS residuals produced the lowest AR(1) slope.
+@tbl-gamma displays the rejection frequencies for the optimal number of splines. The optimal number of splines was selected as the number of splines for which the OLS residuals produced the lowest AR(1) slope from a coarse grid starting from 5 and up to 90 in steps of 5 splines.
 
 
 ```{r}
 #| label: tbl-gamma
-#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data. Selecting the number of splines using the lowest AR(1) correlation in residuals.
+#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data. Selecting the number of splines using the lowest AR(1) correlation in residuals from a coarse grid starting from 5 and up to 90 in steps of 5 splines.
 #| echo: false
 #| warning: false
 #| eval: true
@@ -154,7 +154,7 @@ Distribution of the number of B-Splines selected in simulations. Selecting the n
 
 ```{r}
 #| label: tbl-gamma-ts
-#| tbl-cap: Rejection frequencies for different variance estimators. Time series data. Selecting the number of splines using the lowest AR(1) correlation in residuals.
+#| tbl-cap: Rejection frequencies for different variance estimators. Time series data. Selecting the number of splines using the lowest AR(1) correlation in residuals from a coarse grid starting from 5 and up to 90 in steps of 5 splines.
 #| echo: false
 #| warning: false
 #| eval: true

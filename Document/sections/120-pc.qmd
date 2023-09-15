@@ -1,13 +1,13 @@
 ## Principal components
 
-@tbl-pc displays the rejection frequencies for the optimal number of the Principal Components of the 64 order 1 and order 2 B-Splines evaluated on the locations of a spatial DGP. The optimal number of PCs was selected using BIC. PCs were sorted before being selected, so the PCs with more information were always picked first.
+@tbl-pc displays the rejection frequencies for the optimal number of the Principal Components of the 64 order 1 and order 2 B-Splines evaluated on the locations of a spatial DGP. The optimal number of PCs was selected using the lowest residuals' BIC from a coarse grid starting at 4 up to 64 (the maximum feasible) in steps of 4 PCs. PCs were sorted before being selected, so the PCs with more information were always picked first. The selection of the number of splines was selec
 
 @tbl-pc-ts shows the rejection frequencies for the time series DGP.
 
 
 ```{r}
 #| label: tbl-pc
-#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data. PCs of the 64 B-Spline on locations for orders 1 and 2 were used to reduce error correlation. PCs were selected using BIC.
+#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data. PCs of the 64 B-Spline on locations for orders 1 and 2 were used to reduce error correlation. PCs were selected using the lowest residuals' BIC from a grid starting at 4 up to 64 (the maximum feasible) in steps of 4 PCs.
 #| echo: false
 #| warning: false
 #| eval: true
@@ -160,7 +160,7 @@ Distribution of the number of PCs selected in simulations. Selecting the number 
 
 ```{r}
 #| label: tbl-pc-ts
-#| tbl-cap: Rejection frequencies for different variance estimators. Time series data. PCs of the 64 B-Spline on locations for orders 1 and 2 were used to reduce error correlation. PCs were selected using BIC.
+#| tbl-cap: Rejection frequencies for different variance estimators. Time series data. PCs of the 64 B-Spline on locations for orders 1 and 2 were used to reduce error correlation. PCs were selected using the lowest residuals' BIC from a grid starting at 4 up to 64 (the maximum feasible) in steps of 4 PCs.
 #| echo: false
 #| warning: false
 #| eval: true

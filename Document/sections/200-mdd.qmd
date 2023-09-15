@@ -1,0 +1,462 @@
+## Multi-dimensional locations {#sec-multi}
+
+### Spatial DGP
+
+In this set of simulations, the locations are two-dimensional. The locations are independent and follow a uniform distribution.
+
+Tables [-@tbl-vd-grid], [-@tbl-vd-gamma], and [-@tbl-vd-bic] show the rejection frequencies for the different variance estimators using a spatial GDP with uniform distributed two-dimension locations. 
+
+@tbl-vd-grid displays the rejection frequencies holding the number of splines fixed for a grid going from 4 to 12 in steps of 2 splines. 
+
+In @tbl-vd-gamma, the number of splines was selected using the residual's NN correlation closest to 0.05 during simulations. 
+
+Lastly, @tbl-vd-bic shows the rejection frequencies where the optimal number of splines was chosen using the lowest residua's BIC from a grid going from 4 to 12 in steps of 2 splines.
+
+```{r}
+#| label: tbl-vd-grid
+#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data with independent uniform-distributed two-dimension locations. 250 obs. 1000 iterations.
+#| echo: false
+#| warning: false
+
+
+kernel_results <- read.csv("../Simulations/Products/grid_spline_sims_res_spa.csv")
+
+e_ar1_tbl <- read.csv("../Simulations/Products/grid_spline_sims_ar1_spa.csv")
+
+dist_v_tbl <- read.csv("../Simulations/Products/grid_spline_sims_dist_v_spa.csv")
+
+aux0 <- c(
+    # " ",
+    # "SCPC",
+    rep(
+        c(
+            "HR",
+            "SCPC",
+            "C-SCPC",
+            "Kernel ",
+            "Kernel ",
+            "Kernel "
+            # "0.07"
+        ),
+        1
+    ),
+    rep(
+        c(
+            "HR",
+            "Kernel ",
+            "Kernel ",
+            "Kernel ",
+            "Damian's "
+            # "0.07"
+        ),
+        10
+    )
+)
+dist_tbl <- c(
+    rep(
+        "",
+        3
+    ),
+    "0.015",
+    "0.030",
+    "0.050",
+    gsub("NaN"," ", round(dist_v_tbl[[1]],3))
+)
+row_names_kernel <- paste0(aux0,dist_tbl)
+row_names_ar1_kernel <- c(
+    rep(
+        "No splines",
+        6
+    ),
+    rep(
+        c(
+        "4 splines",
+        "6 splines",
+        "8 splines",
+        "10 splines",
+        "12 splines"#,
+        ),
+        each=5,
+        times =2
+    )
+)
+aux <- c(
+    rep(
+        "",
+        6
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        each = 25
+    )
+)
+kernel_id<-paste0(aux, row_names_ar1_kernel)
+
+table_kernel <- cbind(
+    aux,
+    row_names_ar1_kernel,
+    row_names_kernel, 
+    kernel_results, 
+    kernel_id
+)
+names(table_kernel)<- c(
+    "Order", "Qty.",
+    "Estimator",
+    "Cons.",
+    "$\\beta_1$",
+    "Cons. ",
+    "$\\beta_1$ ",
+    "id"
+)
+
+row_names_ar1 <- c(
+    "No splines",
+    rep(
+        c(
+        "4 splines",
+        "6 splines",
+        "8 splines",
+        "10 splines",
+        "12 splines"#,
+        ),
+        2
+    )
+)
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        each = 5
+    )
+)
+ar1_id<-paste0(aux2, row_names_ar1)
+table_ar1 <-cbind(
+    ar1_id,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "id",
+    # "Cons2",
+    "NN",
+    "BIC",
+    "Damian's",
+    "Dropped"
+)
+
+table<-merge(table_kernel,table_ar1, by="id",sort=FALSE)
+
+kbl(
+    table[, -c(1,11)], 
+    digits=3, 
+    booktabs = TRUE,
+    longtable = TRUE,
+    # col.names = col_names,
+    # row.names = row_names,
+    escape = F
+    ) %>%
+    add_header_above(
+        c(" "=5,"C.I. length"=2)
+    ) %>%
+    add_header_above(
+        c(" "=2,"Spatial data"=5,"Residuals"=3)
+    ) %>%
+    collapse_rows(
+        c(1:2,7:10),
+        latex_hline = "custom",
+        custom_latex_hline = 1:2,
+        valign = "top"#,
+        # row_group_label_position = "stack"
+    ) #%>%
+
+```
+
+
+```{r}
+#| label: tbl-vd-gamma
+#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data with independent uniform-distributed two-dimension locations. Selecting the number of splines using the lowest Nearest Neighbour (NN) correlation in residuals from a grid going from 4 to 12 in steps of 2 splines.
+#| echo: false
+#| warning: false
+#| eval: true
+#| include: true
+
+kernel_results <- read.csv("../Simulations/Products/opt_spline_sims_res_vd_spa_gamma.csv")
+
+e_ar1_tbl <- read.csv("../Simulations/Products/opt_spline_sims_ar1_vd_spa_gamma.csv")
+
+# notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
+row_names_kernel<- c(
+    "HR",
+    "SCPC",
+    "C-SCPC",
+    rep(
+        c(
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.050"#,
+            # "Damian's"
+        ),
+        1
+    ),
+        rep(
+        c(
+            "HR",
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.050",
+            "Damian's "
+
+        ),
+        2
+    )
+)
+# row_names_kernel_notes <-paste0(row_names_kernel,notes)
+aux <- c(
+    rep(
+        "",
+        4+2
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        each = 5
+    )
+)
+
+table_kernel <- cbind(
+    aux,
+    row_names_kernel, 
+    kernel_results#, 
+)
+names(table_kernel)<- c(
+    "Splines",
+    "Estimator",
+    "Cons.",
+    "$\\beta_1$",
+    "Cons. ",
+    "$\\beta_1$ "
+)
+
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        1
+    )
+)
+
+table_ar1 <-cbind(
+    aux2,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "Splines",
+    "NN",
+    "Slope",
+    "BIC",
+    "Damian's",
+    "Dropped"
+)
+table<-merge(table_kernel,table_ar1, by="Splines",sort=FALSE)
+
+kbl(
+    table[,-c(8,10)], #- id, 
+    digits=3,#c(3,3,5,3), 
+    booktabs = TRUE,
+    longtable = TRUE,
+    # col.names = col_names,
+    # row.names = row_names,
+    escape = F,
+    position = "p"#,
+    # format.args = list(scientific=TRUE)
+    ) %>%
+    add_header_above(
+        c(" "=4,"C.I. length"=2)
+    ) %>%
+    add_header_above(
+        c(" "=1,"Spatial data"=5,"Residuals"=3)
+    ) %>%
+    collapse_rows(
+        c(1,7:9),
+        latex_hline = "custom",
+        custom_latex_hline = 1,
+        valign = "top"#,
+        # row_group_label_position = "stack"
+    ) #%>%
+
+```
+
+::: {#fig-nn-gamma layout-ncol=2}
+
+![Order 1]("../Simulations/Products/hist_gamma_o1_vd_spa_gamma.png"){#fig-nn-o1-gamma}
+
+![Order 2]("../Simulations/Products/hist_gamma_o2_vd_spa_gamma.png"){#fig-nn-o2-gamma}
+
+Distribution of the residuals' NN correlation in simulations. Selecting the number of splines using residuals' NN correlation. Spatial data with a two-dimension.
+:::
+
+::: {#fig-splines-nn-vd-spa layout-ncol=2}
+
+![Order 1]("../Simulations/Products/hist_spline_o1_vd_spa_gamma.png"){#fig-spline-o1-gamma}
+
+![Order 2]("../Simulations/Products/hist_spline_o2_vd_spa_gamma.png"){#fig-spline-o2-gamma}
+
+Distribution of the number of B-Splines selected in simulations. Selecting the number of splines using the residuals' NN correlation. Spatial data.
+:::
+
+
+```{r}
+#| label: tbl-vd-bic
+#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data with independent uniform-distributed two-dimension locations. Selecting the number of splines using residuals' lowest BIC of a grid going from 4 to 12 in steps of 2 splines. 
+#| echo: false
+#| warning: false
+#| eval: true
+#| include: true
+
+kernel_results <- read.csv("../Simulations/Products/opt_spline_sims_res_vd_spa_bic.csv")
+
+e_ar1_tbl <- read.csv("../Simulations/Products/opt_spline_sims_ar1_vd_spa_bic.csv")
+
+# notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
+row_names_kernel<- c(
+    "HR",
+    "SCPC",
+    "C-SCPC",
+    rep(
+        c(
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.050"#,
+            # "Damian's"
+        ),
+        1
+    ),
+        rep(
+        c(
+            "HR",
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.050",
+            "Damian's "
+
+        ),
+        2
+    )
+)
+# row_names_kernel_notes <-paste0(row_names_kernel,notes)
+aux <- c(
+    rep(
+        "",
+        4+2
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        each = 5
+    )
+)
+
+table_kernel <- cbind(
+    aux,
+    row_names_kernel, 
+    kernel_results#, 
+)
+names(table_kernel)<- c(
+    "Splines",
+    "Estimator",
+    "Cons.",
+    "$\\beta_1$",
+    "Cons. ",
+    "$\\beta_1$ "
+)
+
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1",
+            "Order 2"
+        ),
+        1
+    )
+)
+
+table_ar1 <-cbind(
+    aux2,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "Splines",
+    "NN",
+    "$\\gamma_1$",
+    "BIC",
+    "Damian's",
+    "Dropped"
+)
+table<-merge(table_kernel,table_ar1, by="Splines",sort=FALSE)
+
+kbl(
+    table[,-c(8,10)], #- id, 
+    digits=3,#c(3,3,5,3), 
+    booktabs = TRUE,
+    longtable = TRUE,
+    # col.names = col_names,
+    # row.names = row_names,
+    escape = F,
+    position = "p"#,
+    # format.args = list(scientific=TRUE)
+    ) %>%
+    add_header_above(
+        c(" "=4,"C.I. length"=2)
+    ) %>%
+    add_header_above(
+        c(" "=1,"Spatial data"=5,"Residuals"=3)
+    ) %>%
+    collapse_rows(
+        c(1,7:9),
+        latex_hline = "custom",
+        custom_latex_hline = 1,
+        valign = "top"#,
+        # row_group_label_position = "stack"
+    ) #%>%
+
+```
+
+::: {#fig-nn-bic layout-ncol=2}
+
+![Order 1]("../Simulations/Products/hist_gamma_o1_vd_spa_bic.png"){#fig-nn-o1-bic}
+
+![Order 2]("../Simulations/Products/hist_gamma_o2_vd_spa_bic.png"){#fig-nn-o2-bic}
+
+Distribution of the residuals' NN correlation in simulations. Selecting the number of splines using residuals' BIC. Spatial data with two-dimension locations.
+:::
+
+::: {#fig-splines-bic-vd-spa layout-ncol=2}
+
+![Order 1]("../Simulations/Products/hist_spline_o1_vd_spa_bic.png"){#fig-spline-o1-vd-bic}
+
+![Order 2]("../Simulations/Products/hist_spline_o2_vd_spa_bic.png"){#fig-spline-o2-vd-bic}
+
+Distribution of the number of B-Splines selected in simulations. Selecting the number of splines using the residuals' BIC. Spatial data with two-dimension locations.
+:::

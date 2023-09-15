@@ -30,12 +30,15 @@ function [S, delta, n_dropped] = get_bspline_mat(x,n_nodes,order,drop_flag)
     if K>1
         S(:,1:T-1) = [];
     else
-        S(:,[1 2 T-1]) = [];
+        S(:,[1 T-1]) = [];
     end
 %     S(:,[1,T-1])=[]; % Removing columns outside the range [1,T-1] bc they are only zeros
     % Removing one dummy column, this is the reference dummy to avoid
     % multicolinearity
     if drop_flag==1
+%         if K ==1
+%             S(:,2) = [];
+%         end
         select=sum(S,1)<=1;
         n_dropped=sum(select);
         S(:,select)=[];
