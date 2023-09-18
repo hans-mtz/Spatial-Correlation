@@ -22,20 +22,20 @@ end
 %--------------Estimators---------------%
 %HR, Kernel, Kernel + splines, SCPC
 rng(333) % Setting seed
-excercise = 'vd_ts_gamma';%'vd_spa_gamma';
+excercise = 'vd_ev_sar_bic';%'vd_spa_gamma';
 grid = 1; % 0 for fminbnd; otherwise for 5:5:90 grid
-method = 'gamma'; % 'bic' for Hansen's BIC; otherwise for min residuals' AR(1) slope 
-spatial = 0; % 1: S_is ~ U(0,1); 0: S ~ evenly spaced 25 by 10 in a unit dimensional square
+method = 'bic'; % 'bic' for Hansen's BIC; otherwise for min residuals' AR(1) slope 
+spatial = 0; % 1: S_is ~ U(0,1); 0: S ~ evenly spaced 25 by 10 in a unit dimensional square and SAR DGp
 
 %% Setting up parameters
 global T k beta rho_bar L
-N_reps = 3;
+N_reps = 1000;
 T = 250; % obs
 beta = [ 1; 1.5];
 k= length(beta); % number of covariates
 rho_bar = 0.03; % Average pairwise correlation
 L = [0.015 0.03 0.05]; % Vector of cutoff distances
-M = 0.05; % 0: for Nearest Neighbour; (0,1] for distance cutoff
+M = 0.05; %(0,1] for distance cutoff for SAR model
 cholesky_flag = 'chol';
 N_order_splines = 2;
 N_vec_dist = 2;
@@ -84,11 +84,12 @@ for r=1:N_reps
     end
 
     % generate data
+%     [y, X, D_mat] = DGP(beta,s,rho_bar,1);
     if spatial==1  
         [y, X, D_mat] = DGP(beta,s,rho_bar,1);
     else
         D_mat = getdistmat(s,false);
-        [y, X, ~] = DGP_evenly(beta, 0.79,D_mat,M);
+        [y, X, ~] = DGP_SAR(beta, 0.21,D_mat,M);
     end
 
 %         writetable(table(y, X, s), strcat('../Stata/data_splines.csv')); % Saving

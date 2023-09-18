@@ -8,19 +8,18 @@ function [y,X,u] = DGP_evenly(beta,coef_vec,D_mat,L)
     u_old = epsilon(:,2,1);
     
     if L>0 && L<=1
-        for r=2:(4+burn)
+        for r=2%:(4+burn)
             
             for i=1:T
-                coef_j = coef_vec;
-%                 neighbours = D_mat(i,D_mat(i,:)<=L);
-%                 sorted_neigs = sort(neighbours);
-%                 vals = D_mat(i,1:end ~= i)<=L;
+                coef_j = coef_vec;            
                 
-                for j=find(D_mat(i,:)<=L)
+                [~, index] = sort(D_mat(i,:));
+                         
+                for j=find(D_mat(i,index)<=L)
                     if j~=i
                         X_new(i) = X_new(i)+X_old(j)*coef_j;
                         u_new(i) = u_new(i)+u_old(j)*coef_j;
-                        coef_j=coef_j*coef_vec;
+%                         coef_j=coef_j*coef_vec;
                     end
                 end
             end

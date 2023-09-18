@@ -22,7 +22,7 @@ function nn_corr = get_nn_corr(u,D,L)
 
         for j=index
             if i~=j
-                rho = [rho (u(i)*u(j)-mu)];
+                rho = [rho (u(i)*u(j)-mu*mu)];
 
             end
         end

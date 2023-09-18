@@ -21,7 +21,7 @@ end
 %--------------Estimators---------------%
 %HR, Kernel, Kernel + splines, SCPC
 rng(333) % Setting seed
-excercise = 'ts';%'spa'
+excercise = 'ev_sar';%'spa'
 spatial = 0; % 1: S_is ~ U(0,1); 0: S ~ evenly spaced 25 by 10 in a unit dimensional square
 
 %% Setting up parameters
@@ -33,7 +33,7 @@ k= length(beta); % number of covariates
 rho_bar = 0.03; % Average pairwise correlation
 L = [0.015 0.03 0.05]; % Vector of cutoff distances
 R = 4:2:12;%[4 12 24 36 48 64 88 102 124];
-M = 0; % 0: for Nearest Neighbour; (0,1] for distance cutoff
+M = 0.05; % (0,1] for distance cutoff for SAR model
 
 cholesky_flag = 'chol';
 N_order_splines = 2;
@@ -47,7 +47,7 @@ N_ols = 1+N_splines*N_order_splines;
 if spatial==1
     % Fixing locations
     s = rand(T,N_vec_dist); % vector of locations
-else % Time series
+else % SAR
     s_temp = [repmat((1:10:T)'./T,10,1) repelem((1:25:T)'./T,25)];
     % Jittering
     v = -0.001 + (0.001+0.001).*rand(T,2);
@@ -71,11 +71,11 @@ for r=1:N_reps
     end
 
     % generate data      
-    if spatial==1  
+    if spatial==1 
         [y, X, D_mat] = DGP(beta,s,rho_bar,1);
     else
         D_mat = getdistmat(s,false);
-        [y, X, ~] = DGP_evenly(beta, 0.79,D_mat,M);
+        [y, X, ~] = DGP_SAR(beta,0.21,D_mat,M);
     end
 %      writetable(table(y, X, s), strcat('../Products/data_ts.csv')); % Saving
     
