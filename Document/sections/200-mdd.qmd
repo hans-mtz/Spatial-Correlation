@@ -1,8 +1,8 @@
-## Multi-dimensional locations {#sec-multi}
+<!-- ## Multi-dimensional locations -->
 
-### Spatial DGP
+## B-Splines and Spatial DGP
 
-In this set of simulations, the locations are two-dimensional. The locations are independent and follow a uniform distribution.
+<!-- In this set of simulations, the locations are two-dimensional. The locations are independent and follow a uniform distribution. -->
 
 Tables [-@tbl-vd-grid], [-@tbl-vd-gamma], and [-@tbl-vd-bic] show the rejection frequencies for the different variance estimators using a spatial GDP with uniform distributed two-dimension locations. 
 

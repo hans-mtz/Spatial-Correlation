@@ -6,24 +6,27 @@ if batchStartupOptionUsed
   addpath(genpath('./21200057'))
 end
 %--------------DGP-------------------%
-% Model 1 iid 
-% e~G_exp(c_rho_bar) X~[1 N(0,1) N(0,1)]
-% Model 2 Spatial
+% y=beta*X+e
+
+% Spatial Model 
 % e~G_exp(c_rho_bar) 
-% X~[1 G_exp(c_rho_bar) G_exp(c_rho_bar)]
-% Model 3 Spatial - Demeaned outcome
-% e~G_exp(c_rho_bar) 
-% X~[1 G_exp(c_rho_bar) G_exp(c_rho_bar)]
-% Y demeaned in estimation
+% X~[1 G_exp(c_rho_bar)]
+% 
+% Time series Model
+% e_s=gamma*e_s-1+u
+% X_s=gamma*X_s-1+v
+% X~[1 X_s],u and v are iid ~N(0,1)
+
 
 %--------------Estimators---------------%
 %HR, Kernel, Kernel + splines, SCPC
 rng(333) % Setting seed
-excercise = 'pc_bic_ts_ci';%'pc_bic_spa';%'pc_bic';
+excercise = 'vd_spa_pc_bic';%'vd_spa_pc_bic';
 % grid = 1; % 0 for fminbnd; otherwise for 5:5:90 grid
-method = 'bic'; % 'bic' for Hansen's BIC; otherwise for min residuals' AR(1) slope 
-spatial = 0; % 1 s ~ U(0,1); 0 s ~ [1:T]./T
-q_max = 64; %Number of splines to obtain the PC
+method = 'bic'; % 'bic' for Hansen's BIC; otherwise for min residuals' NN correlation
+spatial = 1; % 1: S_is ~ U(0,1); 0: S ~ evenly spaced 25 by 10 in a unit dimensional square and SAR DGp
+q_max = 10;
+
 %% Setting up parameters
 global T k beta rho_bar L
 N_reps = 1000;
@@ -32,9 +35,10 @@ beta = [ 1; 1.5];
 k= length(beta); % number of covariates
 rho_bar = 0.03; % Average pairwise correlation
 L = [0.015 0.03 0.05]; % Vector of cutoff distances
+M = 0.05; %(0,1] for distance cutoff for SAR model
 cholesky_flag = 'chol';
 N_order_splines = 2;
-
+N_vec_dist = 2;
 N_cutoffs = length(L);
 % if spatial==1
 %     a=3;
@@ -48,24 +52,27 @@ N_ols = 1+N_order_splines;
 %% Setting locations -------
 if spatial==1
     % Fixing locations
-    s = rand(T,1); % vector of locations
+    s = rand(T,N_vec_dist); % vector of locations
 else % Time series
-    s = (1:T)'./T;
+    s_temp = [repmat((1:10:T)'./T,10,1) repelem((1:25:T)'./T,25)];
+    % Jittering
+    v = -0.001 + (0.001+0.001).*rand(T,2);
+    s = s_temp +v;
 end
 
 %% Loop
 rej_freq = NaN(k,N_estimators);
 avg_cv = NaN(k,2);
 avg_ci = NaN(k,N_estimators);
-avg_e_ar1 = NaN(5,N_ols);
+avg_e_ar1 = NaN(4,N_ols);
 t_stat_array = NaN(N_reps,k, N_estimators);
 num_array = NaN(N_reps,k, N_estimators);
 den_array = NaN(N_reps,k, N_estimators);
 ci_array = NaN(N_reps,k, N_estimators);
 cv_array = NaN(N_reps,k,2);
 rej_freq_m_i = NaN(N_reps,k,N_estimators);
-e_ar1_betas = NaN(N_reps,5,N_ols);
-pc_array = NaN(N_reps,N_order_splines+2);
+e_ar1_betas = NaN(N_reps,4,N_ols);
+splines_array = NaN(N_reps,N_order_splines+2);
 
 tic
 fprintf('Running simulations\nExcercise %s\n',excercise);
@@ -77,11 +84,12 @@ for r=1:N_reps
     end
 
     % generate data
+%     [y, X, D_mat] = DGP(beta,s,rho_bar,1);
     if spatial==1  
         [y, X, D_mat] = DGP(beta,s,rho_bar,1);
     else
-        [y, X, ~] = DGP_ts(beta, 0.79,T,0);
         D_mat = getdistmat(s,false);
+        [y, X, ~] = DGP_SAR(beta, 0.21,D_mat,M);
     end
 
 %         writetable(table(y, X, s), strcat('../Stata/data_splines.csv')); % Saving
@@ -89,11 +97,12 @@ for r=1:N_reps
     % Running OLS
     [beta_hat, u_hat] = ols(y,X,X,cholesky_flag);
 
-    % Residuals' AR(1)
-    [u_t, u_t_1] = sort_u(u_hat,s);
-    e_ar1_betas(r,1:2,1) = ols(u_t, u_t_1, u_t_1, cholesky_flag);
-    e_ar1_betas(r,3,1) = bic(u_hat,X,"hansen");
-    e_ar1_betas(r,4,1) = bic(u_hat,X,"damian");
+    % NN corr
+%     [u_t, u_t_1] = sort_u(u_hat,s);
+%     e_ar1_betas(r,1:2,1) = ols(u_t, u_t_1, u_t_1, cholesky_flag);
+    e_ar1_betas(r,1,1) = get_nn_corr(u_hat,D_mat,1);
+    e_ar1_betas(r,2,1) = bic(u_hat,X,"hansen");
+    e_ar1_betas(r,3,1) = bic(u_hat,X,"damian");
 
     % Getting SE from HR and SCPC estimatots
     se_hr = HR_var(u_hat,X,X);
@@ -160,17 +169,16 @@ for r=1:N_reps
 %             cutoff_dist_vec = [];
 %         end
     for o=1:N_order_splines
-        %find optimal number of splines using Hansen's BIC or residuals' AR(1) slope
-        
+        %find optimal number of splines using Hansen's BIC or residuals' AR(1) slope      
         [x, fval] = get_opt_pc_grid(q_max,s,o,y,X,method,cholesky_flag);        
-        pc_array(r,o) = x;
+        splines_array(r,o) = x;
 
-        for q=pc_array(r,o)%R %Number of splines
+        for q=splines_array(r,o)%R %Number of splines
 
-            % Matrix of BSplines on locations
-            [W, delta, n_dropped] = get_PC(q,s,q_max,o,1);
-            e_ar1_betas(r,5,n) = n_dropped;
-            pc_array(r,o+2) = 2*delta*o;
+            % Matrix of BSplines on vector of locations
+            [W, delta, n_dropped] = get_PC(q,s,q_max,o);
+            e_ar1_betas(r,4,n) = n_dropped;
+            splines_array(r,o+2) = 2*delta*o;
 %                 if r==1
 %                     cutoff_dist_vec=[cutoff_dist_vec; NaN; L'; 2*delta*o];
 %                 end
@@ -193,13 +201,14 @@ for r=1:N_reps
             den_array(r,:,j) = [NaN se_hr_bs(1:k-1)];
             ci_array(r,:,j) = [NaN 2.*abs(se_hr_bs(1:k-1)).*1.96];
             
-            % Residuals' AR(1)
-            [u_t_bs, u_t_1_bs] = sort_u(u_hat_bs,s);
-            e_ar1_betas(r,1:2,n) = ols(u_t_bs, u_t_1_bs, u_t_1_bs, cholesky_flag);
-            e_ar1_betas(r,3,n) = bic(u_hat_bs,X_bs,"hansen");
-            e_ar1_betas(r,4,n) = bic(u_hat_bs,X_bs,"damian");
+            % NN corr
+%             [u_t_bs, u_t_1_bs] = sort_u(u_hat_bs,s);
+%             e_ar1_betas(r,1:2,n) = ols(u_t_bs, u_t_1_bs, u_t_1_bs, cholesky_flag);
+            e_ar1_betas(r,1,n) = get_nn_corr(u_hat_bs,D_mat,1);
+            e_ar1_betas(r,2,n) = bic(u_hat_bs,X_bs,"hansen");
+            e_ar1_betas(r,3,n) = bic(u_hat_bs,X_bs,"damian");
             j=j+1;
-            for p=[L pc_array(r,o+2)]%Cutoff lengths for Kernel
+            for p=[L splines_array(r,o+2)]%Cutoff lengths for Kernel
 %                     disp(q);
                 % Kernel S.E. for different length cutoffs
                 se_kernel_bs = kernel_var(u_hat_bs,X_bs,X_bs,D_mat,p,cholesky_flag);
@@ -246,35 +255,36 @@ results_table = array2table(...
     [rej_freq(:,:)' avg_ci(:,:)'],...
     'VariableNames', {'Cons.' 'Beta' 'CI length Cons.' 'CI length Beta'});
 results_table
-ear1_table = array2table(...
+nn_table = array2table(...
     avg_e_ar1(:,:)',...
-    'VariableNames', {'Cons.' 'Gamma' 'BIC_h' 'BIC_d' 'dropped'});
-ear1_table
-pc_table = array2table(pc_array, 'VariableNames', {'PC Qty. O1' 'PC Qty. O2' 'DD O1' 'DD O2'});
+    'VariableNames', {'NN' 'BIC_h' 'BIC_d' 'dropped'});
+nn_table
+splines_table = array2table(splines_array, 'VariableNames', {'PC Qty. O1' 'PC Qty. O2' 'DD O1' 'DD O2'});
 
 %% Saving results %%
 fprintf('Saving results\n');
-
+  
 save(['opt_pc_spline_' excercise '.mat'])
 
-writetable(results_table,['../Products/opt_pc_spline_res_' excercise '.csv']);
-writetable(ear1_table,['../Products/opt_pc_spline_ar1_' excercise '.csv']);
+writetable(results_table,['../Products/opt_pc_res_' excercise '.csv']);
+writetable(nn_table,['../Products/opt_pc_nn_' excercise '.csv']);
 
 
 %% Plotting %%
 % clear;
 fprintf('Plotting\n');
-% excercise = 'pc_bic';%'ts_gamma';%'dd_2x';%'grid';
-% load(['opt_pc_spline_' excercise '.mat'])
-histogram(e_ar1_betas(:,2,1));
+% excercise = 'grid';%'dd_2x';%'ts_gamma';%
+% load(['bic_spline_' excercise '.mat'])
+histogram(e_ar1_betas(:,1,1));
 exportgraphics(gcf,strcat(['../Products/hist_gamma_o1_' excercise '.png']))
-histogram(e_ar1_betas(:,2,2));
+histogram(e_ar1_betas(:,1,2));
 exportgraphics(gcf,strcat(['../Products/hist_gamma_o2_' excercise '.png']))
-% PC hist
-histogram(pc_array(:,1));
+% Spline hist
+histogram(splines_array(:,1));
 exportgraphics(gcf,strcat(['../Products/hist_pc_o1_' excercise '.png']))
-histogram(pc_array(:,2));
+histogram(splines_array(:,2));
 exportgraphics(gcf,strcat(['../Products/hist_pc_o2_' excercise '.png']))
+
 
 
 

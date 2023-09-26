@@ -1,6 +1,7 @@
-function [W,delta,n_dropped] = get_PC(r,s,q_in,o,drop_flag)
+function [W,delta,n_dropped] = get_PC(r,s,q_in,o)
     
-    [S,delta,n_dropped] = get_bspline_mat(s,q_in,o,drop_flag);
+    % [S,delta,n_dropped] = get_bspline_mat(s,q_in,o,drop_flag);
+    [S,delta,n_dropped] = get_bsplines(s,q_in,o);
     [~,q_max] = size(S);
     q =  min([r,q_max]);
     SS = S'*S;

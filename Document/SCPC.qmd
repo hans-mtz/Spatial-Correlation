@@ -53,8 +53,13 @@ options(
 The average C.V. of the SCPC is 2.2856 for the constant and the slope. The average C.V. of the C-SCPC is 2.3656 for the constant and 2.4971 for the slope.
 
 
+<!-- Multi-dimensional locations & PCs-->
+{{< include sections/210-mdd-pc.qmd >}}
+
 <!-- Multi-dimensional locations -->
 {{< include sections/200-mdd.qmd >}}
+
+# Scalar locations
 
 <!-- PC -->
 {{< include sections/120-pc.qmd >}}

@@ -185,15 +185,15 @@
 
 \title{Spatial correlation}
 \author{Hans Martinez}
-\date{2023-09-12}
+\date{2023-09-25}
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[boxrule=0pt, enhanced, interior hidden, breakable, borderline west={3pt}{0pt}{shadecolor}, frame hidden, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, interior hidden, breakable, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, sharp corners, enhanced]}{\end{tcolorbox}}\fi
 
 \hypertarget{updates}{%
-\section*{Updates}\label{updates}}
-\addcontentsline{toc}{section}{Updates}
+\subsection*{Updates}\label{updates}}
+\addcontentsline{toc}{subsection}{Updates}
 
 \begin{itemize}
 \tightlist
@@ -201,11 +201,14 @@
   Section~\ref{sec-multi} contains the tables of the rejection
   frequencies when the locations are two-dimensional for the case of the
   spatial DGP.
+\item 
+  Tables 1 and 2 now display the rejection frequencies selecting the optimal number
+  of PCs of 10 B Splines when using NN or BIC
 \end{itemize}
 
 \hypertarget{to-do}{%
-\section*{To-Do}\label{to-do}}
-\addcontentsline{toc}{section}{To-Do}
+\subsection*{To-Do}\label{to-do}}
+\addcontentsline{toc}{subsection}{To-Do}
 
 \begin{itemize}
 \tightlist
@@ -231,21 +234,285 @@
 \end{itemize}
 
 \hypertarget{note}{%
-\section*{Note}\label{note}}
-\addcontentsline{toc}{section}{Note}
+\subsection*{Note}\label{note}}
+\addcontentsline{toc}{subsection}{Note}
 
 The average C.V. of the SCPC is 2.2856 for the constant and the slope.
 The average C.V. of the C-SCPC is 2.3656 for the constant and 2.4971 for
 the slope.
 
 \hypertarget{sec-multi}{%
-\section{Multi-dimensional locations}\label{sec-multi}}
-
-\hypertarget{spatial-dgp}{%
-\subsection{Spatial DGP}\label{spatial-dgp}}
+\section{Multidimensional locations}\label{sec-multi}}
 
 In this set of simulations, the locations are two-dimensional. The
-locations are independent and follow a uniform distribution.
+locations are independent and follow a uniform distribution. The DGP is
+the same as described in Section~\ref{sec-dgp}.
+
+\hypertarget{pc}{%
+\subsection{PC}\label{pc}}
+
+In this exercise, I kept the number of splines fixed at 10 per location
+dimension and the optimal number of PC was selected using either BIC or
+NN. The optimizaion problem is simply selecting the number of splines in
+a grid going from 4 to 10 PCs that generated the lowest BIC or NN.
+
+Tables \ref{tbl-vd-bic-nn} and \ref{tbl-vd-pc-bic} display the rejection
+frequencies for the different variance estimators for the optimal number
+of PCs.
+
+\hypertarget{tbl-vd-bic-nn}{}
+\begin{longtable}[t]{llrrrrrrr}
+\caption{\label{tbl-vd-bic-nn}Rejection frequencies for different variance estimators. Spatial data
+with independent uniform-distributed two-dimension locations. Selecting
+the number of PCs of a 10 B Splines evaluated at the location vector,
+using the lowest Nearest Neighbour (NN) correlation in residuals from a
+grid going from 4 to 10 PCs. }\tabularnewline
+
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{5}{c}{Spatial data} & \multicolumn{3}{c}{Residuals} \\
+\cmidrule(l{3pt}r{3pt}){2-6} \cmidrule(l{3pt}r{3pt}){7-9}
+\multicolumn{4}{c}{ } & \multicolumn{2}{c}{C.I. length} \\
+\cmidrule(l{3pt}r{3pt}){5-6}
+Splines & Estimator & Cons. & $\beta_1$ & Cons.  & $\beta_1$  & NN & BIC & Dropped\\
+\midrule
+ & HR & 0.537 & 0.254 & 0.246 & 0.245 &  &  & \\
+
+ & SCPC & 0.053 & 0.042 & 0.793 & 0.508 &  &  & \\
+
+ & C-SCPC & 0.043 & 0.037 & 0.815 & 0.533 &  &  & \\
+
+ & Kernel 0.015 & 0.501 & 0.229 & 0.265 & 0.260 &  &  & \\
+
+ & Kernel 0.030 & 0.432 & 0.180 & 0.304 & 0.288 &  &  & \\
+
+\multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.050 & 0.339 & 0.133 & 0.374 & 0.328 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.626} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 711.648} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
+\cmidrule{1-9}
+ & HR &  & 0.078 &  & 0.352 &  &  & \\
+
+ & Kernel 0.015 &  & 0.075 &  & 0.356 &  &  & \\
+
+ & Kernel 0.030 &  & 0.072 &  & 0.362 &  &  & \\
+
+ & Kernel 0.050 &  & 0.063 &  & 0.374 &  &  & \\
+
+\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 1} & Damian's &  & 0.068 &  & 0.404 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.056} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 854.740} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 17}\\
+\cmidrule{1-9}
+ & HR &  & 0.102 &  & 0.310 &  &  & \\
+
+ & Kernel 0.015 &  & 0.097 &  & 0.315 &  &  & \\
+
+ & Kernel 0.030 &  & 0.090 &  & 0.319 &  &  & \\
+
+ & Kernel 0.050 &  & 0.085 &  & 0.325 &  &  & \\
+
+\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 2} & Damian's &  & 0.203 &  & 0.311 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.049} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 784.798} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 16}\\
+\bottomrule
+\end{longtable}
+
+\begin{figure}
+
+\begin{minipage}[t]{0.50\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_gamma_o1_vd_spa_pc_nn.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-pc-nn-o1-nn}Order 1}
+\end{minipage}%
+%
+\begin{minipage}[t]{0.50\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_gamma_o2_vd_spa_pc_nn.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-pc-nn-o2-nn}Order 2}
+\end{minipage}%
+
+\caption{\label{fig-pc-nn-nn}Distribution of the residuals' NN
+correlation in simulations. Selecting the number of PCs of 10 B Splines
+evaluated at the location vector using residuals' NN correlation.
+Spatial data with a two-dimension location.}
+
+\end{figure}
+
+\begin{figure}
+
+\begin{minipage}[t]{0.50\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_pc_o1_vd_spa_pc_nn.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-spline-o1-gamma}Order 1}
+\end{minipage}%
+%
+\begin{minipage}[t]{0.50\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_pc_o2_vd_spa_pc_nn.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-spline-o2-gamma}Order 2}
+\end{minipage}%
+
+\caption{\label{fig-pc-nn-vd-spa}Distribution of the number of PCs of 10
+B-Splines selected in simulations. Selecting the number of PC using the
+residuals' NN correlation. Spatial data with a two-dimension location.}
+
+\end{figure}
+\newpage
+\hypertarget{tbl-vd-pc-bic}{}
+\begin{longtable}[t]{llrrrrrrr}
+\caption{\label{tbl-vd-pc-bic}Rejection frequencies for different variance estimators. Spatial data
+with independent uniform-distributed two-dimension locations. Selecting
+the number of PCs of 10 B Splines evaluated at the location vector.
+Selection of PCs used residuals' lowest BIC of a grid going from 4 to 10
+splines. }\tabularnewline
+
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{5}{c}{Spatial data} & \multicolumn{3}{c}{Residuals} \\
+\cmidrule(l{3pt}r{3pt}){2-6} \cmidrule(l{3pt}r{3pt}){7-9}
+\multicolumn{4}{c}{ } & \multicolumn{2}{c}{C.I. length} \\
+\cmidrule(l{3pt}r{3pt}){5-6}
+Splines & Estimator & Cons. & $\beta_1$ & Cons.  & $\beta_1$  & NN & BIC & Dropped\\
+\midrule
+ & HR & 0.537 & 0.254 & 0.246 & 0.245 &  &  & \\
+
+ & SCPC & 0.053 & 0.042 & 0.793 & 0.508 &  &  & \\
+
+ & C-SCPC & 0.043 & 0.037 & 0.815 & 0.533 &  &  & \\
+
+ & Kernel 0.015 & 0.501 & 0.229 & 0.265 & 0.260 &  &  & \\
+
+ & Kernel 0.030 & 0.432 & 0.180 & 0.304 & 0.288 &  &  & \\
+
+\multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.050 & 0.339 & 0.133 & 0.374 & 0.328 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.626} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 711.648} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
+\cmidrule{1-9}
+ & HR &  & 0.394 &  & 0.348 &  &  & \\
+
+ & Kernel 0.015 &  & 0.377 &  & 0.365 &  &  & \\
+
+ & Kernel 0.030 &  & 0.321 &  & 0.406 &  &  & \\
+
+ & Kernel 0.050 &  & 0.250 &  & 0.477 &  &  & \\
+
+\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 1} & Damian's &  & 0.147 &  & 0.652 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.775} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 744.670} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 17}\\
+\cmidrule{1-9}
+ & HR &  & 0.186 &  & 0.279 &  &  & \\
+
+ & Kernel 0.015 &  & 0.181 &  & 0.287 &  &  & \\
+
+ & Kernel 0.030 &  & 0.163 &  & 0.303 &  &  & \\
+
+ & Kernel 0.050 &  & 0.142 &  & 0.319 &  &  & \\
+
+\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 2} & Damian's &  & 0.250 &  & 0.309 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.338} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 718.456} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 16}\\
+\bottomrule
+\end{longtable}
+
+\begin{figure}
+
+\begin{minipage}[t]{0.50\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_gamma_o1_vd_spa_pc_bic.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-nn-o1-bic}Order 1}
+\end{minipage}%
+%
+\begin{minipage}[t]{0.50\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_gamma_o2_vd_spa_pc_bic.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-nn-o2-bic}Order 2}
+\end{minipage}%
+
+\caption{\label{fig-nn-bic}Distribution of the residuals' NN correlation
+in simulations. Selecting the number of PCs of 10 B Splines using
+residuals' BIC. Spatial data with two-dimension locations.}
+
+\end{figure}
+
+\begin{figure}
+
+\begin{minipage}[t]{0.50\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_pc_o1_vd_spa_pc_bic.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-spline-o1-vd-bic}Order 1}
+\end{minipage}%
+%
+\begin{minipage}[t]{0.50\linewidth}
+
+{\centering 
+
+\raisebox{-\height}{
+
+\includegraphics{"../Simulations/Products/hist_pc_o2_vd_spa_pc_bic.png"}
+
+}
+
+}
+
+\subcaption{\label{fig-spline-o2-vd-bic}Order 2}
+\end{minipage}%
+
+\caption{\label{fig-pc-bic-vd-spa}Distribution of the number of PCs of
+10 B-Splines selected in simulations. Selecting the number of PCs using
+the residuals' BIC. Spatial data with two-dimension locations.}
+
+\end{figure}
+
+\hypertarget{b-splines-and-spatial-dgp}{%
+\subsection{B-Splines and Spatial DGP}\label{b-splines-and-spatial-dgp}}
 
 Tables \ref{tbl-vd-grid}, \ref{tbl-vd-gamma}, and \ref{tbl-vd-bic} show
 the rejection frequencies for the different variance estimators using a
@@ -261,7 +528,7 @@ the residual's NN correlation closest to 0.05 during simulations.
 Lastly, Table~\ref{tbl-vd-bic} shows the rejection frequencies where the
 optimal number of splines was chosen using the lowest residua's BIC from
 a grid going from 4 to 12 in steps of 2 splines.
-
+\newpage
 \hypertarget{tbl-vd-grid}{}
 \begin{longtable}[t]{lllrrrrrrr}
 \caption{\label{tbl-vd-grid}Rejection frequencies for different variance estimators. Spatial data
@@ -388,7 +655,7 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & Cons.  & $\beta_1$  & NN & BIC & 
  & \multirow[t]{-5}{*}{\raggedright\arraybackslash 12 splines} & Damian's 0.364 &  & 0.106 &  & 0.467 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash -0.023} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 938.341} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 40}\\
 \bottomrule
 \end{longtable}
-\newpage
+
 \hypertarget{tbl-vd-gamma}{}
 \begin{longtable}[t]{llrrrrrrr}
 \caption{\label{tbl-vd-gamma}Rejection frequencies for different variance estimators. Spatial data
@@ -638,8 +905,11 @@ the residuals' BIC. Spatial data with two-dimension locations.}
 
 \end{figure}
 
+\hypertarget{scalar-locations}{%
+\section{Scalar locations}\label{scalar-locations}}
+
 \hypertarget{principal-components}{%
-\section{Principal components}\label{principal-components}}
+\subsection{Principal components}\label{principal-components}}
 
 Table~\ref{tbl-pc} displays the rejection frequencies for the optimal
 number of the Principal Components of the 64 order 1 and order 2
@@ -652,7 +922,7 @@ selec
 
 Table~\ref{tbl-pc-ts} shows the rejection frequencies for the time
 series DGP.
-\newpage
+
 \hypertarget{tbl-pc}{}
 \begin{longtable}[t]{llrrrrrrr}
 \caption{\label{tbl-pc}Rejection frequencies for different variance estimators. Spatial data.
@@ -904,13 +1174,14 @@ and 2 using BIC. Time series data.}
 \end{figure}
 
 \hypertarget{gamma-selection-of-spline-quantity}{%
-\section{\texorpdfstring{\(\gamma\) selection of spline
+\subsection{\texorpdfstring{\(\gamma\) selection of spline
 quantity}{\textbackslash gamma selection of spline quantity}}\label{gamma-selection-of-spline-quantity}}
 
 Table~\ref{tbl-gamma} displays the rejection frequencies for the optimal
 number of splines. The optimal number of splines was selected as the
 number of splines for which the OLS residuals produced the lowest AR(1)
-slope.
+slope from a coarse grid starting from 5 and up to 90 in steps of 5
+splines.
 \newpage
 \hypertarget{tbl-gamma}{}
 \begin{longtable}[t]{llrrrrrrr}
@@ -1161,7 +1432,7 @@ B-Splines selected in simulations. Selecting the number of splines using
 \end{figure}
 
 \hypertarget{bic-selection-of-spline-quantity}{%
-\section{BIC selection of spline
+\subsection{BIC selection of spline
 quantity}\label{bic-selection-of-spline-quantity}}
 
 Table~\ref{tbl-bic} displays the rejection frequencies for the optimal
@@ -1419,7 +1690,7 @@ BIC. Time series data.}
 \end{figure}
 
 \hypertarget{sec-kernel}{%
-\section{Kernel estimator}\label{sec-kernel}}
+\subsection{Kernel estimator}\label{sec-kernel}}
 
 I compare the results for the four different variance estimators, the
 HR, SCPC, C-SCPC, and Kernel. For the Kernel estimator, I try different
@@ -1452,7 +1723,7 @@ residuals \(\gamma_1\), the average BIC for two methods, and the average
 number of splines dropped.
 
 \hypertarget{bic}{%
-\subsection{BIC}\label{bic}}
+\subsubsection{BIC}\label{bic}}
 
 Hansen's BIC (Hansen 2020) is estimated as
 \begin{equation}\protect\hypertarget{eq-hansen-bic}{}{
@@ -1649,7 +1920,7 @@ Order & Qty. & Estimator & Cons. & $\beta_1$ & $\gamma_1$ & Hansen's & Damian's 
 \end{longtable}
 
 \hypertarget{evenly-spaced-locations-time-series}{%
-\section{Evenly spaced locations (time
+\subsection{Evenly spaced locations (time
 series)}\label{evenly-spaced-locations-time-series}}
 
 In this exercise, locations are evenly spaced from \(\frac{1}{250}\) to
@@ -1878,7 +2149,7 @@ Distance & $\bar\rho$\\
 \end{table}
 
 \hypertarget{the-setting}{%
-\section{The setting}\label{the-setting}}
+\subsection{The setting}\label{the-setting}}
 
 \[
 y_l = x_l\beta + e_l
@@ -1899,6 +2170,10 @@ correlation
 words, \(c=c_{\bar{\rho}}\) solves
 \([n(n-1)]^{-1}\sum_{l,l'\not=l}\exp(-c_{\bar{\rho}}||s_l-s_{l'}||)=\bar{\rho}\).
 
+\hypertarget{worst-case-covariance-matrix}{%
+\subsubsection{Worst case covariance
+matrix}\label{worst-case-covariance-matrix}}
+
 Let \(\Sigma(c)\) be the covariance matrix of \(e_l\) evaluated at the
 sample locations, so that \(\Sigma(c)_{l,l'}=\exp(-c||s_l-s_{l'} ||)\),
 and let \(\bar{\rho}(c)\) denote the resulting average pairwise
@@ -1911,11 +2186,20 @@ researcher desires a test that controls size for values of
 sense that it induces the largest value of \(\sigma^2\) among all
 \(\Sigma(c)\) with \(\bar{\rho}\le \bar{\rho}_{max}\)
 
+\hypertarget{sec-dgp}{%
+\subsubsection{The DGP}\label{sec-dgp}}
+
+The DGP in simulations, \(y=\beta_0 + \beta_1 x_l +e_l\), where
+\(e_l\sim\mathcal{G}_{exp}(c_{\bar\rho})\) and
+\(X\sim[1 \;\mathcal{G}_{exp}(c_{\bar\rho})]\). The true parameters are
+\(\beta=(1, 1.5)'\), and the average pairwise correlation is
+\(\bar\rho=0.03\).
+
 \hypertarget{literature-review}{%
-\section{Literature Review}\label{literature-review}}
+\subsection{Literature Review}\label{literature-review}}
 
 \hypertarget{muller2022jbes}{%
-\subsection{Müller and Watson (2022b)}\label{muller2022jbes}}
+\subsubsection{Müller and Watson (2022b)}\label{muller2022jbes}}
 
 The objective of the paper is to develop a robustified version of their
 Spatial Correlation Principal Components (SCPC) (Müller and Watson
@@ -1941,8 +2225,8 @@ covariance function conditional on the observed locations.
 (On going\ldots)
 
 \hypertarget{references}{%
-\section*{References}\label{references}}
-\addcontentsline{toc}{section}{References}
+\subsection*{References}\label{references}}
+\addcontentsline{toc}{subsection}{References}
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
