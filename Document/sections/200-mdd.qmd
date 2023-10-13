@@ -8,9 +8,9 @@ Tables [-@tbl-vd-grid], [-@tbl-vd-gamma], and [-@tbl-vd-bic] show the rejection 
 
 @tbl-vd-grid displays the rejection frequencies holding the number of splines fixed for a grid going from 4 to 12 in steps of 2 splines. 
 
-In @tbl-vd-gamma, the number of splines was selected using the residual's NN correlation closest to 0.05 during simulations. 
+In @tbl-vd-gamma, the optimal number of splines generated the residual's NN correlation closest to 0.05 during simulations. 
 
-Lastly, @tbl-vd-bic shows the rejection frequencies where the optimal number of splines was chosen using the lowest residua's BIC from a grid going from 4 to 12 in steps of 2 splines.
+Lastly, @tbl-vd-bic shows the rejection frequencies where the optimal number of splines produced the lowest residua's BIC from a grid going from 4 to 12 in steps of 2 splines.
 
 ```{r}
 #| label: tbl-vd-grid

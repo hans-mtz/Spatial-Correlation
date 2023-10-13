@@ -1,0 +1,377 @@
+## Measurement error{#sec-me}
+
+In this exercise, measurement error in locations is introduced. Measurement error is modeled as disturbance of the locations, where the disturbances are centered at zero and are not greater than the radius of circle. The radius of the disturbances in this exercise are 10, 20, and 30 percent the length of the unit square.
+
+![ME in locations, 30%]("../Simulations/Products/hist_dist_me_30p.png"){#fig-loc-me fig-scap="Histogram of distances using true and mismeasured locations when ME is 30 percent."}
+
+
+```{r}
+#| label: tbl-mdl-me
+#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data with independent uniform-distributed two-dimension mismeasured locations. Selecting the number of B Splines using the lowest Nearest Neighbour (NN) correlation in residuals from a grid going from 4 to 12 PCs. The radius of the ME disturbance circle is 10 percent.
+#| echo: false
+#| warning: false
+#| eval: true
+#| include: true
+
+kernel_results <- read.csv("../Simulations/Products/opt_spline_sims_res_me_10p.csv")
+
+e_ar1_tbl <- read.csv("../Simulations/Products/opt_spline_sims_ar1_me_10p.csv")
+
+# notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
+row_names_kernel<- c(
+    "HR",
+    "SCPC",
+    "C-SCPC",
+    rep(
+        c(
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.050"#,
+            # "Damian's"
+        ),
+        1
+    ),
+        rep(
+        c(
+            "HR",
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.050",
+            "Damian's "
+
+        ),
+        1
+    )
+)
+# row_names_kernel_notes <-paste0(row_names_kernel,notes)
+aux <- c(
+    rep(
+        "",
+        4+2
+    ),
+    rep(
+        c(
+            "Order 1"#,
+            # "Order 2"
+        ),
+        each = 5
+    )
+)
+
+table_kernel <- cbind(
+    aux,
+    row_names_kernel, 
+    kernel_results#, 
+)
+names(table_kernel)<- c(
+    "Splines",
+    "Estimator",
+    "Cons.",
+    "$\\beta_1$",
+    "Cons. ",
+    "$\\beta_1$ ",
+    "$i$"
+)
+
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1"#,
+            # "Order 2"
+        ),
+        1
+    )
+)
+
+table_ar1 <-cbind(
+    aux2,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "Splines",
+    "NN",
+    "Slope",
+    "BIC",
+    "Damian's",
+    "Dropped"
+)
+table<-merge(table_kernel,table_ar1, by="Splines",sort=FALSE)
+
+kbl(
+    table[,-c(9,11)], #- id, 
+    digits=3,#c(3,3,5,3), 
+    booktabs = TRUE,
+    longtable = TRUE,
+    # col.names = col_names,
+    # row.names = row_names,
+    escape = F,
+    position = "p"#,
+    # format.args = list(scientific=TRUE)
+    ) %>%
+    add_header_above(
+        c(" "=4,"C.I. length"=2)
+    ) %>%
+    add_header_above(
+        c(" "=1,"Spatial data"=6,"Residuals"=3)
+    ) %>%
+    collapse_rows(
+        c(1,8:10),
+        latex_hline = "custom",
+        custom_latex_hline = 1,
+        valign = "top"#,
+        # row_group_label_position = "stack"
+    ) #%>%
+
+```
+
+
+```{r}
+#| label: tbl-mdl-me-2p
+#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data with independent uniform-distributed two-dimension mismeasured locations. Selecting the number of B Splines using the lowest Nearest Neighbour (NN) correlation in residuals from a grid going from 4 to 12 PCs. The radius of the ME disturbance circle is 20 percent.
+#| echo: false
+#| warning: false
+#| eval: true
+#| include: true
+
+kernel_results <- read.csv("../Simulations/Products/opt_spline_sims_res_me_20p.csv")
+
+e_ar1_tbl <- read.csv("../Simulations/Products/opt_spline_sims_ar1_me_20p.csv")
+
+# notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
+row_names_kernel<- c(
+    "HR",
+    "SCPC",
+    "C-SCPC",
+    rep(
+        c(
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.050"#,
+            # "Damian's"
+        ),
+        1
+    ),
+        rep(
+        c(
+            "HR",
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.050",
+            "Damian's "
+
+        ),
+        1
+    )
+)
+# row_names_kernel_notes <-paste0(row_names_kernel,notes)
+aux <- c(
+    rep(
+        "",
+        4+2
+    ),
+    rep(
+        c(
+            "Order 1"#,
+            # "Order 2"
+        ),
+        each = 5
+    )
+)
+
+table_kernel <- cbind(
+    aux,
+    row_names_kernel, 
+    kernel_results#, 
+)
+names(table_kernel)<- c(
+    "Splines",
+    "Estimator",
+    "Cons.",
+    "$\\beta_1$",
+    "Cons. ",
+    "$\\beta_1$ ",
+    "$i$"
+)
+
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1"#,
+            # "Order 2"
+        ),
+        1
+    )
+)
+
+table_ar1 <-cbind(
+    aux2,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "Splines",
+    "NN",
+    "Slope",
+    "BIC",
+    "Damian's",
+    "Dropped"
+)
+table<-merge(table_kernel,table_ar1, by="Splines",sort=FALSE)
+
+kbl(
+    table[,-c(9,11)], #- id, 
+    digits=3,#c(3,3,5,3), 
+    booktabs = TRUE,
+    longtable = TRUE,
+    # col.names = col_names,
+    # row.names = row_names,
+    escape = F,
+    position = "p"#,
+    # format.args = list(scientific=TRUE)
+    ) %>%
+    add_header_above(
+        c(" "=4,"C.I. length"=2)
+    ) %>%
+    add_header_above(
+        c(" "=1,"Spatial data"=6,"Residuals"=3)
+    ) %>%
+    collapse_rows(
+        c(1,8:10),
+        latex_hline = "custom",
+        custom_latex_hline = 1,
+        valign = "top"#,
+        # row_group_label_position = "stack"
+    ) #%>%
+
+```
+
+
+```{r}
+#| label: tbl-mdl-me-3p
+#| tbl-cap: Rejection frequencies for different variance estimators. Spatial data with independent uniform-distributed two-dimension mismeasured locations. Selecting the number of B Splines using the lowest Nearest Neighbour (NN) correlation in residuals from a grid going from 4 to 12 PCs. The radius of the ME disturbance circle is 30 percent.
+#| echo: false
+#| warning: false
+#| eval: true
+#| include: true
+
+kernel_results <- read.csv("../Simulations/Products/opt_spline_sims_res_me_30p.csv")
+
+e_ar1_tbl <- read.csv("../Simulations/Products/opt_spline_sims_ar1_me_30p.csv")
+
+# notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
+row_names_kernel<- c(
+    "HR",
+    "SCPC",
+    "C-SCPC",
+    rep(
+        c(
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.050"#,
+            # "Damian's"
+        ),
+        1
+    ),
+        rep(
+        c(
+            "HR",
+            "Kernel 0.015",
+            "Kernel 0.030",
+            "Kernel 0.050",
+            "Damian's "
+
+        ),
+        1
+    )
+)
+# row_names_kernel_notes <-paste0(row_names_kernel,notes)
+aux <- c(
+    rep(
+        "",
+        4+2
+    ),
+    rep(
+        c(
+            "Order 1"#,
+            # "Order 2"
+        ),
+        each = 5
+    )
+)
+
+table_kernel <- cbind(
+    aux,
+    row_names_kernel, 
+    kernel_results#, 
+)
+names(table_kernel)<- c(
+    "Splines",
+    "Estimator",
+    "Cons.",
+    "$\\beta_1$",
+    "Cons. ",
+    "$\\beta_1$ ",
+    "$i$"
+)
+
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1"#,
+            # "Order 2"
+        ),
+        1
+    )
+)
+
+table_ar1 <-cbind(
+    aux2,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "Splines",
+    "NN",
+    "Slope",
+    "BIC",
+    "Damian's",
+    "Dropped"
+)
+table<-merge(table_kernel,table_ar1, by="Splines",sort=FALSE)
+
+kbl(
+    table[,-c(9,11)], #- id, 
+    digits=3,#c(3,3,5,3), 
+    booktabs = TRUE,
+    longtable = TRUE,
+    # col.names = col_names,
+    # row.names = row_names,
+    escape = F,
+    position = "p"#,
+    # format.args = list(scientific=TRUE)
+    ) %>%
+    add_header_above(
+        c(" "=4,"C.I. length"=2)
+    ) %>%
+    add_header_above(
+        c(" "=1,"Spatial data"=6,"Residuals"=3)
+    ) %>%
+    collapse_rows(
+        c(1,8:10),
+        latex_hline = "custom",
+        custom_latex_hline = 1,
+        valign = "top"#,
+        # row_group_label_position = "stack"
+    ) #%>%
+
+```

@@ -185,25 +185,34 @@
 
 \title{Spatial correlation}
 \author{Hans Martinez}
-\date{2023-09-25}
+\date{2023-10-10}
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, interior hidden, breakable, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, sharp corners, enhanced]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, boxrule=0pt, interior hidden, sharp corners, borderline west={3pt}{0pt}{shadecolor}, frame hidden, breakable]}{\end{tcolorbox}}\fi
 
 \hypertarget{updates}{%
-\subsection*{Updates}\label{updates}}
-\addcontentsline{toc}{subsection}{Updates}
+\section*{Updates}\label{updates}}
+\addcontentsline{toc}{section}{Updates}
 
 \begin{itemize}
 \tightlist
 \item
-  Section~\ref{sec-multi} contains the tables of the rejection
-  frequencies when the locations are two-dimensional for the case of the
-  spatial DGP.
-\item 
-  Tables 1 and 2 now display the rejection frequencies selecting the optimal number
-  of PCs of 10 B Splines when using NN or BIC
+  Section~\ref{sec-me} contains the tables of the rejection frequencies
+  when the locations are two-dimensional for the case of the spatial DGP
+  and there is measurement error in the locations. SCPC and C-SCPC are
+  pretty stable up until 10 percent of ME; at 20\%, the rejection
+  frequencies increase to 7\%, and at 30\%, to 10\%. In the case of the
+  Kernel estimator, the locations are less informative about the
+  correlation between the closest neighbours. Hence, at the given cutoff
+  lengths, the Kernel estimators starts having trouble reducing the NN
+  correlation of the residuals, and therefore the rejection frequencies
+  go up.
+\item
+  However, we are still giving the C-/SCPC the true average pairwise
+  correlation \(\bar\rho\). The Kernel estimator does not depend on this
+  parameter, so the Kernel should do better than the MW when the
+  \(\bar\rho\) is misspecified.
 \end{itemize}
 
 \hypertarget{to-do}{%
@@ -213,24 +222,11 @@
 \begin{itemize}
 \tightlist
 \item
-  Two-dimension spatial locations with evenly spaced locations. Jitter
-  locations. If \(s\sim U(0,1)\) jitter by
-  \(\iota\sim U(-0.001,0.001)\).
-\item
-  Power curves for the SCPC and C-SCPC methods.
+  Misspecification of \(\bar\rho\). Kernel estimator shoul do better
+  than SCPC/C-SCPC if the true average pairwise correlation is
+  higher/lower than specified.
 \item
   Cluster version of Kernel estimator.
-\item
-  Measurement error in the locations.
-
-  \begin{enumerate}
-  \def\labelenumi{\alph{enumi}.}
-  \tightlist
-  \item
-    Get rejection freq.
-  \item
-    Plot distances (true vs.~mismeasured).
-  \end{enumerate}
 \end{itemize}
 
 \hypertarget{note}{%
@@ -248,6 +244,145 @@ In this set of simulations, the locations are two-dimensional. The
 locations are independent and follow a uniform distribution. The DGP is
 the same as described in Section~\ref{sec-dgp}.
 
+\hypertarget{sec-me}{%
+\subsection{Measurement error}\label{sec-me}}
+
+In this exercise, measurement error in locations is introduced.
+Measurement error is modeled as disturbance of the locations, where the
+disturbances are centered at zero and are not greater than the radius of
+circle. The radius of the disturbances in this exercise are 10, 20, and
+30 percent the length of the unit square.
+
+\begin{figure}
+
+{\centering \includegraphics{"../Simulations/Products/hist_dist_me_30p.png"}
+
+}
+
+\caption[Histogram of distances using true and mismeasured locations
+when ME is 30 percent.]{\label{fig-loc-me}ME in locations, 30\%}
+
+\end{figure}
+
+\hypertarget{tbl-mdl-me}{}
+\begin{longtable}[t]{llrrrrrrrr}
+\caption{\label{tbl-mdl-me}Rejection frequencies for different variance estimators. Spatial data
+with independent uniform-distributed two-dimension mismeasured
+locations. Selecting the number of B Splines using the lowest Nearest
+Neighbour (NN) correlation in residuals from a grid going from 4 to 12
+PCs. The radius of the ME disturbance circle is 10 percent. }\tabularnewline
+
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{6}{c}{Spatial data} & \multicolumn{3}{c}{Residuals} \\
+\cmidrule(l{3pt}r{3pt}){2-7} \cmidrule(l{3pt}r{3pt}){8-10}
+\multicolumn{4}{c}{ } & \multicolumn{2}{c}{C.I. length} \\
+\cmidrule(l{3pt}r{3pt}){5-6}
+Splines & Estimator & Cons. & $\beta_1$ & Cons.  & $\beta_1$  & $i$ & NN & BIC & Dropped\\
+\midrule
+ & HR & 0.514 & 0.252 & 0.247 & 0.246 & 0.000 &  &  & \\
+
+ & SCPC & 0.059 & 0.046 & 0.753 & 0.490 & 0.000 &  &  & \\
+
+ & C-SCPC & 0.054 & 0.038 & 0.772 & 0.510 & 0.000 &  &  & \\
+
+ & Kernel 0.015 & 0.507 & 0.246 & 0.254 & 0.248 & 0.000 &  &  & \\
+
+ & Kernel 0.030 & 0.470 & 0.224 & 0.271 & 0.256 & 0.000 &  &  & \\
+
+\multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.050 & 0.418 & 0.198 & 0.307 & 0.272 & 0.000 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.314} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 713.687} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
+\cmidrule{1-10}
+ & HR &  & 0.150 &  & 0.315 & 0.000 &  &  & \\
+
+ & Kernel 0.015 &  & 0.145 &  & 0.317 & 0.000 &  &  & \\
+
+ & Kernel 0.030 &  & 0.140 &  & 0.323 & 0.000 &  &  & \\
+
+ & Kernel 0.050 &  & 0.132 &  & 0.335 & 0.000 &  &  & \\
+
+\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 1} & Damian's &  & 0.155 &  & 0.378 & 0.057 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.047} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 855.602} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 12.244}\\
+\bottomrule
+\end{longtable}
+\newpage
+\hypertarget{tbl-mdl-me-2p}{}
+\begin{longtable}[t]{llrrrrrrrr}
+\caption{\label{tbl-mdl-me-2p}Rejection frequencies for different variance estimators. Spatial data
+with independent uniform-distributed two-dimension mismeasured
+locations. Selecting the number of B Splines using the lowest Nearest
+Neighbour (NN) correlation in residuals from a grid going from 4 to 12
+PCs. The radius of the ME disturbance circle is 20 percent. }\tabularnewline
+
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{6}{c}{Spatial data} & \multicolumn{3}{c}{Residuals} \\
+\cmidrule(l{3pt}r{3pt}){2-7} \cmidrule(l{3pt}r{3pt}){8-10}
+\multicolumn{4}{c}{ } & \multicolumn{2}{c}{C.I. length} \\
+\cmidrule(l{3pt}r{3pt}){5-6}
+Splines & Estimator & Cons. & $\beta_1$ & Cons.  & $\beta_1$  & $i$ & NN & BIC & Dropped\\
+\midrule
+ & HR & 0.491 & 0.244 & 0.246 & 0.246 & 0.000 &  &  & \\
+
+ & SCPC & 0.122 & 0.068 & 0.636 & 0.430 & 0.000 &  &  & \\
+
+ & C-SCPC & 0.114 & 0.065 & 0.648 & 0.444 & 0.000 &  &  & \\
+
+ & Kernel 0.015 & 0.487 & 0.239 & 0.248 & 0.247 & 0.000 &  &  & \\
+
+ & Kernel 0.030 & 0.477 & 0.238 & 0.255 & 0.248 & 0.000 &  &  & \\
+
+\multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.050 & 0.454 & 0.236 & 0.270 & 0.253 & 0.000 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.154} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 711.331} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
+\cmidrule{1-10}
+ & HR &  & 0.203 &  & 0.335 & 0.000 &  &  & \\
+
+ & Kernel 0.015 &  & 0.202 &  & 0.337 & 0.000 &  &  & \\
+
+ & Kernel 0.030 &  & 0.194 &  & 0.342 & 0.000 &  &  & \\
+
+ & Kernel 0.050 &  & 0.186 &  & 0.352 & 0.000 &  &  & \\
+
+\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 1} & Damian's &  & 0.159 &  & 0.427 & 0.028 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.078} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 927.875} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 18.873}\\
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\hypertarget{tbl-mdl-me-3p}{}
+\begin{longtable}[t]{llrrrrrrrr}
+\caption{\label{tbl-mdl-me-3p}Rejection frequencies for different variance estimators. Spatial data
+with independent uniform-distributed two-dimension mismeasured
+locations. Selecting the number of B Splines using the lowest Nearest
+Neighbour (NN) correlation in residuals from a grid going from 4 to 12
+PCs. The radius of the ME disturbance circle is 30 percent. }\tabularnewline
+
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{6}{c}{Spatial data} & \multicolumn{3}{c}{Residuals} \\
+\cmidrule(l{3pt}r{3pt}){2-7} \cmidrule(l{3pt}r{3pt}){8-10}
+\multicolumn{4}{c}{ } & \multicolumn{2}{c}{C.I. length} \\
+\cmidrule(l{3pt}r{3pt}){5-6}
+Splines & Estimator & Cons. & $\beta_1$ & Cons.  & $\beta_1$  & $i$ & NN & BIC & Dropped\\
+\midrule
+ & HR & 0.510 & 0.265 & 0.246 & 0.245 & 0.000 &  &  & \\
+
+ & SCPC & 0.195 & 0.109 & 0.533 & 0.383 & 0.000 &  &  & \\
+
+ & C-SCPC & 0.187 & 0.103 & 0.541 & 0.392 & 0.000 &  &  & \\
+
+ & Kernel 0.015 & 0.511 & 0.262 & 0.247 & 0.245 & 0.000 &  &  & \\
+
+ & Kernel 0.030 & 0.504 & 0.261 & 0.250 & 0.245 & 0.000 &  &  & \\
+
+\multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.050 & 0.497 & 0.257 & 0.257 & 0.247 & 0.000 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.092} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 712.129} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
+\cmidrule{1-10}
+ & HR &  & 0.238 &  & 0.342 & 0.000 &  &  & \\
+
+ & Kernel 0.015 &  & 0.233 &  & 0.344 & 0.000 &  &  & \\
+
+ & Kernel 0.030 &  & 0.230 &  & 0.348 & 0.000 &  &  & \\
+
+ & Kernel 0.050 &  & 0.217 &  & 0.355 & 0.000 &  &  & \\
+
+\multirow[t]{-5}{*}{\raggedright\arraybackslash Order 1} & Damian's &  & 0.159 &  & 0.427 & 0.013 & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 0.135} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 956.089} & \multirow[t]{-5}{*}{\raggedleft\arraybackslash 25.461}\\
+\bottomrule
+\end{longtable}
+
 \hypertarget{pc}{%
 \subsection{PC}\label{pc}}
 
@@ -259,7 +394,7 @@ a grid going from 4 to 10 PCs that generated the lowest BIC or NN.
 Tables \ref{tbl-vd-bic-nn} and \ref{tbl-vd-pc-bic} display the rejection
 frequencies for the different variance estimators for the optimal number
 of PCs.
-
+\newpage
 \hypertarget{tbl-vd-bic-nn}{}
 \begin{longtable}[t]{llrrrrrrr}
 \caption{\label{tbl-vd-bic-nn}Rejection frequencies for different variance estimators. Spatial data
@@ -526,8 +661,9 @@ In Table~\ref{tbl-vd-gamma}, the number of splines was selected using
 the residual's NN correlation closest to 0.05 during simulations.
 
 Lastly, Table~\ref{tbl-vd-bic} shows the rejection frequencies where the
-optimal number of splines was chosen using the lowest residua's BIC from
+optimal number of splines generated the lowest residua's BIC from
 a grid going from 4 to 12 in steps of 2 splines.
+
 \newpage
 \hypertarget{tbl-vd-grid}{}
 \begin{longtable}[t]{lllrrrrrrr}
@@ -1504,7 +1640,7 @@ Splines & Estimator & Cons. & $\beta_1$ & Cons.  & $\beta_1$  & $\gamma_1$ & BIC
 
 }
 
-\subcaption{\label{fig-bic-o1}Order 1}
+\subcaption{\label{fig-gamma-bic-o1}Order 1}
 \end{minipage}%
 %
 \begin{minipage}[t]{0.50\linewidth}
@@ -1519,7 +1655,7 @@ Splines & Estimator & Cons. & $\beta_1$ & Cons.  & $\beta_1$  & $\gamma_1$ & BIC
 
 }
 
-\subcaption{\label{fig-bic-o2}Order 2}
+\subcaption{\label{fig-gamma-bic-o2}Order 2}
 \end{minipage}%
 
 \caption{\label{fig-gamma-bic}Distribution of the residuals' AR(1) slope
@@ -1665,7 +1801,7 @@ Hansen's BIC. Time series data.}
 
 }
 
-\subcaption{\label{fig-spline-o1-bic}Order 1}
+\subcaption{\label{fig-spline-o1-bic-ts}Order 1}
 \end{minipage}%
 %
 \begin{minipage}[t]{0.50\linewidth}
@@ -1680,7 +1816,7 @@ Hansen's BIC. Time series data.}
 
 }
 
-\subcaption{\label{fig-spline-o2-bic}Order 2}
+\subcaption{\label{fig-spline-o2-bic-ts}Order 2}
 \end{minipage}%
 
 \caption{\label{fig-bic-splines-ts}Distribution of the number of

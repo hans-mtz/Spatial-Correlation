@@ -1,7 +1,3 @@
-# Multidimensional locations {#sec-multi} 
-
-In this set of simulations, the locations are two-dimensional. The locations are independent and follow a uniform distribution. The DGP is the same as described in @sec-dgp.
-
 ## PC
 
 In this exercise, I kept the number of splines fixed at 10 per location dimension and the optimal number of PC was selected using either BIC or NN. The optimizaion problem is simply selecting the number of splines in a grid going from 4 to 10 PCs that generated the lowest BIC or NN.

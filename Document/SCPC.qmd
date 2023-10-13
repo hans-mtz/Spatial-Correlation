@@ -34,24 +34,28 @@ options(
 
 ```
 
-## Updates {-}
+# Updates {-}
 
-- @sec-multi contains the tables of the rejection frequencies when the locations are two-dimensional for the case of the spatial DGP.
+- @sec-me contains the tables of the rejection frequencies when the locations are two-dimensional for the case of the spatial DGP and there is measurement error in the locations. SCPC and C-SCPC are pretty stable up until 10 percent of ME; at 20%, the rejection frequencies increase to 7%, and at 30%, to 10%. In the case of the Kernel estimator, the locations are less informative about the correlation between the closest neighbours. Hence, at the given cutoff lengths, the Kernel estimators starts having trouble reducing the NN correlation of the residuals, and therefore the rejection frequencies go up. 
+- However, we are still giving the C-/SCPC the true average pairwise correlation $\bar\rho$. The Kernel estimator does not depend on this parameter, so the Kernel should do better than the MW when the $\bar\rho$ is misspecified.
 
 
 ## To-Do {-}
 
-- Two-dimension spatial locations with evenly spaced locations. Jitter locations. If $s\sim U(0,1)$ jitter by $\iota\sim U(-0.001,0.001)$.
-- Power curves for the SCPC and C-SCPC methods.
+- Misspecification of $\bar\rho$. Kernel estimator shoul do better than SCPC/C-SCPC if the true average pairwise correlation is higher/lower than specified.
 - Cluster version of Kernel estimator.
-- Measurement error in the locations.
-    a.	Get rejection freq.
-    b.	Plot distances (true vs. mismeasured).
+
 
 ## Note {-}
 
 The average C.V. of the SCPC is 2.2856 for the constant and the slope. The average C.V. of the C-SCPC is 2.3656 for the constant and 2.4971 for the slope.
 
+# Multidimensional locations {#sec-multi} 
+
+In this set of simulations, the locations are two-dimensional. The locations are independent and follow a uniform distribution. The DGP is the same as described in @sec-dgp.
+
+<!-- Multi-dimensional locations & ME-->
+{{< include sections/220-mdl-me.qmd >}}
 
 <!-- Multi-dimensional locations & PCs-->
 {{< include sections/210-mdd-pc.qmd >}}

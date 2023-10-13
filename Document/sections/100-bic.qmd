@@ -131,9 +131,9 @@ kbl(
 
 ::: {#fig-gamma-bic layout-ncol=2}
 
-![Order 1]("../Simulations/Products/hist_gamma_o1_spa_bic.png"){#fig-bic-o1}
+![Order 1]("../Simulations/Products/hist_gamma_o1_spa_bic.png"){#fig-gamma-bic-o1}
 
-![Order 2]("../Simulations/Products/hist_gamma_o2_spa_bic.png"){#fig-bic-o2}
+![Order 2]("../Simulations/Products/hist_gamma_o2_spa_bic.png"){#fig-gamma-bic-o2}
 
 Distribution of the residuals' AR(1) slope $\gamma$ in simulations. Selecting the number of splines using Hansen's BIC. Spatial data.
 ::: 
@@ -290,9 +290,9 @@ Distribution of the residuals' AR(1) slope $\gamma$ in simulations. Selecting th
 
 ::: {#fig-bic-splines-ts layout-ncol=2}
 
-![Order 1]("../Simulations/Products/hist_spline_o1_ts_bic_ci.png"){#fig-spline-o1-bic}
+![Order 1]("../Simulations/Products/hist_spline_o1_ts_bic_ci.png"){#fig-spline-o1-bic-ts}
 
-![Order 2]("../Simulations/Products/hist_spline_o2_ts_bic_ci.png"){#fig-spline-o2-bic}
+![Order 2]("../Simulations/Products/hist_spline_o2_ts_bic_ci.png"){#fig-spline-o2-bic-ts}
 
 Distribution of the number of B-Splines selected in simulations. Selecting the number of splines using BIC. Time series data.
 :::
