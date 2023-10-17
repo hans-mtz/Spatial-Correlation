@@ -21,5 +21,6 @@
 *.lot
 *.gz
 *.pdf
+*.mat
 # */*.RData
 # *.RData

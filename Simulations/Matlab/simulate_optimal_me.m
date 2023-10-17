@@ -22,22 +22,23 @@ end
 %--------------Estimators---------------%
 %HR, Kernel, Kernel + splines, SCPC
 rng(333) % Setting seed
-excercise = 'me_30p';%'vd_spa_gamma';
+excercise = 'no_me_true_rho_1p';
+ME_perc = 0.01:0.01:0.1;
+e=0; %Measurement error
+rho_bar = 0.03; % default Average pairwise correlation
+rho_bar_true = 0.01; %True average pairwise correlation
+
 grid = 1; % 0 for fminbnd; otherwise for 5:5:90 grid
 method = 'nn'; % 'bic' for Hansen's BIC; otherwise for min residuals' AR(1) slope 
 spatial = 1; % 1: S_is ~ U(0,1); 0: S ~ evenly spaced 25 by 10 in a unit dimensional square and SAR DGp
 
 %% Setting up parameters
-ME_perc = 0.01:0.01:0.1;
-e=0.3;
-fprintf('me %5.2f \n',e)
-global T k beta rho_bar L
+fprintf('me: %5.2f; true rho:  %5.2f\n',[e rho_bar_true])
+% global T k beta rho_bar L
 N_reps = 1000;
 T = 250; % obs
 beta = [ 1; 1.5];
 k= length(beta); % number of covariates
-rho_bar = 0.03; % Average pairwise correlation
-rho_bat_true = 0.05;
 L = [0.015 0.03 0.05]; % Vector of cutoff distances
 M = 0.05; %(0,1] for distance cutoff for SAR model
 cholesky_flag = 'chol';
@@ -93,12 +94,17 @@ for r=1:N_reps
     end
 
     % generate data
-    [y, X, ~] = DGP(beta,s_true,rho_bar,1);
+    [y, X, ~] = DGP(beta,s_true,rho_bar_true,1);
 
     
     % Add noise
-    epsilon = get_circle_location_noise(s_true,e);
-    s=s_true+epsilon;
+    if e>0 
+        epsilon = get_circle_location_noise(s_true,e);
+        s=s_true+epsilon;
+    else
+        s=s_true;
+    end
+
     D_mat = getdistmat(s,false);
     % if spatial==1  
     %     [y, X, D_mat] = DGP(beta,s,rho_bar,1);

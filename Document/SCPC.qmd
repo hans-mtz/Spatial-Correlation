@@ -36,13 +36,12 @@ options(
 
 # Updates {-}
 
-- @sec-me contains the tables of the rejection frequencies when the locations are two-dimensional for the case of the spatial DGP and there is measurement error in the locations. SCPC and C-SCPC are pretty stable up until 10 percent of ME; at 20%, the rejection frequencies increase to 7%, and at 30%, to 10%. In the case of the Kernel estimator, the locations are less informative about the correlation between the closest neighbours. Hence, at the given cutoff lengths, the Kernel estimators starts having trouble reducing the NN correlation of the residuals, and therefore the rejection frequencies go up. 
-- However, we are still giving the C-/SCPC the true average pairwise correlation $\bar\rho$. The Kernel estimator does not depend on this parameter, so the Kernel should do better than the MW when the $\bar\rho$ is misspecified.
-
+- @sec-me contains the tables of the rejection frequencies when the locations are two-dimensional, locations are mismeasured, and the $\bar\rho_{max}$ is misspecified. In short, the rejection frequencies and the CI length increase if the DGP's $\bar\rho$ is greater than the default MW's method, and vice versa, they decrease if smaller. The rejection frequencies of the constant are significantly affected by the misspecification of $\bar\rho_{max}$, while the slope not so much. This result aligns with what @Muller2022JBES discuss in their paper (p.12).
+- ME seems to increase the rejection frequencies, but moderately. When ME is 3%, there is almost a 1 percent increase in the constant, but almost not increase in the slope for both SCPC and C-SCPC.
 
 ## To-Do {-}
 
-- Misspecification of $\bar\rho$. Kernel estimator shoul do better than SCPC/C-SCPC if the true average pairwise correlation is higher/lower than specified.
+- Adjust Kernel cutoff length when there is ME
 - Cluster version of Kernel estimator.
 
 
