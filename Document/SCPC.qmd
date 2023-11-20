@@ -36,14 +36,8 @@ options(
 
 # Updates {-}
 
-- @sec-me contains the tables of the rejection frequencies when the locations are two-dimensional, locations are mismeasured, and the $\bar\rho_{max}$ is misspecified. In short, the rejection frequencies and the CI length increase if the DGP's $\bar\rho$ is greater than the default MW's method, and vice versa, they decrease if smaller. The rejection frequencies of the constant are significantly affected by the misspecification of $\bar\rho_{max}$, while the slope not so much. This result aligns with what @Muller2022JBES discuss in their paper (p.12).
-- ME seems to increase the rejection frequencies, but moderately. When ME is 3%, there is almost a 1 percent increase in the constant, but almost not increase in the slope for both SCPC and C-SCPC.
-
-## To-Do {-}
-
-- Adjust Kernel cutoff length when there is ME
-- Cluster version of Kernel estimator.
-
+- Damian's (x3) cutoff distance added to tables 1-3.
+-  @tbl-hc-locs-me-rho-below added to show the rejection frequencies when the DGP's average pairwise correlation is lower than MW's method.
 
 ## Note {-}
 
@@ -52,6 +46,9 @@ The average C.V. of the SCPC is 2.2856 for the constant and the slope. The avera
 # Multidimensional locations {#sec-multi} 
 
 In this set of simulations, the locations are two-dimensional. The locations are independent and follow a uniform distribution. The DGP is the same as described in @sec-dgp.
+
+<!-- Multi-dimensional locations & ME-->
+{{< include sections/300-me-light.qmd >}}
 
 <!-- Multi-dimensional locations & ME-->
 {{< include sections/220-mdl-me.qmd >}}

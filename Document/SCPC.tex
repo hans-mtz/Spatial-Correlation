@@ -185,11 +185,11 @@
 
 \title{Spatial correlation}
 \author{Hans Martinez}
-\date{2023-10-16}
+\date{2023-11-20}
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, sharp corners, boxrule=0pt, interior hidden, breakable, frame hidden, enhanced]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, interior hidden, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, enhanced, breakable, sharp corners]}{\end{tcolorbox}}\fi
 
 \hypertarget{updates}{%
 \section*{Updates}\label{updates}}
@@ -198,31 +198,11 @@
 \begin{itemize}
 \tightlist
 \item
-  Section~\ref{sec-me} contains the tables of the rejection frequencies
-  when the locations are two-dimensional, locations are mismeasured, and
-  the \(\bar\rho_{max}\) is misspecified. In short, the rejection
-  frequencies and the CI length increase if the DGP's \(\bar\rho\) is
-  greater than the default MW's method, and vice versa, they decrease if
-  smaller. The rejection frequencies of the constant are significantly
-  affected by the misspecification of \(\bar\rho_{max}\), while the
-  slope not so much. This result aligns with what Müller and Watson
-  (2022b) discuss in their paper (p.12).
+  Damian's (x3) cutoff distance added to tables 1-3.
 \item
-  ME seems to increase the rejection frequencies, but moderately. When
-  ME is 3\%, there is almost a 1 percent increase in the constant, but
-  almost not increase in the slope for both SCPC and C-SCPC.
-\end{itemize}
-
-\hypertarget{to-do}{%
-\subsection*{To-Do}\label{to-do}}
-\addcontentsline{toc}{subsection}{To-Do}
-
-\begin{itemize}
-\tightlist
-\item
-  Adjust Kernel cutoff length when there is ME
-\item
-  Cluster version of Kernel estimator.
+  Table~\ref{tbl-hc-locs-me-rho-below} added to show the rejection
+  frequencies when the DGP's average pairwise correlation is lower than
+  MW's method.
 \end{itemize}
 
 \hypertarget{note}{%
@@ -240,13 +220,186 @@ In this set of simulations, the locations are two-dimensional. The
 locations are independent and follow a uniform distribution. The DGP is
 the same as described in Section~\ref{sec-dgp}.
 
+\hypertarget{highly-concentrated-locations}{%
+\subsection{Highly concentrated
+locations}\label{highly-concentrated-locations}}
+
+In this exercise, locations are highly concentrated in a few spots.
+First, 25 points were generated randomly in the unit square. Then,
+around these ``parent'' points, 10 random ``children'' points were drawn
+uniformly from a 0.01 radius circle. The ``children'' points were used
+as the true locations.
+
+Table~\ref{tbl-hc-locs-me} displays the rejection frequencies for the
+different estimators when ME radius is 0.03.
+Table~\ref{tbl-hc-locs-me-rho} displays the rejection frequencies when
+the DGP's average pairwise correlation \(\bar\rho\) (0.06) is higher
+than the C-SCPC/SCPC's \(\bar\rho_{max}\) (0.03).
+Table~\ref{tbl-hc-locs-me-rho-below} displays the rejection frequencies
+when the DGP's average pairwise correlation \(\bar\rho\) (0.01) is lower
+than the C-SCPC/SCPC's \(\bar\rho_{max}\) (0.03).
+Figure~\ref{fig-hist-light-locs} displays the histogram of the distances
+using the true and mismeasured locations.
+
+When the locations are drawn from highly concentrated distribution and
+ME radius is 3 percent, the rejection frequencies of MW's method
+increase non-trivially. C-SCPC increases from 4 to 6 percent, and SCPC
+to 7 (constant) and 10 (slope) percent. When, in addition to the ME, the
+DGP's average pairwise correlation is larger than the specified by the
+MW's method, the increase in the rejection frequencies is even larger.
+When the DGP's average pairwise correlation is lower (0.01) than MW's
+(0.03), the rejection frequencies are not bad.
+
+The KerneL+B SPlines method also suffers. Rejection frequencies increase
+as the CI lengths. Because the locations are less informative about the
+correlation between neighbouring observations, the method struggles to
+achieve the desired NN correlation in the residuals, leading to higher
+rejection frequencies.
+
+\hypertarget{tbl-hc-locs-me}{}
+\begin{longtable}[t]{llrrrrrrrr}
+\caption{\label{tbl-hc-locs-me}Rejection frequencies for different variance estimators. Spatial data
+with highly concentrated two-dimensional mismeasured locations.
+Selecting the number of B Splines using the lowest Nearest Neighbour
+(NN) correlation in residuals from a grid going from 4 to 12 splines. ME
+radius is 3 percent. DGP's \(\bar\rho\) is 0.03. C-SCPC/SCPC
+\(\bar\rho_{max}\) is 0.03. }\tabularnewline
+
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{6}{c}{Spatial data} & \multicolumn{3}{c}{Residuals} \\
+\cmidrule(l{3pt}r{3pt}){2-7} \cmidrule(l{3pt}r{3pt}){8-10}
+\multicolumn{4}{c}{ } & \multicolumn{2}{c}{C.I. length} \\
+\cmidrule(l{3pt}r{3pt}){5-6}
+Splines & Estimator & Cons. & $\beta_1$ & Cons.  & $\beta_1$  & $i$ & NN & BIC & Dropped\\
+\midrule
+ & HR & 0.500 & 0.480 & 0.245 & 0.240 & 0.000 &  &  & \\
+
+ & SCPC & 0.069 & 0.096 & 0.806 & 0.651 & 0.000 &  &  & \\
+
+ & C-SCPC & 0.060 & 0.062 & 0.833 & 0.719 & 0.000 &  &  & \\
+
+ & Kernel 0.015 & 0.342 & 0.347 & 0.362 & 0.323 & 0.000 &  &  & \\
+
+ & Kernel 0.030 & 0.187 & 0.208 & 0.527 & 0.445 & 0.000 &  &  & \\
+
+\multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.050 & 0.113 & 0.133 & 0.654 & 0.541 & 0.000 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.669} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 707.346} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
+\cmidrule{1-10}
+ & HR &  & 0.291 &  & 0.364 & 0.000 &  &  & \\
+
+ & Kernel 0.015 &  & 0.211 &  & 0.431 & 0.000 &  &  & \\
+
+ & Kernel 0.030 &  & 0.144 &  & 0.510 & 0.000 &  &  & \\
+
+ & Kernel 0.050 &  & 0.117 &  & 0.563 & 0.000 &  &  & \\
+
+ & Damian's (x2) &  & 0.130 &  & 0.576 & 0.004 &  &  & \\
+
+\multirow[t]{-6}{*}{\raggedright\arraybackslash Order 1} & Damian's (x3) &  & 0.139 &  & 0.572 & 0.013 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.090} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 675.704} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 72.205}\\
+\bottomrule
+\end{longtable}
+\newpage
+\hypertarget{tbl-hc-locs-me-rho}{}
+\begin{longtable}[t]{llrrrrrrrr}
+\caption{\label{tbl-hc-locs-me-rho}Rejection frequencies for different variance estimators. Spatial data
+with highly concentrated two-dimensional mismeasured locations.
+Selecting the number of B Splines using the lowest Nearest Neighbour
+(NN) correlation in residuals from a grid going from 4 to 12 splines. ME
+radius is 3 percent. DGP's \(\bar\rho\) is 0.06. C-SCPC/SCPC
+\(\bar\rho_{max}\) is 0.03. }\tabularnewline
+
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{6}{c}{Spatial data} & \multicolumn{3}{c}{Residuals} \\
+\cmidrule(l{3pt}r{3pt}){2-7} \cmidrule(l{3pt}r{3pt}){8-10}
+\multicolumn{4}{c}{ } & \multicolumn{2}{c}{C.I. length} \\
+\cmidrule(l{3pt}r{3pt}){5-6}
+Splines & Estimator & Cons. & $\beta_1$ & Cons.  & $\beta_1$  & $i$ & NN & BIC & Dropped\\
+\midrule
+ & HR & 0.628 & 0.597 & 0.241 & 0.236 & 0.000 &  &  & \\
+
+ & SCPC & 0.108 & 0.112 & 0.967 & 0.794 & 0.000 &  &  & \\
+
+ & C-SCPC & 0.096 & 0.074 & 1.018 & 0.917 & 0.000 &  &  & \\
+
+ & Kernel 0.015 & 0.464 & 0.427 & 0.381 & 0.354 & 0.000 &  &  & \\
+
+ & Kernel 0.030 & 0.291 & 0.249 & 0.573 & 0.519 & 0.000 &  &  & \\
+
+\multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.050 & 0.187 & 0.148 & 0.723 & 0.647 & 0.000 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.791} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 691.546} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
+\cmidrule{1-10}
+ & HR &  & 0.381 &  & 0.487 & 0.000 &  &  & \\
+
+ & Kernel 0.015 &  & 0.278 &  & 0.604 & 0.000 &  &  & \\
+
+ & Kernel 0.030 &  & 0.202 &  & 0.724 & 0.000 &  &  & \\
+
+ & Kernel 0.050 &  & 0.173 &  & 0.794 & 0.000 &  &  & \\
+
+ & Damian's (x2) &  & 0.158 &  & 0.832 & 0.001 &  &  & \\
+
+\multirow[t]{-6}{*}{\raggedright\arraybackslash Order 1} & Damian's (x3) &  & 0.170 &  & 0.834 & 0.007 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.095} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 559.578} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 74.761}\\
+\bottomrule
+\end{longtable}
+\newpage
+\hypertarget{tbl-hc-locs-me-rho-below}{}
+\begin{longtable}[t]{llrrrrrrrr}
+\caption{\label{tbl-hc-locs-me-rho-below}Rejection frequencies for different variance estimators. Spatial data
+with highly concentrated two-dimensional mismeasured locations.
+Selecting the number of B Splines using the lowest Nearest Neighbour
+(NN) correlation in residuals from a grid going from 4 to 12 splines. ME
+radius is 3 percent. DGP's \(\bar\rho\) is 0.01. C-SCPC/SCPC
+\(\bar\rho_{max}\) is 0.03. }\tabularnewline
+
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{6}{c}{Spatial data} & \multicolumn{3}{c}{Residuals} \\
+\cmidrule(l{3pt}r{3pt}){2-7} \cmidrule(l{3pt}r{3pt}){8-10}
+\multicolumn{4}{c}{ } & \multicolumn{2}{c}{C.I. length} \\
+\cmidrule(l{3pt}r{3pt}){5-6}
+Splines & Estimator & Cons. & $\beta_1$ & Cons.  & $\beta_1$  & $i$ & NN & BIC & Dropped\\
+\midrule
+ & HR & 0.301 & 0.184 & 0.248 & 0.246 & 0.000 &  &  & \\
+
+ & SCPC & 0.058 & 0.059 & 0.524 & 0.388 & 0.000 &  &  & \\
+
+ & C-SCPC & 0.053 & 0.050 & 0.532 & 0.403 & 0.000 &  &  & \\
+
+ & Kernel 0.015 & 0.238 & 0.154 & 0.297 & 0.265 & 0.000 &  &  & \\
+
+ & Kernel 0.030 & 0.133 & 0.119 & 0.376 & 0.298 & 0.000 &  &  & \\
+
+\multirow[t]{-6}{*}{\raggedright\arraybackslash } & Kernel 0.050 & 0.086 & 0.093 & 0.440 & 0.327 & 0.000 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.260} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 720.144} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash }\\
+\cmidrule{1-10}
+ & HR &  & 0.138 &  & 0.282 & 0.000 &  &  & \\
+
+ & Kernel 0.015 &  & 0.119 &  & 0.299 & 0.000 &  &  & \\
+
+ & Kernel 0.030 &  & 0.086 &  & 0.325 & 0.000 &  &  & \\
+
+ & Kernel 0.050 &  & 0.076 &  & 0.346 & 0.000 &  &  & \\
+
+ & Damian's (x2) &  & 0.131 &  & 0.330 & 0.032 &  &  & \\
+
+\multirow[t]{-6}{*}{\raggedright\arraybackslash Order 1} & Damian's (x3) &  & 0.189 &  & 0.306 & 0.081 & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 0.057} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 800.494} & \multirow[t]{-6}{*}{\raggedleft\arraybackslash 41.217}\\
+\bottomrule
+\end{longtable}
+
+\begin{figure}
+
+{\centering \includegraphics{"../Simulations/Products/hist_dist_light_locs_me_3p.png"}
+
+}
+
+\caption{\label{fig-hist-light-locs}Histogram of distances, locations
+drawn from a highly concentrated spatial distribution}
+
+\end{figure}
+
 \hypertarget{sec-me}{%
 \subsection{Measurement error}\label{sec-me}}
 
 In this exercise, measurement error in locations is introduced.
 Measurement error is modeled as disturbance of the locations, where the
 disturbances are centered at zero and are not greater than a
-pre-specified percentage of the radius of a circle. The radius of the
+pre-specified percentage of the radius of a circle. The radii of the
 disturbances are 1, 2, and 3 percent the length of the unit circle.
 
 Likewise, this exercise evaluates how the rejection frequencies of the
@@ -266,6 +419,17 @@ beforehand; the default value is 0.03.
 when ME is 30 percent.]{\label{fig-loc-me}ME in locations, 30\%}
 
 \end{figure}
+
+In short, the rejection frequencies and the CI length increase if the
+DGP's \(\bar\rho\) is greater than the default MW's method, and vice
+versa, they decrease if smaller. The rejection frequencies of the
+constant are significantly affected by the misspecification of
+\(\bar\rho_{max}\), while the slope's rejection frequencies are only
+modestly affected. This result aligns with what Müller and Watson
+(2022b) discuss in their paper (p.12). On the other hand, ME increases
+the rejection frequencies, but moderately. When ME is 3\%, there is
+almost a 1 percent increase in the constant, but almost no increase in
+the slope for both SCPC and C-SCPC.
 
 Tables \ref{tbl-no-me-r-10p} display the results when there is no
 measurement error and the true \(\bar\rho\) is above (0.10) MW's method
@@ -290,16 +454,52 @@ Unsurprisingly, when the \(\bar\rho\) is lower (0.01) than the
 \(\bar\rho_{max}\) (0.03), the rejection frequencies and the CI lengths
 decrease significantly. In Table~\ref{tbl-no-me-r-1p}, the slope
 rejection frequencies of the SCPC and C-SCPC decrease from 0.4 of the no
-misspecification case, to 3.7 and 3 percent. The slope C.I. lengths of
+misspecification case to 3.7 and 3 percent. The slope C.I. lengths of
 both decrease from 0.5 to 0.4. The constant rejection frequencies of
-SCPC goes down from 5 to 3 and of C-SCPC from 4 to 3 percent.
+SCPC go down from 5 to 3 and of C-SCPC from 4 to 3 percent.
 
 When the radius of the disturbances is 3 percent, the rejection
 frequencies of the SCPC and C-SCPC increase significantly for the
 constant but modestly for the slope
-Table~\ref{tbl-me-3p-r-10p}, Table~\ref{tbl-me-3p-r-1p}. Whereas for the
-CI lengths, they both almost remain unchanged.
-\newpage
+Table~\ref{tbl-me-3p-r-10p}, Table~\ref{tbl-me-3p-r-1p}. Whereas the CI
+lengths of both SCPC and C-SCPC almost remain unchanged.
+
+\hypertarget{sec-me-diss}{%
+\subsubsection{Discussion}\label{sec-me-diss}}
+
+These results are in line with what Müller and Watson (2022a) discuss.
+When the locations are uniformly distributed, ME will not greatly affect
+the rejection frequencies of SCPC. However, they can lead to substantial
+size distortions when the locations are highly concentrated in a few
+spots. That is, there are large areas where there are no observations
+and most observations are clustered around a few random locations, for
+example, when the locations are more likely to be sampled from areas of
+higher economic activity measured by light intensity as seen from space.
+This makes sense if we consider the shape of the distribution of
+locations and ME. When the distribution of locations is uniform, the
+shape of the distribution would look flat. Adding uniformly distributed
+ME would not change the shape. However, locations that are highly
+concentrated in a few spots would have a highly skewed distribution
+shape. Adding uniformly distributed ME would flatten the shape of the
+distribution.
+
+When the locations and the ME both are uniformly distributed and there
+is no average pairwise correlation misspecification, \(\bar\rho\) and
+\(\bar\rho_{max}\) will be the same. The only difference between the
+true and the guessed average pairwise correlation will be the value of
+the covariance function constant, \(c_{\bar\rho}\). In our setting, the
+DGP exactly matches the one assumed in the SCPC, in particular, the
+covariance function, \(cov(e_l,e_{l'})=\exp(-c||s_l-s_{l'}||)\). Then,
+the average pairwise correlation is
+\(\bar{\rho}\equiv[n(n-1)]^{-1}\sum_{l,l'\not=l}\exp(-c_{\bar{\rho}}||s_l-s_{l'}||)\).
+When there is measurement error \(s_l=s_l^*+\upsilon_l\), SCPC will find
+the \(c_{\bar\rho^{ME}}\) that matches
+\(\bar{\rho}_{max}=[n(n-1)]^{-1}\sum_{l,l'\not=l}\exp(-c_{\bar{\rho}^{ME}}||s_l^*-s^*_{l'}+\upsilon_l-\upsilon_{l'}||)\).
+Both values of \(c_{\bar\rho^{ME}}\) and \(c_{\bar\rho}\) are going to
+be very close. For example, in a random draw, when ME is 3 percent,
+\(\bar\rho=0.034\) and \(\bar\rho_{max}\), the \(c_{\bar\rho}=13.1850\)
+and \(c_{\bar\rho^{ME}}=13.1215\).
+
 \hypertarget{tbl-no-me-r-10p}{}
 \begin{longtable}[t]{llrrrrrrrr}
 \caption{\label{tbl-no-me-r-10p}Rejection frequencies for different variance estimators. Spatial data
@@ -2360,8 +2560,8 @@ Distance & $\bar\rho$\\
 \end{tabular}
 \end{table}
 
-\hypertarget{the-setting}{%
-\subsection{The setting}\label{the-setting}}
+\hypertarget{sec-setting}{%
+\subsection{The setting}\label{sec-setting}}
 
 \[
 y_l = x_l\beta + e_l

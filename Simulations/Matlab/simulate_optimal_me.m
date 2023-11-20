@@ -21,16 +21,17 @@ end
 
 %--------------Estimators---------------%
 %HR, Kernel, Kernel + splines, SCPC
+% 3 exercises matching, above, and below
 rng(333) % Setting seed
-excercise = 'no_me_true_rho_1p';
+excercise = 'light_locs_me_3p_true_rho_below';
 ME_perc = 0.01:0.01:0.1;
-e=0; %Measurement error
+e=0.03; %Measurement error
 rho_bar = 0.03; % default Average pairwise correlation
 rho_bar_true = 0.01; %True average pairwise correlation
 
 grid = 1; % 0 for fminbnd; otherwise for 5:5:90 grid
 method = 'nn'; % 'bic' for Hansen's BIC; otherwise for min residuals' AR(1) slope 
-spatial = 1; % 1: S_is ~ U(0,1); 0: S ~ evenly spaced 25 by 10 in a unit dimensional square and SAR DGp
+spatial = 0; % 1: S_is ~ U(0,1); 0: High concentration in a few spots
 
 %% Setting up parameters
 fprintf('me: %5.2f; true rho:  %5.2f\n',[e rho_bar_true])
@@ -51,22 +52,21 @@ N_cutoffs = length(L);
 % else
 %     a=1;
 % end
-a=3;
+a=3+1;
 N_estimators = (a+N_cutoffs)+(2+N_cutoffs)*N_order_splines; 
 N_ols = 1+N_order_splines;
 
 %% Setting locations -------
 
-s_true = rand(T,N_vec_dist); % vector of locations
-% if spatial==1
-%     % Fixing locations
-%     s = rand(T,N_vec_dist); % vector of locations
-% else % Time series
-%     s_temp = [repmat((1:10:T)'./T,10,1) repelem((1:25:T)'./T,25)];
-%     % Jittering
-%     v = -0.001 + (0.001+0.001).*rand(T,2);
-%     s = s_temp +v;
-% end
+%s_true = rand(T,N_vec_dist); % vector of locations
+if spatial==1
+    % Fixing locations
+    s_true = rand(T,N_vec_dist); % vector of locations
+else % ligth
+    parent = rand(T/10,N_vec_dist);
+    child = get_circle_location_noise(ones(T,N_vec_dist),0.01);
+    s_true = repmat(parent,10,1)+child;
+end
 
 %% Loop
 rej_freq = NaN(k,N_estimators);
@@ -81,7 +81,7 @@ ci_array = NaN(N_reps,k, N_estimators);
 cv_array = NaN(N_reps,k,2);
 rej_freq_m_i = NaN(N_reps,k,N_estimators);
 e_ar1_betas = NaN(N_reps,5,N_ols);
-splines_array = NaN(N_reps,N_order_splines*2);
+splines_array = NaN(N_reps,N_order_splines*3);
 
 tic
 fprintf('Running simulations\nExercise %s\n',excercise);
@@ -200,6 +200,7 @@ for r=1:N_reps
             [S, delta, n_dropped] = get_bsplines(s,q,o);
             e_ar1_betas(r,5,n) = n_dropped;
             splines_array(r,o+1) = 2*delta*o;
+            splines_array(r,o+2) = 3*delta*o;
 %                 if r==1
 %                     cutoff_dist_vec=[cutoff_dist_vec; NaN; L'; 2*delta*o];
 %                 end
@@ -229,7 +230,7 @@ for r=1:N_reps
             e_ar1_betas(r,3,n) = bic(u_hat_bs,X_bs,"hansen");
             e_ar1_betas(r,4,n) = bic(u_hat_bs,X_bs,"damian");
             j=j+1;
-            for p=[L splines_array(r,o+1)]%Cutoff lengths for Kernel
+            for p=[L splines_array(r,o+1) splines_array(r,o+2)]%Cutoff lengths for Kernel
 %                     disp(q);
                 % Kernel S.E. for different length cutoffs
                 se_kernel_bs = kernel_var(u_hat_bs,X_bs,X_bs,D_mat,p,cholesky_flag);
@@ -282,7 +283,7 @@ ear1_table = array2table(...
     avg_e_ar1(:,:)',...
     'VariableNames', {'Cons.' 'Gamma' 'BIC_h' 'BIC_d' 'dropped'});
 ear1_table
-splines_table = array2table(splines_array, 'VariableNames', {'Qty. O1' 'DD O1' });
+splines_table = array2table(splines_array, 'VariableNames', {'Qty. O1' 'DD(x2) O1' 'DD(x3) O1'});
 
 %% Saving results %%
 fprintf('Saving results\n');

@@ -4,7 +4,7 @@ function epsilon = get_circle_location_noise(s, percent)
     radius = percent*1;
     epsilon = NaN(T,N_s);
     while i<T+1
-        e = -1+2*rand(1,N_s);
+        e = -radius+2*radius*rand(1,N_s);
         if norm(e,2)<=radius
             epsilon(i,:)=e;
             i=i+1;

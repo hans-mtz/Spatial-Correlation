@@ -43,8 +43,8 @@ exportgraphics(gcf,strcat('../Products/hist_dist_',num2str(T),'.png'))
 
 %% Plotting distances with ME%%
 B=20;
-D_mat_true = getdistmat(s_true,false);
-h_dist=histogram(D_mat,'NumBins',B);
+% D_mat_true = getdistmat(s_true,false);
+h_dist=histogram(D_mat_me,'NumBins',B);
 h_dist_val=h_dist.Values;
 h_dist_bin=h_dist.BinEdges;
 
@@ -53,5 +53,9 @@ h_dist_ts_val=h_dist_ts.Values;
 % h_dist_ts_bin=h_dist_ts.BinEdges;
 
 bar(h_dist_bin(2:end),[h_dist_ts_val' h_dist_val'])
-exportgraphics(gcf,strcat('../Products/hist_dist_me_30p.png'))
+exportgraphics(gcf,strcat('../Products/hist_dist_light_locs_me_3p.png'))
 
+%% Scatter locations ~ g_light
+
+exportgraphics(gcf,strcat('../Products/light_locs_true.png'))
+exportgraphics(gcf,strcat('../Products/light_locs_me.png'))

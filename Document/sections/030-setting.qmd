@@ -1,4 +1,4 @@
-## The setting
+## The setting {#sec-setting}
 
 $$
 y_l = x_l\beta + e_l
