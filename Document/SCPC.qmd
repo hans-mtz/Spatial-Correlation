@@ -1,5 +1,9 @@
 ---
-title: "Spatial correlation"
+title: "Spatial Correlation"
+number-sections: true
+author: Hans Martinez
+date: today
+bibliography: biblio.bib
 format:
     pdf:
         documentclass: article
@@ -9,17 +13,14 @@ format:
         resource-path: 
             - "Simulations/Products"
         latex-output-dir: Output
-number-sections: true
-author: Hans Martinez
-date: today
-bibliography: biblio.bib
+execute: 
+  echo: false
+  warning: false
+  error: false
 ---
 
 ```{r}
 #| label: setup
-#| tbl-cap: "Rejection frequencies"
-#| echo: false
-#| warning: false
 
 library(knitr)
 # opts_knit$set(
@@ -32,12 +33,14 @@ options(
     knitr.table.format = "latex",
     knitr.kable.NA = "")
 
+products_folder <- "../Simulations/Products/"
+
 ```
 
 # Updates {-}
 
-- Damian's (x3) cutoff distance added to tables 1-3.
--  @tbl-hc-locs-me-rho-below added to show the rejection frequencies when the DGP's average pairwise correlation is lower than MW's method.
+- Tim's Stat added
+- 5\% CI length table added
 
 ## Note {-}
 
@@ -46,6 +49,10 @@ The average C.V. of the SCPC is 2.2856 for the constant and the slope. The avera
 # Multidimensional locations {#sec-multi} 
 
 In this set of simulations, the locations are two-dimensional. The locations are independent and follow a uniform distribution. The DGP is the same as described in @sec-dgp.
+
+
+<!-- Multi-dimensional locations & ME-->
+{{< include sections/400-me-light-opt-CI.qmd >}}
 
 <!-- Multi-dimensional locations & ME-->
 {{< include sections/300-me-light.qmd >}}

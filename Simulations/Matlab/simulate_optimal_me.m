@@ -1,10 +1,18 @@
 %% Simulations - Rejection Frequencies for Kernel Var Estimator%
-clear;
+% clear;
 
 if batchStartupOptionUsed
   addpath(genpath('./SCPC_Matlab_Implementation_20211123'))
   addpath(genpath('./21200057'))
 end
+
+
+excercise = 'light_locs_me_3p_optimal_CI';
+rho_bar_true = 0.03; %True average pairwise correlation
+
+e = 0.03; %Measurement error
+spatial = 0; % 1: S_is ~ U(0,1); 0: High concentration in a few spots
+
 %--------------GDP-------------------%
 % y=beta*X+e
 
@@ -23,15 +31,14 @@ end
 %HR, Kernel, Kernel + splines, SCPC
 % 3 exercises matching, above, and below
 rng(333) % Setting seed
-excercise = 'light_locs_me_3p_true_rho_below';
+save_res = 1;
+plot_res = 0;
+
 ME_perc = 0.01:0.01:0.1;
-e=0.03; %Measurement error
 rho_bar = 0.03; % default Average pairwise correlation
-rho_bar_true = 0.01; %True average pairwise correlation
 
 grid = 1; % 0 for fminbnd; otherwise for 5:5:90 grid
 method = 'nn'; % 'bic' for Hansen's BIC; otherwise for min residuals' AR(1) slope 
-spatial = 0; % 1: S_is ~ U(0,1); 0: High concentration in a few spots
 
 %% Setting up parameters
 fprintf('me: %5.2f; true rho:  %5.2f\n',[e rho_bar_true])
@@ -40,7 +47,7 @@ N_reps = 1000;
 T = 250; % obs
 beta = [ 1; 1.5];
 k= length(beta); % number of covariates
-L = [0.015 0.03 0.05]; % Vector of cutoff distances
+L = [0.015 0.03 0.05 0.07]; % Vector of cutoff distances
 M = 0.05; %(0,1] for distance cutoff for SAR model
 cholesky_flag = 'chol';
 N_order_splines = 1;
@@ -84,7 +91,7 @@ e_ar1_betas = NaN(N_reps,5,N_ols);
 splines_array = NaN(N_reps,N_order_splines*3);
 
 tic
-fprintf('Running simulations\nExercise %s\n',excercise);
+fprintf('Running simulations\nExcercise %s\n',excercise);
 
 
 for r=1:N_reps
@@ -94,7 +101,7 @@ for r=1:N_reps
     end
 
     % generate data
-    [y, X, ~] = DGP(beta,s_true,rho_bar_true,1);
+    [y, X, u] = DGP(beta,s_true,rho_bar_true,1);
 
     
     % Add noise
@@ -122,6 +129,7 @@ for r=1:N_reps
 %     [u_t, u_t_1] = sort_u(u_hat,s);
 %     e_ar1_betas(r,1:2,1) = ols(u_t, u_t_1, u_t_1, cholesky_flag);
     e_ar1_betas(r,1,1) = get_nn_corr(u_hat,D_mat,1);
+    e_ar1_betas(r,2,1) = get_tims_stat(X);
     e_ar1_betas(r,3,1) = bic(u_hat,X,"hansen");
     e_ar1_betas(r,4,1) = bic(u_hat,X,"damian");
 
@@ -227,6 +235,7 @@ for r=1:N_reps
 %             [u_t_bs, u_t_1_bs] = sort_u(u_hat_bs,s);
 %             e_ar1_betas(r,1:2,n) = ols(u_t_bs, u_t_1_bs, u_t_1_bs, cholesky_flag);
             e_ar1_betas(r,1,n) = get_nn_corr(u_hat_bs,D_mat,1);
+            e_ar1_betas(r,2,n) = get_tims_stat(X_bs);
             e_ar1_betas(r,3,n) = bic(u_hat_bs,X_bs,"hansen");
             e_ar1_betas(r,4,n) = bic(u_hat_bs,X_bs,"damian");
             j=j+1;
@@ -247,7 +256,7 @@ for r=1:N_reps
                 t_stat_array(r,:,j) = [NaN t_stat_kernel_bs];
                 num_array(r,:,j) = [NaN H_0_bs];
                 den_array(r,:,j) = [NaN se_kernel_bs(1:k-1)];
-                ci_array(r,:,j) = [NaN 2.*se_kernel_bs(1:k-1).*1.96];
+                ci_array(r,:,j) = [NaN 2.*abs(se_kernel_bs(1:k-1)).*1.96];
                 
                 j=j+1; %advancing rej freq index 
             end
@@ -257,17 +266,76 @@ for r=1:N_reps
     end
 end
 
+
+
+
 % Taking averages across simulations
 rej_freq(:,:) = sum(rej_freq_m_i,1)./N_reps;
-avg_se(:,:) = sum(den_array,1)./N_reps;
 avg_cv(:,:) = sum(cv_array,1)./N_reps;
 avg_e_ar1(:,:) = sum(e_ar1_betas,1)./N_reps;
-index_nan = ~isnan(ci_array);
+% Ignoring complex se in CI
 index_array = ci_array == real(ci_array);
-index_table = sum(index_array,1)~=0;
 ci_array(~index_array)=NaN;
-avg_ci(:,:) = sum(ci_array,1,'omitnan')./sum(index_array,1);
-complex_n(:,:) = sum(index_nan.*~index_array,[1 2])./sum(index_array,[1 2]);
+avg_ci(:,:) = mean(ci_array,1,'omitnan');
+
+% How many complex se?
+index_nan = ~isnan(ci_array);
+complex_array = zeros(N_reps, k, N_estimators);
+complex_array(index_nan) = ci_array(index_nan) ~= real(ci_array(index_nan));
+complex_n = mean(complex_array,[1 2], 'omitnan');
+
+% Calculating CI length to get 5% rej freq
+
+% Getting rid of complex numbers
+t_stat_array(t_stat_array~=real(t_stat_array))=NaN;
+den_array(den_array~=real(den_array))=NaN;
+num_array(num_array~=real(num_array))=NaN;
+% avg_se(:,:) = mean(den_array,1,'omitnan');
+
+%% 5% CI Empirical Distribution of the t statistic
+p_2_5 = prctile(t_stat_array, 2.5, 1);
+p_97_5 = prctile(t_stat_array, 97.5, 1);
+optimal_CI_length_z = p_97_5-p_2_5;
+
+% Symmetric 5% CI
+t_stat_array_abs = abs(t_stat_array);
+p_95 = prctile(t_stat_array_abs, 95, 1);
+optimal_CI_length_z_symmetric = 2.*p_95;
+
+% Using SE of the t stat and cv 1.96
+se_per_estimator = sqrt(var(t_stat_array,'omitnan'));%./( sum(~isnan(t_stat_array))));
+% se_per_estimator
+optimal_CI_symmetric = 2.*1.96.*shiftdim(se_per_estimator)';
+% optimal_CI_symmetric
+% Using SE absolute value |t| and cv 1.96
+se_per_estimator_abs = shiftdim(std(t_stat_array_abs,'omitnan'));%./sqrt( sum(~isnan(t_stat_array))));
+% se_per_estimator_abs'
+optimal_CI_symmetric_abs = 2.*1.96.*se_per_estimator_abs';
+% optimal_CI_symmetric_abs
+
+%% 2% CI Empirical Distribution of the t statistic
+p_1 = prctile(t_stat_array, 1, 1);
+p_99 = prctile(t_stat_array, 99, 1);
+optimal_CI_length_z_98 = p_99-p_1;
+
+% Symmetric 2% CI
+t_stat_array_abs = abs(t_stat_array);
+p_98 = prctile(t_stat_array_abs, 98, 1);
+optimal_CI_length_z_symmetric_98 = 2.*p_98;
+
+% Using SE of the t stat and cv 2.326
+% se_per_estimator = sqrt(var(t_stat_array,'omitnan'));%./( sum(~isnan(t_stat_array))));
+% se_per_estimator
+optimal_CI_symmetric_98 = 2.*2.326.*shiftdim(se_per_estimator)';
+% optimal_CI_symmetric
+% Using SE absolute value |t| and cv 1.96
+% se_per_estimator_abs = shiftdim(std(t_stat_array_abs,'omitnan'));%./sqrt( sum(~isnan(t_stat_array))));
+% se_per_estimator_abs'
+optimal_CI_symmetric_abs_98 = 2.*2.326.*se_per_estimator_abs';
+% optimal_CI_symmetric_abs
+
+%% taking time
+
 toc
 
 %% Preparing results %%
@@ -276,39 +344,56 @@ fprintf('Preparing results\n');
 % load crank_bs_ear1_diff.mat
 
 results_table = array2table(...
-    [rej_freq(:,:)' avg_ci(:,:)' complex_n],...
+    [rej_freq(:,:)' avg_ci(:,:)' shiftdim(complex_n)],...
     'VariableNames', {'Cons.' 'Beta' 'CI length Cons.' 'CI length Beta' 'N complex'});
 results_table
 ear1_table = array2table(...
     avg_e_ar1(:,:)',...
-    'VariableNames', {'Cons.' 'Gamma' 'BIC_h' 'BIC_d' 'dropped'});
+    'VariableNames', {'NN' 'Tims Stat' 'BIC_h' 'BIC_d' 'dropped'});
 ear1_table
 splines_table = array2table(splines_array, 'VariableNames', {'Qty. O1' 'DD(x2) O1' 'DD(x3) O1'});
+optimal_CI_table = array2table(...
+    [shiftdim(optimal_CI_length_z)' shiftdim(optimal_CI_length_z_symmetric)' optimal_CI_symmetric  optimal_CI_symmetric_abs],...
+    'VariableNames', {'CI length Cons. Emp. D.' 'CI length Beta Emp. D.' 'CI length Cons. Emp. D. Sym' 'CI length Beta Emp. D. Sym' 'CI length Cons. Sym' 'CI length Beta Sym' 'CI length Cons. Sym abs' 'CI length Beta Sym abs'});
+optimal_CI_table
+
+optimal_CI_table_98 = array2table(...
+    [shiftdim(optimal_CI_length_z_98)' shiftdim(optimal_CI_length_z_symmetric_98)' optimal_CI_symmetric_98  optimal_CI_symmetric_abs_98],...
+    'VariableNames', {'CI length Cons. Emp. D.' 'CI length Beta Emp. D.' 'CI length Cons. Emp. D. Sym' 'CI length Beta Emp. D. Sym' 'CI length Cons. Sym' 'CI length Beta Sym' 'CI length Cons. Sym abs' 'CI length Beta Sym abs'});
+optimal_CI_table_98
+
 
 %% Saving results %%
-fprintf('Saving results\n');
-  
-save(['opt_spline_' excercise '.mat'])
 
-writetable(results_table,['../Products/opt_spline_sims_res_' excercise '.csv']);
-writetable(ear1_table,['../Products/opt_spline_sims_ar1_' excercise '.csv']);
+if save_res==1 
+    fprintf('Saving results\n');
+    
+    save(['opt_spline_' excercise '.mat'])
 
+    writetable(results_table,['../Products/opt_spline_sims_res_' excercise '.csv']);
+    writetable(ear1_table,['../Products/opt_spline_sims_ar1_' excercise '.csv']);
+    writetable(optimal_CI_table,['../Products/opt_ci_table_' excercise '.csv']);
+    writetable(optimal_CI_table_98,['../Products/opt_98_ci_table_' excercise '.csv']);
+    writetable(splines_table,['../Products/splines_damians_d_' excercise '.csv']);
+end
 
 %% Plotting %%
-% clear;
-fprintf('Plotting\n');
-% excercise = 'grid';%'dd_2x';%'ts_gamma';%
-load(['opt_spline_' excercise '.mat'])
-histogram(e_ar1_betas(:,1,1));
-exportgraphics(gcf,strcat(['../Products/hist_gamma_o1_' excercise '.png']))
-% histogram(e_ar1_betas(:,1,2));
-% exportgraphics(gcf,strcat(['../Products/hist_gamma_o2_' excercise '.png']))
-% Spline hist
-histogram(splines_array(:,1));
-exportgraphics(gcf,strcat(['../Products/hist_spline_o1_' excercise '.png']))
-% histogram(splines_array(:,2));
-% exportgraphics(gcf,strcat(['../Products/hist_spline_o2_' excercise '.png']))
 
+if plot_res==1
+    % clear;
+    fprintf('Plotting\n');
+    % excercise = 'grid';%'dd_2x';%'ts_gamma';%
+    load(['opt_spline_' excercise '.mat'])
+    histogram(e_ar1_betas(:,1,1));
+    exportgraphics(gcf,strcat(['../Products/hist_gamma_o1_' excercise '.png']))
+    % histogram(e_ar1_betas(:,1,2));
+    % exportgraphics(gcf,strcat(['../Products/hist_gamma_o2_' excercise '.png']))
+    % Spline hist
+    histogram(splines_array(:,1));
+    exportgraphics(gcf,strcat(['../Products/hist_spline_o1_' excercise '.png']))
+    % histogram(splines_array(:,2));
+    % exportgraphics(gcf,strcat(['../Products/hist_spline_o2_' excercise '.png']))
 
+end
 
 

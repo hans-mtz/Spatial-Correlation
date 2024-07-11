@@ -1,9 +1,10 @@
 # Usually, only these lines need changing
-QPAPFILE = SCPC
+QPAPFILE = SCSK
 MATLAB = main
 # QSLIFILE = JMP-update
 RDIR = ./Simulations/R
 MLDIR = ./Simulations/Matlab
+THDIR = ./Theta
 QPAPDIR = ./Document
 # QSLIDIR = ./Quarto-Slides
 
@@ -20,11 +21,13 @@ RFILES := $(filter-out $(EXCLUDE),$(RFILES))
 # QFILES := $(filter-out $(QPAPFILE).qmd,$(QPAPFILES))
 # RIND := $(filter-out $(RDEP),$(RFILES))
 
+# list all matlab m files
+MTLB_FILES := $(wildcard $(THDIR)/*.m)
 
 # Indicator files to show R file has run
 OUT_FILES := $(RFILES:.R=.Rout)
 # RDEPOUT := $(RIND:.R=.Rout)
-
+OUT_MTLB := $(MTLB_FILES:.m=.log)
 # MLOUT := $(MLDIR)/$(MATLAB).log
 # Targets
 
@@ -40,6 +43,11 @@ R: $(OUT_FILES)
 
 matlab: $(MLDIR)/$(MATLAB).log
 
+theta: $(OUT_MTLB)
+
+echo:
+	echo $(OUT_MTLB) $(MTLB_FILES) $(OUT_FILES)
+
 ## Make paper
 paper: #$(QPAPDIR)/$(QPAPFILE).pdf
 	quarto render $(QPAPDIR)/$(QPAPFILE).qmd 
@@ -51,6 +59,9 @@ paper: #$(QPAPDIR)/$(QPAPFILE).pdf
 # slides: #$(QSlIFILE).html
 # 	quarto render $(QSLIDIR)/$(QSLIFILE).qmd
 #	open -a Safari $(QSLIDIR)/$(QSLIFILE).html
+
+theta_report: $(THDIR)/reports/Theta-report.qmd 
+	quarto render $<
 
 ## Send mail with results and paper
 mail: $(RDIR)/_send_mail.Rout
@@ -65,6 +76,9 @@ $(RDIR)/_send_mail.Rout: $(RDIR)/_send_mail.R
 $(MLDIR)/$(MATLAB).log: $(MLDIR)/$(MATLAB).m
 	matlab -sd $(MLDIR) -logfile $@ -batch $(notdir $(basename $<))
 
+$(THDIR)/%.log: $(THDIR)/%.m
+	matlab -sd $(THDIR) -logfile $@ -batch $(notdir $(basename $<))
+	
 # # Compile main tex file and show errors
 $(QPAPDIR)/$(QPAPFILE).pdf: $(QPAPDIR)/$(QPAPFILE).qmd #$(QFILES) #$(OUT_FILES) #$(CROP_FILES)
 	quarto preview $<

@@ -1,0 +1,140 @@
+# Quadratic B-Splines {#sec-quad}
+
+@tbl-HAC-quad-BS-slope shows the rejection frequencies of testing the null hypothesis $H_0=\hat\beta_0-\beta_0$ for different values of $\rho$ using the **triangle** kernel HAC [@Conley1999] estimator after adding **Quadratic** B-splines.
+
+The number of B-splines selected minimized the nearest neighbor (NN) correlation of the OLS residuals to 0.05 using a grid from 4 to 12 in step size of 2. The splines that contained one observation were dropped. During simulations, one spline was dropped to avoid multicollinearity with the intercept of the OLS.
+
+Finally, @tbl-img-slope-quad shows the frequency of imaginary standard errors dropped during simulations.
+
+@tbl-HAC-quad-BS-slope-u to @tbl-img-slope-u-quad show the same exercises but for the *uniform* Kernel HAC.
+
+@fig-hist-n-splies show the histograms of the distribution of the number of quadratic b-splines chosen by the level of $\rho$.
+
+
+```{r}
+#| label: tbl-HAC-quad-BS-slope
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, using **quadratic** B-splines and the **triangle** kernel HAC variance estimator for the standard error. The number of B-splines selected minimizes the nearest neighbor (NN) correlation of the OLS residuals to 0.05. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+
+
+exe<-'quadratic_splines_'
+
+tbl_quad_bs_s<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_s,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_s)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Tri-HAC+Quad-BS'=ncol(tbl_quad_bs_s)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_s))
+)
+
+```
+
+
+```{r}
+#| label: tbl-img-slope-quad
+#| tbl-cap: Share of imaginary se in simulations for HAC+Quadratic Bsplines. Slope.
+#| eval: true
+#| include: true
+
+tbl_img_quad_bs_s<- read.csv(paste0(prod_dir,exe,'img_freq_tab_kernel_bsplines_slope.csv'))
+
+kbl(
+    tbl_img_quad_bs_s,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_img_quad_bs_s)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Tri-HAC+Quad-BS'=ncol(tbl_img_quad_bs_s)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_img_quad_bs_s))
+)
+
+```
+
+<!-- Uniform Kernel -->
+
+```{r}
+#| label: tbl-HAC-quad-BS-slope-u
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, using B-splines and the **uniform** kernel HAC variance estimator for the standard error. The number of **quadratic** B-splines selected minimizes the nearest neighbor (NN) correlation of the OLS residuals to 0.05. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+
+tbl_quad_bs_s_u<- read.csv(paste0(prod_dir,exe,'rej_freq_tab_kernel_bsplines_slope_u.csv'))
+
+kbl(
+    tbl_quad_bs_s_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Quad-BS'=ncol(tbl_quad_bs_s_u)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_s_u))
+)
+
+```
+
+
+```{r}
+#| label: tbl-img-slope-u-quad
+#| tbl-cap: Share of imaginary se in simulations for HAC+Quadratic Bsplines. Slope. Uniform Kernel HAC.
+#| eval: true
+#| include: true
+
+tbl_img_quad_bs_s_u<- read.csv(paste0(prod_dir,exe,'img_freq_tab_kernel_bsplines_slope_u.csv'))
+
+kbl(
+    tbl_img_quad_bs_s_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_img_quad_bs_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Quad-BS'=ncol(tbl_img_quad_bs_s_u)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_img_quad_bs_s_u))
+)
+
+```
+
+
+::: {#fig-hist-n-splies layout-ncol="2"}
+
+![](../figures/hist_n_spli_rho-0_quadratic_splines.png)
+
+![](../figures/hist_n_spli_rho-0.2_quadratic_splines.png)
+
+![](../figures/hist_n_spli_rho-0.4_quadratic_splines.png)
+
+![](../figures/hist_n_spli_rho-0.6_quadratic_splines.png)
+
+![](../figures/hist_n_spli_rho-0.8_quadratic_splines.png)
+
+![](../figures/hist_n_spli_rho-1_quadratic_splines.png)
+
+Histograms of the number of quadratic B-splines chosen by the level of $\rho$
+
+:::

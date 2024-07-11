@@ -1,4 +1,4 @@
-## Highly concentrated locations
+## Highly concentrated locations {#sec-high-concentrated-locs}
 
 In this exercise, locations are highly concentrated in a few spots. First, 25 points were generated randomly in the unit square. Then, around these "parent" points, 10 random "children" points were drawn uniformly from a 0.01 radius circle. The "children" points were used as the true locations.
 
@@ -6,7 +6,7 @@ In this exercise, locations are highly concentrated in a few spots. First, 25 po
 
 When the locations are drawn from highly concentrated distribution and ME radius is 3 percent, the rejection frequencies of MW's method increase non-trivially. C-SCPC increases from 4 to 6 percent, and SCPC to 7 (constant) and 10 (slope) percent. When, in addition to the ME, the DGP's average pairwise correlation is larger than the specified by the MW's method, the increase in the rejection frequencies is even larger. When the DGP's average pairwise correlation is lower (0.01) than MW's (0.03), the rejection frequencies are not bad.
 
-The KerneL+B SPlines method also suffers. Rejection frequencies increase as the CI lengths. Because the locations are less informative about the correlation between neighbouring observations, the method struggles to achieve the desired NN correlation in the residuals, leading to higher rejection frequencies.
+The KerneL+B SPlines method also suffers. Rejection frequencies increase as the CI lengths. Because the locations are less informative about the correlation between neighboring observations, the method struggles to achieve the desired NN correlation in the residuals, leading to higher rejection frequencies.
 
 ```{r}
 #| label: tbl-hc-locs-me
@@ -16,9 +16,24 @@ The KerneL+B SPlines method also suffers. Rejection frequencies increase as the 
 #| eval: true
 #| include: true
 
-kernel_results <- read.csv("../Simulations/Products/opt_spline_sims_res_light_locs_me_3p_matching.csv")
+# kernel_results <- read.csv("../Simulations/Products/opt_spline_sims_res_light_locs_me_3p_matching.csv")
 
-e_ar1_tbl <- read.csv("../Simulations/Products/opt_spline_sims_ar1_light_locs_me_3p_matching.csv")
+# e_ar1_tbl <- read.csv("../Simulations/Products/opt_spline_sims_ar1_light_locs_me_3p_matching.csv")
+
+# excercise <- "light_locs_me_3p_matching"
+excercise <- "light_locs_me_3p_matching_rhos_tims_stat"
+
+kernel_results <- read.csv(
+    paste0(products_folder,"opt_spline_sims_res_", excercise,".csv")
+)
+
+e_ar1_tbl <- read.csv(
+    paste0(products_folder,"opt_spline_sims_ar1_", excercise, ".csv")
+)
+
+# optimal_CI_table <- read.csv(
+#     paste0(products_folder, "opt_ci_table_", excercise, ".csv")
+# )
 
 # notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
 row_names_kernel<- c(
@@ -141,9 +156,20 @@ kbl(
 #| eval: true
 #| include: true
 
-kernel_results <- read.csv("../Simulations/Products/opt_spline_sims_res_light_locs_me_3p_true_rho_above.csv")
+# kernel_results <- read.csv("../Simulations/Products/opt_spline_sims_res_light_locs_me_3p_true_rho_above.csv")
 
-e_ar1_tbl <- read.csv("../Simulations/Products/opt_spline_sims_ar1_light_locs_me_3p_true_rho_above.csv")
+# e_ar1_tbl <- read.csv("../Simulations/Products/opt_spline_sims_ar1_light_locs_me_3p_true_rho_above.csv")
+
+# excercise <- "light_locs_me_3p_true_rho_above"
+excercise <- "light_locs_me_3p_true_rho_above_tims_stat"
+
+kernel_results <- read.csv(
+    paste0(products_folder,"opt_spline_sims_res_", excercise,".csv")
+)
+
+e_ar1_tbl <- read.csv(
+    paste0(products_folder,"opt_spline_sims_ar1_", excercise, ".csv")
+)
 
 # notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
 row_names_kernel<- c(
@@ -267,9 +293,20 @@ kbl(
 #| eval: true
 #| include: true
 
-kernel_results <- read.csv("../Simulations/Products/opt_spline_sims_res_light_locs_me_3p_true_rho_below.csv")
+# kernel_results <- read.csv("../Simulations/Products/opt_spline_sims_res_light_locs_me_3p_true_rho_below.csv")
 
-e_ar1_tbl <- read.csv("../Simulations/Products/opt_spline_sims_ar1_light_locs_me_3p_true_rho_below.csv")
+# e_ar1_tbl <- read.csv("../Simulations/Products/opt_spline_sims_ar1_light_locs_me_3p_true_rho_below.csv")
+
+# excercise <- "light_locs_me_3p_true_rho_below"
+excercise <- "light_locs_me_3p_true_rho_below_tims_stat"
+
+kernel_results <- read.csv(
+    paste0(products_folder,"opt_spline_sims_res_", excercise,".csv")
+)
+
+e_ar1_tbl <- read.csv(
+    paste0(products_folder,"opt_spline_sims_ar1_", excercise, ".csv")
+)
 
 # notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
 row_names_kernel<- c(

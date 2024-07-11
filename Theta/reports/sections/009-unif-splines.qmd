@@ -1,0 +1,315 @@
+# Uniform B-Splines
+
+@tbl-HAC-slope shows the rejection frequencies of testing the null hypothesis $H_0=\hat\beta_0-\beta_0$ using the standard error by the **triangle** kernel HAC [@Conley1999] estimator for different length cutoffs and different values of $\rho$.
+
+@tbl-HAC-BS-slope shows the rejection frequencies of testing the null hypothesis $H_0=\hat\beta_0-\beta_0$ using the **triangle** kernel HAC [@Conley1999] estimator after adding step-functions B-splines. 
+
+The number of B-splines selected minimized the nearest neighbor (NN) correlation of the OLS residuals to 0.05 using a grid from 4 to 12 in step size of 2. The splines that contained one observation were dropped. During simulations, one spline was dropped to avoid multicollinearity with the intercept of the OLS.
+
+Finally, @tbl-img-slope shows the frequency of imaginary standard errors dropped during simulations.
+
+@tbl-HAC-slope-u to @tbl-img-slope-u show the same exercises but for the *uniform* Kernel HAC.
+
+
+
+```{r}
+#| label: tbl-HAC
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the intercept is statically different from the true value, zero, using the **triangle** kernel HAC variance estimator for the standard error. 1000 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+#| eval: false
+#| include: false
+
+tbl_k<- read.csv(paste0(prod_dir,'rej_freq_tab_kernel.csv'))
+
+kbl(
+    tbl_k,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_k)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Tri-HAC'=ncol(tbl_k)-4)
+)%>%
+add_header_above(
+    c('Intercept'=ncol(tbl_k))
+)
+
+```
+
+```{r}
+#| label: tbl-HAC-BS
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the intercept is statically different from the true value, zero, using B-splines and the **triangle** kernel HAC variance estimator for the standard error. The number of B-splines selected minimizes the nearest neighbor (NN) correlation of the OLS residuals to 0.05. 1000 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+#| eval: false
+#| include: false
+#| 
+
+tbl_bs<- read.csv(paste0(prod_dir,'rej_freq_tab_kernel_bsplines.csv'))
+
+kbl(
+    tbl_bs,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_k)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Tri-HAC+BS'=ncol(tbl_bs)-4)
+)%>%
+add_header_above(
+    c('Intercept'=ncol(tbl_bs))
+)
+
+```
+
+
+```{r}
+#| label: tbl-HAC-slope
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, using the **triangle** kernel HAC variance estimator for the standard error. 1000 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+
+tbl_k_s<- read.csv(paste0(prod_dir,'rej_freq_tab_kernel_slope.csv'))
+
+kbl(
+    tbl_k_s,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_k_s)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Tri-HAC'=ncol(tbl_k_s)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_k_s))
+)
+
+```
+
+```{r}
+#| label: tbl-HAC-BS-slope
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, using B-splines and the **triangle** kernel HAC variance estimator for the standard error. The number of B-splines selected minimizes the nearest neighbor (NN) correlation of the OLS residuals to 0.05. 1000 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+
+tbl_bs_s<- read.csv(paste0(prod_dir,'rej_freq_tab_kernel_bsplines_slope.csv'))
+
+kbl(
+    tbl_bs_s,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_bs_s)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Tri-HAC+Unif-BS'=ncol(tbl_bs_s)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_bs_s))
+)
+
+```
+
+```{r}
+#| label: tbl-img-intercept
+#| tbl-cap: Share of imaginary se in simulations for HAC+Bsplines. Intercept.
+#| eval: false
+#| include: false
+
+tbl_img_bs<- read.csv(paste0(prod_dir,'img_freq_tab_kernel_bsplines.csv'))
+
+kbl(
+    tbl_img_bs,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_img_bs)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'HAC+BS'=ncol(tbl_img_bs)-4)
+)%>%
+add_header_above(
+    c('Intercept'=ncol(tbl_img_bs))
+)
+
+```
+
+```{r}
+#| label: tbl-img-slope
+#| tbl-cap: Share of imaginary se in simulations for HAC+Bsplines. Slope.
+#| eval: true
+#| include: true
+
+tbl_img_bs_s<- read.csv(paste0(prod_dir,'img_freq_tab_kernel_bsplines_slope.csv'))
+
+kbl(
+    tbl_img_bs_s,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_img_bs_s)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Tri-HAC+Unif-BS'=ncol(tbl_img_bs_s)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_img_bs_s))
+)
+
+```
+
+<!-- Uniform Kernel -->
+
+```{r}
+#| label: tbl-HAC-u
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the intercept is statically different from the true value, zero, using the **uniform** kernel HAC variance estimator for the standard error. 1000 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+#| eval: false
+#| include: false
+
+tbl_k_u<- read.csv(paste0(prod_dir,'rej_freq_tab_kernel_u.csv'))
+
+kbl(
+    tbl_k_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_k_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'unif-HAC'=ncol(tbl_k_u)-4)
+)%>%
+add_header_above(
+    c('Intercept'=ncol(tbl_k_u))
+)
+
+```
+
+```{r}
+#| label: tbl-HAC-BS-u
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the intercept is statically different from the true value, zero, using B-splines and the **uniform** kernel HAC variance estimator for the standard error. The number of B-splines selected minimizes the nearest neighbor (NN) correlation of the OLS residuals to 0.05. 1000 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+#| eval: false
+#| include: false
+
+tbl_bs_u<- read.csv(paste0(prod_dir,'rej_freq_tab_kernel_bsplines_u.csv'))
+
+kbl(
+    tbl_bs_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_bs_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Unif-BS'=ncol(tbl_bs_u)-4)
+)%>%
+add_header_above(
+    c('Intercept'=ncol(tbl_bs_u))
+)
+
+```
+
+
+```{r}
+#| label: tbl-HAC-slope-u
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, using the **uniform** kernel HAC variance estimator for the standard error. 1000 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+
+
+tbl_k_s_u<- read.csv(paste0(prod_dir,'rej_freq_tab_kernel_slope_u.csv'))
+
+kbl(
+    tbl_k_s_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_k_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC'=ncol(tbl_k_s_u)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_k_s_u))
+)
+
+```
+
+
+
+```{r}
+#| label: tbl-HAC-BS-slope-u
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, using B-splines and the **uniform** kernel HAC variance estimator for the standard error. The number of B-splines selected minimizes the nearest neighbor (NN) correlation of the OLS residuals to 0.05. 1000 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+
+tbl_bs_s_u<- read.csv(paste0(prod_dir,'rej_freq_tab_kernel_bsplines_slope_u.csv'))
+
+kbl(
+    tbl_bs_s_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_bs_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Unif-BS'=ncol(tbl_bs_s_u)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_bs_s_u))
+)
+
+```
+
+
+```{r}
+#| label: tbl-img-intercept-u
+#| tbl-cap: Share of imaginary se in simulations for HAC+Bsplines. Intercept. Uniform Kernel HAC.
+#| eval: false
+#| include: false
+
+tbl_img_bs_u<- read.csv(paste0(prod_dir,'img_freq_tab_kernel_bsplines_u.csv'))
+
+kbl(
+    tbl_img_bs_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_img_bs_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'HAC+BS'=ncol(tbl_img_bs_u)-4)
+)%>%
+add_header_above(
+    c('Intercept'=ncol(tbl_img_bs_u))
+)
+
+```
+
+```{r}
+#| label: tbl-img-slope-u
+#| tbl-cap: Share of imaginary se in simulations for HAC+Bsplines. Slope. Uniform Kernel HAC.
+#| eval: true
+#| include: true
+
+tbl_img_bs_s_u<- read.csv(paste0(prod_dir,'img_freq_tab_kernel_bsplines_slope_u.csv'))
+
+kbl(
+    tbl_img_bs_s_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_img_bs_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Unif-BS'=ncol(tbl_img_bs_s_u)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_img_bs_s_u))
+)
+
+```
+

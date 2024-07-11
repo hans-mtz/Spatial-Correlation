@@ -1,0 +1,76 @@
+---
+title: "Replication - Morgan"
+number-sections: true
+author: Hans Martinez
+date: today
+bibliography: biblio.bib
+format:
+    pdf:
+        documentclass: article
+        colorlinks: true
+        include-in-header: packages.tex
+        keep-tex: true
+        resource-path: 
+            - "../outputs"
+        latex-output-dir: Doc
+execute: 
+  echo: false
+  warning: false
+  error: false
+---
+
+```{r}
+#| label: setup
+
+library(knitr)
+library(tidyverse)
+# opts_knit$set(
+#     echo = FALSE,
+#     fig_path()
+# )
+
+library(kableExtra)
+options(
+    knitr.table.format = "latex",
+    knitr.kable.NA = "")
+
+prod_dir <- '../outputs/'
+
+```
+
+# Update {-}
+
+
+1. Updating the exercise of fixed quadratic 8x8 spline @sec-8x8. See tables [-@tbl-HAC-8x8] and [-@tbl-HAC-8x8-u].
+1. Adding the exercise of fixed uniform 8x8 splines. See tables [-@tbl-HAC-8x8-unif-bs] and [-@tbl-HAC-8x8-u-unif-bs]
+1. Bug in the code providing the number of splines fixed.
+1. Drop is now zero, for the number of splines dropped that had one or zero observations.
+1. Adding note on the sum of the var-cov matrix of AR(1), see @sec-ar1
+
+
+<!-- Intro -->
+
+{{< include sections/000-intro.qmd >}}
+
+<!-- Uniform Splines-->
+
+{{< include sections/009-unif-splines.qmd >}}
+
+<!-- Quadratic Splines -->
+
+{{< include sections/010-quadratic-splines.qmd >}}
+
+<!-- 8x8 Fix -->
+
+{{< include sections/020-8x8-fix.qmd >}}
+
+<!-- Finer Grid -->
+
+{{< include sections/030-finer_grid.qmd >}}
+
+
+
+## References {-}
+
+::: {#refs}
+:::

@@ -1,0 +1,158 @@
+# Non-Monotonicity {#sec-finer}
+
+In this section, I use a finer grid going from 0.8 to 1 to investigate the apparently non-monotonicity of the rejection frequencies.
+
+ @tbl-HAC-quad-BS-slope-finer and @tbl-HAC-quad-BS-slope-u-finer show the rejection frequencies using quadratic and uniforms B-Splines with uniform kernel HAC estimator while @tbl-img-slope-quad-finer and @tbl-img-slope-u-quad-finer display the average number of imaginary S.E. during simulations.
+
+ @fig-hist-n-splies-finer-8 and @fig-hist-n-splies-finer-9 show the distribution of the number of splines chosen by level of $\rho$.
+
+
+```{r}
+#| label: tbl-HAC-quad-BS-slope-finer
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, using **quadratic** B-splines and the **triangle** kernel HAC variance estimator for the standard error. The number of B-splines selected minimizes the nearest neighbor (NN) correlation of the OLS residuals to 0.05. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+
+
+exe<-'finer_grid_'
+
+tbl_quad_bs_s<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_s,
+    digits=3,
+    booktabs=TRUE,
+    # longtable=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_s)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Tri-HAC+Quad-BS'=ncol(tbl_quad_bs_s)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_s))
+)
+
+```
+
+
+```{r}
+#| label: tbl-img-slope-quad-finer
+#| tbl-cap: Share of imaginary se in simulations for HAC+Quadratic Bsplines. Slope.
+#| eval: true
+#| include: true
+
+tbl_img_quad_bs_s<- read.csv(paste0(prod_dir,exe,'img_freq_tab_kernel_bsplines_slope.csv'))
+
+kbl(
+    tbl_img_quad_bs_s,
+    digits=3,
+    booktabs=TRUE,
+    # longtable=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_img_quad_bs_s)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Tri-HAC+Quad-BS'=ncol(tbl_img_quad_bs_s)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_img_quad_bs_s))
+)
+
+```
+
+<!-- Uniform Kernel -->
+
+```{r}
+#| label: tbl-HAC-quad-BS-slope-u-finer
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, using B-splines and the **uniform** kernel HAC variance estimator for the standard error. The number of **quadratic** B-splines selected minimizes the nearest neighbor (NN) correlation of the OLS residuals to 0.05. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+
+tbl_quad_bs_s_u<- read.csv(paste0(prod_dir,exe,'rej_freq_tab_kernel_bsplines_slope_u.csv'))
+
+kbl(
+    tbl_quad_bs_s_u,
+    digits=3,
+    booktabs=TRUE,
+    # longtable=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Quad-BS'=ncol(tbl_quad_bs_s_u)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_s_u))
+)
+
+```
+
+
+```{r}
+#| label: tbl-img-slope-u-quad-finer
+#| tbl-cap: Share of imaginary se in simulations for HAC+Quadratic Bsplines. Slope. Uniform Kernel HAC.
+#| eval: true
+#| include: true
+
+tbl_img_quad_bs_s_u<- read.csv(paste0(prod_dir,exe,'img_freq_tab_kernel_bsplines_slope_u.csv'))
+
+kbl(
+    tbl_img_quad_bs_s_u,
+    digits=3,
+    booktabs=TRUE,
+    # longtable=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_img_quad_bs_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Quad-BS'=ncol(tbl_img_quad_bs_s_u)-4)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_img_quad_bs_s_u))
+)
+
+```
+
+
+::: {#fig-hist-n-splies-finer-8 layout-ncol="2"}
+
+![](../figures/hist_n_spli_rho-0.8_finer_grid.png)
+
+![](../figures/hist_n_spli_rho-0.82_finer_grid.png)
+
+![](../figures/hist_n_spli_rho-0.84_finer_grid.png)
+
+![](../figures/hist_n_spli_rho-0.86_finer_grid.png)
+
+![](../figures/hist_n_spli_rho-0.88_finer_grid.png)
+
+![](../figures/hist_n_spli_rho-0.9_finer_grid.png)
+
+Histograms of the number of quadratic B-splines chosen by the level of $\rho$
+
+:::
+
+::: {#fig-hist-n-splies-finer-9 layout-ncol="2"}
+
+![](../figures/hist_n_spli_rho-0.91_finer_grid.png)
+
+![](../figures/hist_n_spli_rho-0.93_finer_grid.png)
+
+![](../figures/hist_n_spli_rho-0.96_finer_grid.png)
+
+![](../figures/hist_n_spli_rho-0.98_finer_grid.png)
+
+![](../figures/hist_n_spli_rho-0.99_finer_grid.png)
+
+![](../figures/hist_n_spli_rho-1_finer_grid.png)
+
+Histograms of the number of quadratic B-splines chosen by the level of $\rho$
+
+:::

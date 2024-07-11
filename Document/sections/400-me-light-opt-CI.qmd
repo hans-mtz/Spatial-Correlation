@@ -1,0 +1,370 @@
+## Ideal Confidence Intervals
+
+How wide should the Confidence Intervals should be to get a rejection frequency of 5 percent? After running the simulations as described in @sec-high-concentrated-locs, I used the distribution of the $t$ statistic to get the values of the 2.5 and 97.5 percentile. The tables in this section report the difference between the two values. 
+
+In addition, to make the tables reported in this section easily comparable with @sec-high-concentrated-locs, the tables also report the value of the difference times the absolute value of the average standard error.
+
+Lastly, the tables also include the statistics requested by Tim. Tim's statistic is the sum of the off-diagonal elements of the $XX'$ covariates matrix divided by the sum of the diagonal elements.
+
+```{r}
+#| label: tbl-lights-me-matching-rhos
+#| tbl-cap: 5 percent CI lengths for different variance estimators. Spatial data with highly concentrated two-dimensional mismeasured locations. Selecting the number of B Splines using the lowest Nearest Neighbour (NN) correlation in residuals from a grid going from 4 to 12 splines. ME radius is 3 percent. DGP's $\bar\rho$ is 0.03. C-SCPC/SCPC $\bar\rho_{max}$ is 0.03.
+#| eval: true
+#| include: true
+
+excercise <- "light_locs_me_3p_matching_rhos_tims_stat"
+
+# kernel_results <- read.csv(
+#     paste0(products_folder,"opt_spline_sims_res_", excercise,".csv")
+# )
+
+e_ar1_tbl <- read.csv(
+    paste0(products_folder,"opt_spline_sims_ar1_", excercise, ".csv")
+)
+
+optimal_CI_table <- read.csv(
+    paste0(products_folder, "opt_ci_table_", excercise, ".csv")
+)
+
+# notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
+row_names_kernel<- c(
+    "HR",
+    "SCPC",
+    "C-SCPC",
+    "Kernel 0.015",
+    "Kernel 0.030",
+    "Kernel 0.050",
+    "HR",
+    "Kernel 0.015",
+    "Kernel 0.030",
+    "Kernel 0.050",
+    "Damian's (x2)",
+    "Damian's (x3)"
+)
+
+# row_names_kernel_notes <-paste0(row_names_kernel,notes)
+aux <- c(
+    rep(
+        "",
+        4+2
+    ),
+    rep(
+        c(
+            "Order 1"#,
+            # "Order 2"
+        ),
+        each = 6
+    )
+)
+
+table_ci <- cbind(
+    aux,
+    row_names_kernel, 
+    optimal_CI_table
+)
+names(table_ci)<- c(
+    "Splines",
+    "Estimator",
+    "Cons. Z",
+    "$\\beta_1$ Z",
+    "Cons.",
+    "$\\beta_1$"
+)
+
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1"#,
+            # "Order 2"
+        ),
+        1
+    )
+)
+
+table_ar1 <-cbind(
+    aux2,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "Splines",
+    "NN",
+    "Tim's Stat",
+    "BIC",
+    "Damian's",
+    "Dropped"
+)
+table<-merge(table_ci,table_ar1[,c(1,3)], by="Splines",sort=FALSE)
+
+kbl(
+    table, #- id, 
+    digits=3,#c(3,3,5,3), 
+    booktabs = TRUE,
+    longtable = TRUE,
+    # col.names = col_names,
+    # row.names = row_names,
+    escape = F,
+    position = "p"#,
+    # format.args = list(scientific=TRUE)
+    ) %>%
+    add_header_above(
+        c(" "=2,"C.I. length"=4)
+    ) %>%
+    # add_header_above(
+    #     c(" "=1,"Spatial data"=6,"Residuals"=3)
+    # ) %>%
+    collapse_rows(
+        c(1,7),
+        latex_hline = "custom",
+        custom_latex_hline = 1,
+        valign = "top"#,
+        # row_group_label_position = "stack"
+    ) #%>%
+
+```
+
+
+```{r}
+#| label: tbl-lights-me-true-rho-above
+#| tbl-cap: 5 percent CI lengths for different variance estimators. Spatial data with highly concentrated two-dimensional mismeasured locations. Selecting the number of B Splines using the lowest Nearest Neighbour (NN) correlation in residuals from a grid going from 4 to 12 splines. ME radius is 3 percent. DGP's $\bar\rho$ is 0.06. C-SCPC/SCPC $\bar\rho_{max}$ is 0.03.
+#| eval: true
+#| include: true
+
+excercise <- "light_locs_me_3p_true_rho_above_tims_stat"
+
+# kernel_results <- read.csv(
+#     paste0(products_folder,"opt_spline_sims_res_", excercise,".csv")
+# )
+
+e_ar1_tbl <- read.csv(
+    paste0(products_folder,"opt_spline_sims_ar1_", excercise, ".csv")
+)
+
+optimal_CI_table <- read.csv(
+    paste0(products_folder, "opt_ci_table_", excercise, ".csv")
+)
+
+# notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
+row_names_kernel<- c(
+    "HR",
+    "SCPC",
+    "C-SCPC",
+    "Kernel 0.015",
+    "Kernel 0.030",
+    "Kernel 0.050",
+    "HR",
+    "Kernel 0.015",
+    "Kernel 0.030",
+    "Kernel 0.050",
+    "Damian's (x2)",
+    "Damian's (x3)"
+)
+
+# row_names_kernel_notes <-paste0(row_names_kernel,notes)
+aux <- c(
+    rep(
+        "",
+        4+2
+    ),
+    rep(
+        c(
+            "Order 1"#,
+            # "Order 2"
+        ),
+        each = 6
+    )
+)
+
+table_ci <- cbind(
+    aux,
+    row_names_kernel, 
+    optimal_CI_table
+)
+names(table_ci)<- c(
+    "Splines",
+    "Estimator",
+    "Cons. Z",
+    "$\\beta_1$ Z",
+    "Cons.",
+    "$\\beta_1$"
+)
+
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1"#,
+            # "Order 2"
+        ),
+        1
+    )
+)
+
+table_ar1 <-cbind(
+    aux2,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "Splines",
+    "NN",
+    "Tim's Stat",
+    "BIC",
+    "Damian's",
+    "Dropped"
+)
+table<-merge(table_ci,table_ar1[,c(1,3)], by="Splines",sort=FALSE)
+
+kbl(
+    table, #- id, 
+    digits=3,#c(3,3,5,3), 
+    booktabs = TRUE,
+    longtable = TRUE,
+    # col.names = col_names,
+    # row.names = row_names,
+    escape = F,
+    position = "p"#,
+    # format.args = list(scientific=TRUE)
+    ) %>%
+    add_header_above(
+        c(" "=2,"C.I. length"=4)
+    ) %>%
+    # add_header_above(
+    #     c(" "=1,"Spatial data"=6,"Residuals"=3)
+    # ) %>%
+    collapse_rows(
+        c(1,7),
+        latex_hline = "custom",
+        custom_latex_hline = 1,
+        valign = "top"#,
+        # row_group_label_position = "stack"
+    ) #%>%
+
+```
+
+
+
+```{r}
+#| label: tbl-lights-me-true-rho-below
+#| tbl-cap: 5 percent CI lengths for different variance estimators. Spatial data with highly concentrated two-dimensional mismeasured locations. Selecting the number of B Splines using the lowest Nearest Neighbour (NN) correlation in residuals from a grid going from 4 to 12 splines. ME radius is 3 percent. DGP's $\bar\rho$ is 0.01. C-SCPC/SCPC $\bar\rho_{max}$ is 0.03.
+#| eval: true
+#| include: true
+
+excercise <- "light_locs_me_3p_true_rho_below_tims_stat"
+
+# kernel_results <- read.csv(
+#     paste0(products_folder,"opt_spline_sims_res_", excercise,".csv")
+# )
+
+e_ar1_tbl <- read.csv(
+    paste0(products_folder,"opt_spline_sims_ar1_", excercise, ".csv")
+)
+
+optimal_CI_table <- read.csv(
+    paste0(products_folder, "opt_ci_table_", excercise, ".csv")
+)
+
+# notes <- c(rep("",5),"$^a$",rep("",9),"$^b$")
+row_names_kernel<- c(
+    "HR",
+    "SCPC",
+    "C-SCPC",
+    "Kernel 0.015",
+    "Kernel 0.030",
+    "Kernel 0.050",
+    "HR",
+    "Kernel 0.015",
+    "Kernel 0.030",
+    "Kernel 0.050",
+    "Damian's (x2)",
+    "Damian's (x3)"
+)
+
+# row_names_kernel_notes <-paste0(row_names_kernel,notes)
+aux <- c(
+    rep(
+        "",
+        4+2
+    ),
+    rep(
+        c(
+            "Order 1"#,
+            # "Order 2"
+        ),
+        each = 6
+    )
+)
+
+table_ci <- cbind(
+    aux,
+    row_names_kernel, 
+    optimal_CI_table
+)
+names(table_ci)<- c(
+    "Splines",
+    "Estimator",
+    "Cons. Z",
+    "$\\beta_1$ Z",
+    "Cons.",
+    "$\\beta_1$"
+)
+
+aux2 <- c(
+    rep(
+        "",
+        1
+    ),
+    rep(
+        c(
+            "Order 1"#,
+            # "Order 2"
+        ),
+        1
+    )
+)
+
+table_ar1 <-cbind(
+    aux2,
+    e_ar1_tbl
+)
+names(table_ar1)<-c(
+    "Splines",
+    "NN",
+    "Tim's Stat",
+    "BIC",
+    "Damian's",
+    "Dropped"
+)
+table<-merge(table_ci,table_ar1[,c(1,3)], by="Splines",sort=FALSE)
+
+kbl(
+    table, #- id, 
+    digits=3,#c(3,3,5,3), 
+    booktabs = TRUE,
+    longtable = TRUE,
+    # col.names = col_names,
+    # row.names = row_names,
+    escape = F,
+    position = "p"#,
+    # format.args = list(scientific=TRUE)
+    ) %>%
+    add_header_above(
+        c(" "=2,"C.I. length"=4)
+    ) %>%
+    # add_header_above(
+    #     c(" "=1,"Spatial data"=6,"Residuals"=3)
+    # ) %>%
+    collapse_rows(
+        c(1,7),
+        latex_hline = "custom",
+        custom_latex_hline = 1,
+        valign = "top"#,
+        # row_group_label_position = "stack"
+    ) #%>%
+
+```
