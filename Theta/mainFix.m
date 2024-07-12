@@ -4,8 +4,8 @@ if batchStartupOptionUsed
 end
 
 rng(549)
-exercise = '8x8_quad_splines'; %'8x8_fix'
-description = 'HR_var corrected X->X_bs; Quad Splines; Splines fixed';
+exercise = '8x8_no_cons_unif_bs_keep'; %'8x8_fix'
+description = 'Unif Splines; No intercept';
 save_results = true;
 plot_res = false;
 
@@ -14,11 +14,11 @@ n_reps = 200;
 T = 500;
 n_locations = 2;
 theta = sqrt(2)/10;
-rho = [0.05:0.1:1.0 1];
-l_cutoffs = 0.05:0.05:0.25;
-beta = [0 0];
+rho = [0.0:0.1:1.0];
+l_cutoffs = 0.05:0.05:0.3;
+beta = 0; %[0 0];
 kernel = 'triangle';
-splines_order = 3; % Order 1, step functions; 2, triangles; 3, quadratic
+splines_order = 1; % Order 1, step functions; 2, triangles; 3, quadratic
 n_splines = 8;
 
 %% Generate locations (fixed locations)
@@ -42,8 +42,8 @@ rej_freq_bs=NaN(length(rho),length(l_cutoffs),length(beta));
 n_imaginary=zeros(n_reps,length(rho),length(l_cutoffs),length(beta));
 img_freq_bs=zeros(length(rho),length(l_cutoffs),length(beta));
 
-sims_stats_mat=NaN(n_reps,length(rho),3,2);
-sims_stats=NaN(length(rho),5,2);
+sims_stats_mat=NaN(n_reps,length(rho),6,2);
+sims_stats=NaN(length(rho),6,2);
 
 % CI
 raw_data_k_u_ci=NaN(n_reps,length(rho),length(l_cutoffs),length(beta));
@@ -89,9 +89,19 @@ for r=1:n_reps
 
         % Testing with HR
         se_hr = HR_var(u_hat,X,X);
-        t_stat = H_0./se_hr;
-        rej_rule_hr = abs(t_stat) > 1.96;
-        sims_stats_mat(r,j,3,1) = rej_rule_hr(2);
+        
+        % t_stat = H_0./se_hr;
+        % rej_rule_hr = abs(t_stat) > 1.96;
+        % sims_stats_mat(r,j,3,1) = rej_rule_hr;
+
+        % Ignoring imaginary se
+        if (se_hr==real(se_hr))
+            sims_stats_mat(r,j,6,1) = se_hr;
+            t_stat_hr = H_0/se_hr;
+            rej_rule_hr = abs(t_stat_hr) > 1.96;
+            sims_stats_mat(r,j,3,1) = rej_rule_hr;
+        end
+
 
         %% Kernel HAC with B-Splines %%
         % Find optimal number of splines, Step functions
@@ -100,9 +110,9 @@ for r=1:n_reps
         sims_stats_mat(r,j,2,2) = n_dropped;
         sims_stats_mat(r,j,5,2) = n_splines;
         % X_bs
-        % X_bs = [X S]; % Removing intercept
+        X_bs = [X S]; % Removing intercept in GDP
         % X_bs = [X(:,2:end) S]; % Removing intercept
-        X_bs = [X S(:,1:end-1)]; % Removing one column of the splines 
+        % X_bs = [X S(:,1:end-1)]; % Removing one column of the splines 
                                  % to avoid colinearity with intercept 
                                  % in OLS
         %% OLS with B-Splines
@@ -115,9 +125,17 @@ for r=1:n_reps
 
         % Testing with HR
         se_hr_bs = HR_var(u_hat_bs,X_bs,X_bs);
-        t_stat_hr_bs = H_0./se_hr_bs(1:length(beta));
-        rej_rule_hr_bs = abs(t_stat_hr_bs) > 1.96;
-        sims_stats_mat(r,j,3,2) = rej_rule_hr_bs(2);
+        % t_stat_hr_bs = H_0./se_hr_bs(1:length(beta));
+        % rej_rule_hr_bs = abs(t_stat_hr_bs) > 1.96;
+        % sims_stats_mat(r,j,3,2) = rej_rule_hr_bs;
+
+        % Ignoring imaginary se
+        if (se_hr_bs(1)==real(se_hr_bs(1))) % No Intercept, only the slope
+            sims_stats_mat(r,j,6,2) = se_hr_bs(1);
+            t_stat_hr_bs = H_0_bs./se_hr_bs(1);
+            rej_rule_hr_bs = abs(t_stat_hr_bs) > 1.96;
+            sims_stats_mat(r,j,3,2) = rej_rule_hr_bs;
+        end
 
         % i=1;
         % for l=l_cutoffs
@@ -134,16 +152,20 @@ for r=1:n_reps
             se_bs = kernel_var(u_hat_bs,X_bs,X_bs,h,l_cutoffs(i),s,kernel,'chol');
 
             % Uniform Kernel
-            t_stat_u = H_0./se_u;
-            rej_rule_u = abs(t_stat_u) > 1.96;
-            raw_data_k_u(r,j,i,:) = rej_rule_u;
-            raw_data_k_u_ci(r,j,i,:) = 2.*abs(se_u).*1.96; 
+            if (se_u==real(se_u))
+                t_stat_u = H_0./se_u;
+                rej_rule_u = abs(t_stat_u) > 1.96;
+                raw_data_k_u(r,j,i,:) = rej_rule_u;
+                raw_data_k_u_ci(r,j,i,:) = 2.*abs(se_u).*1.96;
+            end
 
             % Triangle Kernel
-            t_stat = H_0./se;
-            rej_rule = abs(t_stat) > 1.96;
-            raw_data_k(r,j,i,:) = rej_rule;
-            raw_data_k_ci(r,j,i,:) =2.*abs(se).*1.96; 
+            if (se==real(se) )
+                t_stat = H_0./se;
+                rej_rule = abs(t_stat) > 1.96;
+                raw_data_k(r,j,i,:) = rej_rule;
+                raw_data_k_ci(r,j,i,:) =2.*abs(se).*1.96;
+            end
 
             %%%% Kernel HAC + B-SPlines %%%%
             % t statistic and rejection for kernel+bsplines  
@@ -185,15 +207,15 @@ end
 %% Summarizing simulation results
 
 % Simulations Statistics
-sims_stats(:,:,:) = mean(sims_stats_mat,1);
+sims_stats(:,:,:) = mean(sims_stats_mat,1,'omitnan');
 
 % Kernel HAC 
 % Uniform Kernel
-rej_freq_k_u(:,:,:) = mean(raw_data_k_u,1);
-rej_freq_k_u_ci(:,:,:) = mean(raw_data_k_u_ci,1);
+rej_freq_k_u(:,:,:) = mean(raw_data_k_u,1,'omitnan');
+rej_freq_k_u_ci(:,:,:) = mean(raw_data_k_u_ci,1,'omitnan');
 % Triangle Kernel
-rej_freq_k(:,:,:) = mean(raw_data_k,1);
-rej_freq_k_ci(:,:,:) = mean(raw_data_k_ci,1);
+rej_freq_k(:,:,:) = mean(raw_data_k,1,'omitnan');
+rej_freq_k_ci(:,:,:) = mean(raw_data_k_ci,1,'omitnan');
 
 % Kernel HAC + BSplines
 % Uniform Kernel + B-Splines
@@ -217,16 +239,16 @@ toc
 % rej_freq_tab_bs=array2table([rho' corr' rej_freq_bs(:,:,1)],...
 %     'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs)])
 
-rej_freq_tab_k_slope=array2table([rho' corr' rej_freq_k(:,:,2) sims_stats(:,1:4,1)],...
+rej_freq_tab_k_slope=array2table([rho' corr' rej_freq_k(:,:,1) sims_stats(:,1:4,1)],...
     'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs) 'NN' 'Drop' 'HR' 'BIC'])
 
-rej_freq_tab_bs_slope=array2table([rho' corr' rej_freq_bs(:,:,2) sims_stats(:,1:4,2)],...
+rej_freq_tab_bs_slope=array2table([rho' corr' rej_freq_bs(:,:,1) sims_stats(:,1:4,2)],...
     'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs) 'NN' 'Drop' 'HR' 'BIC'])
 
 % img_freq_tab_bs=array2table([rho' corr' img_freq_bs(:,:,1) sims_stats(:,1:4,2)'],...
 %     'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs) 'NN' 'Drop' 'HR' 'BIC'])
 
-img_freq_tab_bs_slope=array2table([rho' corr' img_freq_bs(:,:,2) sims_stats(:,1:4,2)],...
+img_freq_tab_bs_slope=array2table([rho' corr' img_freq_bs(:,:,1) sims_stats(:,1:4,2)],...
         'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs) 'NN' 'Drop' 'HR' 'BIC'])
 
 % Uniform
@@ -237,16 +259,16 @@ img_freq_tab_bs_slope=array2table([rho' corr' img_freq_bs(:,:,2) sims_stats(:,1:
 % rej_freq_tab_bs_u=array2table([rho' corr' rej_freq_bs_u(:,:,1)],...
 %     'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs) 'NN' 'Drop' 'HR' 'BIC'])
 
-rej_freq_tab_k_slope_u=array2table([rho' corr' rej_freq_k_u(:,:,2) sims_stats(:,1:4,1)],...
+rej_freq_tab_k_slope_u=array2table([rho' corr' rej_freq_k_u(:,:,1) sims_stats(:,1:4,1)],...
     'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs) 'NN' 'Drop' 'HR' 'BIC'])
 
-rej_freq_tab_bs_slope_u=array2table([rho' corr' rej_freq_bs_u(:,:,2) sims_stats(:,1:4,2)],...
+rej_freq_tab_bs_slope_u=array2table([rho' corr' rej_freq_bs_u(:,:,1) sims_stats(:,1:4,2)],...
     'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs) 'NN' 'Drop' 'HR' 'BIC'])
 
 % img_freq_tab_bs_u=array2table([rho' corr' img_freq_bs_u(:,:,1)],...
 %     'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs) 'NN' 'Drop' 'HR' 'BIC'])
 
-img_freq_tab_bs_slope_u=array2table([rho' corr' img_freq_bs_u(:,:,2) sims_stats(:,1:4,2)],...
+img_freq_tab_bs_slope_u=array2table([rho' corr' img_freq_bs_u(:,:,1) sims_stats(:,1:4,2)],...
         'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs) 'NN' 'Drop' 'HR' 'BIC'])
 
 
@@ -254,18 +276,18 @@ img_freq_tab_bs_slope_u=array2table([rho' corr' img_freq_bs_u(:,:,2) sims_stats(
 
 % Triangle
 
-rej_freq_tab_k_slope_ci=array2table([rho' corr' rej_freq_k_ci(:,:,2) sims_stats(:,1:4,1)],...
+rej_freq_tab_k_slope_ci=array2table([rho' corr' rej_freq_k_ci(:,:,1) sims_stats(:,1:4,1)],...
     'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs) 'NN' 'Drop' 'HR' 'BIC'])
 
-rej_freq_tab_bs_slope_ci=array2table([rho' corr' rej_freq_bs_ci(:,:,2) sims_stats(:,1:4,2)],...
+rej_freq_tab_bs_slope_ci=array2table([rho' corr' rej_freq_bs_ci(:,:,1) sims_stats(:,1:4,2)],...
     'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs) 'NN' 'Drop' 'HR' 'BIC'])
 
 % Uniform
 
-rej_freq_tab_k_slope_u_ci=array2table([rho' corr' rej_freq_k_u_ci(:,:,2) sims_stats(:,1:4,1)],...
+rej_freq_tab_k_slope_u_ci=array2table([rho' corr' rej_freq_k_u_ci(:,:,1) sims_stats(:,1:4,1)],...
     'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs) 'NN' 'Drop' 'HR' 'BIC'])
 
-rej_freq_tab_bs_slope_u_ci=array2table([rho' corr' rej_freq_bs_u_ci(:,:,2) sims_stats(:,1:4,2)],...
+rej_freq_tab_bs_slope_u_ci=array2table([rho' corr' rej_freq_bs_u_ci(:,:,1) sims_stats(:,1:4,2)],...
     'VariableNames', ['$\\rho$' 'corr' string(l_cutoffs) 'NN' 'Drop' 'HR' 'BIC'])
 
 

@@ -1,32 +1,60 @@
-# 8x8 Quadratic B-Spline {#sec-8x8}
+---
+title: "Replication - Morgan"
+number-sections: true
+author: Hans Martinez
+date: today
+bibliography: biblio.bib
+format:
+    pdf:
+        documentclass: article
+        colorlinks: true
+        include-in-header: packages.tex
+        keep-tex: true
+        resource-path: 
+            - "../outputs"
+        latex-output-dir: Doc
+execute: 
+  echo: false
+  warning: false
+  error: false
+---
 
-@tbl-HAC-8x8 and @tbl-HAC-8x8-u show the rejection frequencies of testing the null hypothesis $H_0=\hat\beta_0-\beta_0$ for different values of $\rho$ adding an 8x8 quadratic B-Spline for the triangle and uniform kernel HAC.
+```{r}
+#| label: setup
 
-@tbl-HAC-8x8-unif-bs and @tbl-HAC-8x8-u-unif-bs show the same exercise but using an 8x8 step function B-Splines for the triangle and uniform kernel HAC.
+library(knitr)
+library(tidyverse)
+# opts_knit$set(
+#     echo = FALSE,
+#     fig_path()
+# )
 
-@tbl-HAC-8x8-ci and @tbl-HAC-8x8-u-ci show the confidence interval lengths for the same simulations of tables [-@tbl-HAC-8x8] and [-@tbl-HAC-8x8-u]. Likewise, @tbl-HAC-8x8-ci-unif-bs and @tbl-HAC-8x8-u-ci-unif-bs show the confidence interval lengths for tables @tbl-HAC-8x8-unif-bs and @tbl-HAC-8x8-u-unif-bs.
+library(kableExtra)
+options(
+    knitr.table.format = "latex",
+    knitr.kable.NA = "")
 
-In addition, the tables show the rejection frequencies when using the heteroscedastic robust variance for the standard error à la Stata and the BIC.
+prod_dir <- '../outputs/'
 
-BIC [@Hansen2020] is estimated as
-$$
-BIC_H=T\log(2\pi\hat{\sigma}^2_{e_l})+T+(k+1)\log(T)
-$$ {#eq-hansen-bic}
+```
+
+
+# No Splines
+
+Tables [-@tbl-HAC-8x8] and [-@tbl-HAC-8x8-u], triangle and uniform Kernel HAC (@Conley1999).
 
 ```{r}
 #| label: tbl-HAC-8x8
-#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, using an 8x8 **quadratic** B-splines and the **triangle** kernel HAC variance estimator for the standard error. The number of B-splines was fixed at 8x8. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's).
-#| eval: false
-#| include: false
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, the **triangle** kernel HAC variance estimator for the standard error. No Splines. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's).
 
 
-exe<-'8x8_quad_splines_'
+exe<-'8x8_no_cons_unif_bs_keep_'
 
 tbl_quad_bs_s<- read.csv(
     paste0(
         prod_dir,
         exe,
-        'rej_freq_tab_kernel_bsplines_slope.csv'
+        'rej_freq_tab_kernel_slope.csv'
     )
 )
 
@@ -39,7 +67,7 @@ kbl(
     escape = FALSE
 ) %>%
 add_header_above(
-    c(' '=2, 'Tri-HAC+Quad-BS'=ncol(tbl_quad_bs_s)-6)
+    c(' '=2, 'Tri-HAC'=ncol(tbl_quad_bs_s)-6)
 )%>%
 add_header_above(
     c('Slope'=ncol(tbl_quad_bs_s))
@@ -49,15 +77,14 @@ add_header_above(
 
 ```{r}
 #| label: tbl-HAC-8x8-u
-#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, using an 8x8 **quadratic** B-splines and the **uniform** kernel HAC variance estimator for the standard error. The number of B-splines was fixed at 8x8. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's).
-#| eval: false
-#| include: false
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, the **uniform** kernel HAC variance estimator for the standard error. No Splines. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's). 
+
 
 tbl_quad_bs_s_u<- read.csv(
     paste0(
         prod_dir,
         exe,
-        'rej_freq_tab_kernel_bsplines_slope_u.csv'
+        'rej_freq_tab_kernel_slope_u.csv'
     )
 )
 
@@ -70,13 +97,19 @@ kbl(
     escape = FALSE
 ) %>%
 add_header_above(
-    c(' '=2, 'Unif-HAC+Quad-BS'=ncol(tbl_quad_bs_s_u)-6)
+    c(' '=2, 'Unif-HAC'=ncol(tbl_quad_bs_s_u)-6)
 )%>%
 add_header_above(
     c('Slope'=ncol(tbl_quad_bs_s_u))
 )
 
 ```
+
+
+# 8x8 Splines
+
+Tables [-@tbl-HAC-8x8-unif-bs] and [-@tbl-HAC-8x8-u-unif-bs], triangle and uniform Kernel HAC (@Conley1999) with an 8x8 step functions splines.
+
 
 ```{r}
 #| label: tbl-HAC-8x8-unif-bs
@@ -142,73 +175,12 @@ add_header_above(
 
 
 ```{r}
-#| label: tbl-HAC-8x8-ci
-#| tbl-cap: Confidence Interval length of using the **triangle** kernel HAC variance estimator for the standard error after adding an 8x8 **quadratic** B-splines. The number of B-splines was fixed at 8x8. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's).
-
-
-exe<-'8x8_quad_splines_'
-
-tbl_quad_bs_s_ci<- read.csv(
-    paste0(
-        prod_dir,
-        exe,
-        'rej_freq_tab_kernel_bsplines_slope_ci.csv'
-    )
-)
-
-kbl(
-    tbl_quad_bs_s_ci,
-    digits=3,
-    booktabs=TRUE,
-    position = 'htp',
-    col.names = gsub("X","",names(tbl_quad_bs_s_ci)),
-    escape = FALSE
-) %>%
-add_header_above(
-    c(' '=2, 'Tri-HAC+Quad-BS'=ncol(tbl_quad_bs_s_ci)-6)
-)%>%
-add_header_above(
-    c('Slope'=ncol(tbl_quad_bs_s_ci))
-)
-
-```
-
-```{r}
-#| label: tbl-HAC-8x8-u-ci
-#| tbl-cap: Confidence Interval length of using the **uniform** kernel HAC variance estimator for the standard error after adding an 8x8 **quadratic** B-splines. The number of B-splines was fixed at 8x8. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's).
-
-
-tbl_quad_bs_s_u_ci<- read.csv(
-    paste0(
-        prod_dir,
-        exe,
-        'rej_freq_tab_kernel_bsplines_slope_u_ci.csv'
-    )
-)
-
-kbl(
-    tbl_quad_bs_s_u_ci,
-    digits=3,
-    booktabs=TRUE,
-    position = 'htp',
-    col.names = gsub("X","",names(tbl_quad_bs_s_u_ci)),
-    escape = FALSE
-) %>%
-add_header_above(
-    c(' '=2, 'Unif-HAC+Quad-BS'=ncol(tbl_quad_bs_s_u_ci)-6)
-)%>%
-add_header_above(
-    c('Slope'=ncol(tbl_quad_bs_s_u_ci))
-)
-
-```
-
-
-```{r}
 #| label: tbl-HAC-8x8-ci-unif-bs
 #| tbl-cap: Confidence Interval length of using the **triangle** kernel HAC variance estimator for the standard error after adding an 8x8 **uniform** B-splines. The number of B-splines was fixed at 8x8. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's).
+#| eval: false
+#| include: false
 
-exe<-'8x8_unif_splines_'
+# exe<-'8x8_unif_splines_'
 
 tbl_quad_bs_s_ci<- read.csv(
     paste0(
@@ -238,7 +210,8 @@ add_header_above(
 ```{r}
 #| label: tbl-HAC-8x8-u-ci-unif-bs
 #| tbl-cap: Confidence Interval length of using the **uniform** kernel HAC variance estimator for the standard error after adding an 8x8 **uniform** B-splines. The number of B-splines was fixed at 8x8. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's).
-
+#| eval: false
+#| include: false
 
 tbl_quad_bs_s_u_ci<- read.csv(
     paste0(
@@ -265,3 +238,7 @@ add_header_above(
 
 ```
 
+## References {-}
+
+::: {#refs}
+:::

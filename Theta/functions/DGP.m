@@ -11,7 +11,8 @@ function [y,X,D_mat] = DGP(theta,locations,rho)
     % White noise
     X_noise = normrnd(0,1,[2,T]);
 
-    X= [ones(T,1) (1-rho).*X_noise(1,:)'+rho.*X_spatial(1,:)'];
+    % X= [ones(T,1) (1-rho).*X_noise(1,:)'+rho.*X_spatial(1,:)']; % With Intercept
+    X= (1-rho).*X_noise(1,:)'+rho.*X_spatial(1,:)'; %No Intercept
 
     % Y is an independent draw of the same GDP
 
