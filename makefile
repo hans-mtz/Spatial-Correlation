@@ -114,8 +114,8 @@ clean-ml:
 	rm -fv $(MLDIR)/$(MATLAB).log
 
 clean-latex:
-	rm -fv */*.aux */*.log */*.fdb_latexmk */*.fls */*.lot */*.lof */*.synctex.gz
-	rm -fv *.aux *.log *.fdb_latexmk *.fls *.lot *.lof *.synctex.gz
-	rm -fv Document/*/*.aux Document/*/*.log Document/*/*.fdb_latexmk Document/*/*.fls Document/*/*.lot Document/*/*.lof Document/*/*.synctex.gz
+	rm -fv */*.aux  */*.fdb_latexmk */*.fls */*.lot */*.lof */*.synctex.gz
+	rm -fv *.aux  *.fdb_latexmk *.fls *.lot *.lof *.synctex.gz
+	rm -fv Document/*/*.aux  Document/*/*.fdb_latexmk Document/*/*.fls Document/*/*.lot Document/*/*.lof Document/*/*.synctex.gz
 
 .PHONY: all clean paper mail matlab

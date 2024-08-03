@@ -1,0 +1,728 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+]{article}
+
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+% \usepackage[figon, printfigures]{figcaps}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabu}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Replication - Morgan},
+  pdfauthor={Hans Martinez},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Replication - Morgan}
+\author{Hans Martinez}
+\date{2024-07-24}
+
+\begin{document}
+\maketitle
+
+\section{Morgan's Code}\label{morgans-code}
+
+\subsection{Intercept vs No Intercept}\label{intercept-vs-no-intercept}
+
+\begin{table}
+
+\caption{\label{tbl-img-intercept-u-any}Share of any imaginary SE in
+simulations for HAC+Bsplines when including the intercept in OLS.
+Uniform Kernel HAC. Morgan's Locations and Splines.}
+
+\centering{
+
+\begin{tabular}[t]{rrrrrrrrrr}
+\toprule
+\multicolumn{10}{c}{Any} \\
+\cmidrule(l{3pt}r{3pt}){1-10}
+\multicolumn{2}{c}{ } & \multicolumn{4}{c}{Unif-HAC+Morgan Splines} \\
+\cmidrule(l{3pt}r{3pt}){3-6}
+...rho. & corr & 0.05 & 0.1 & 0.15 & 0.2 & NN & Drop & HR & BIC\\
+\midrule
+0.0 & 0.000 & 0.385 & 1.000 & 1 & 1 & -0.106 & 0 & 0.040 & 1759.516\\
+0.2 & 0.099 & 0.375 & 1.000 & 1 & 1 & -0.065 & 0 & 0.050 & 1682.078\\
+0.4 & 0.197 & 0.330 & 1.000 & 1 & 1 & -0.017 & 0 & 0.030 & 1588.460\\
+0.6 & 0.296 & 0.215 & 0.990 & 1 & 1 & 0.022 & 0 & 0.070 & 1478.789\\
+0.7 & 0.345 & 0.160 & 0.960 & 1 & 1 & 0.049 & 0 & 0.100 & 1408.481\\
+\addlinespace
+0.8 & 0.394 & 0.095 & 0.915 & 1 & 1 & 0.068 & 0 & 0.095 & 1333.203\\
+0.9 & 0.444 & 0.060 & 0.840 & 1 & 1 & 0.092 & 0 & 0.075 & 1242.407\\
+1.0 & 0.493 & 0.050 & 0.690 & 1 & 1 & 0.116 & 0 & 0.210 & 1130.916\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\begin{table}
+
+\caption{\label{tbl-img-no-intercept-u-any}Share of any imaginary SE in
+simulations for HAC+Bsplines with NO intercept in OLS. Uniform Kernel
+HAC. Morgan's Locations and Splines.}
+
+\centering{
+
+\begin{tabular}[t]{rrrrrrrrrr}
+\toprule
+\multicolumn{10}{c}{Any} \\
+\cmidrule(l{3pt}r{3pt}){1-10}
+\multicolumn{2}{c}{ } & \multicolumn{4}{c}{Unif-HAC+Morgan Splines} \\
+\cmidrule(l{3pt}r{3pt}){3-6}
+...rho. & corr & 0.05 & 0.1 & 0.15 & 0.2 & NN & Drop & HR & BIC\\
+\midrule
+0.0 & 0.000 & 0.370 & 1.000 & 1.000 & 1 & -0.103 & 0 & 0.045 & 1752.866\\
+0.2 & 0.099 & 0.300 & 0.970 & 0.990 & 1 & -0.048 & 0 & 0.070 & 1676.155\\
+0.4 & 0.197 & 0.270 & 0.900 & 0.995 & 1 & 0.014 & 0 & 0.130 & 1583.764\\
+0.6 & 0.296 & 0.130 & 0.870 & 0.990 & 1 & 0.057 & 0 & 0.260 & 1475.356\\
+0.7 & 0.345 & 0.095 & 0.805 & 0.995 & 1 & 0.095 & 0 & 0.345 & 1407.821\\
+\addlinespace
+0.8 & 0.394 & 0.045 & 0.805 & 0.995 & 1 & 0.118 & 0 & 0.460 & 1336.252\\
+0.9 & 0.444 & 0.040 & 0.740 & 0.985 & 1 & 0.142 & 0 & 0.475 & 1250.878\\
+1.0 & 0.493 & 0.035 & 0.610 & 0.990 & 1 & 0.163 & 0 & 0.545 & 1143.030\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\subsection{Morgan's Locations and
+Splines}\label{morgans-locations-and-splines}
+
+\begin{table}
+
+\caption{\label{tbl-HAC-8x8-u-slope}Rejection frequencies testing the
+null hypothesis that the slope is statically different from the true
+value, zero, the \textbf{uniform} kernel HAC variance estimator for the
+standard error. Morgan's 8x8 Splines and Locations. 1000 simulations.
+\textbf{500} points. Column \emph{corr } shows the theoretical
+correlation at distance \(h=0.1\), thus,
+\(corr=\rho*\exp(-\frac{1}{\sqrt{2}})\). HR shows the rejection
+frequencies of the Heteroscedastic Robust Variance estimator (Stata).
+Negative elements in the diagonal of the variance fixed a la Cameron,
+Gelbach and Miller (2011)}
+
+\centering{
+
+\begin{tabular}[t]{rrrrrrrrrr}
+\toprule
+\multicolumn{10}{c}{Slope} \\
+\cmidrule(l{3pt}r{3pt}){1-10}
+\multicolumn{2}{c}{ } & \multicolumn{4}{c}{Unif-HAC+Morgans Splines} \\
+\cmidrule(l{3pt}r{3pt}){3-6}
+...rho. & corr & 0.05 & 0.1 & 0.15 & 0.2 & NN & Drop & HR & BIC\\
+\midrule
+0.0 & 0.000 & 0.048 & 0.016 & 0.009 & 0.008 & -0.104 & 0 & 0.054 & 1758.853\\
+0.2 & 0.099 & 0.043 & 0.013 & 0.010 & 0.005 & -0.062 & 0 & 0.052 & 1681.842\\
+0.4 & 0.197 & 0.052 & 0.023 & 0.016 & 0.014 & -0.019 & 0 & 0.054 & 1588.585\\
+0.6 & 0.296 & 0.050 & 0.028 & 0.018 & 0.014 & 0.023 & 0 & 0.056 & 1476.531\\
+1.0 & 0.493 & 0.124 & 0.083 & 0.048 & 0.046 & 0.114 & 0 & 0.173 & 1132.006\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\begin{table}
+
+\caption{\label{tbl-HAC-8x8-u-ci-unif-bs-morgan}Confidence Interval
+length of using the \textbf{uniform} kernel HAC variance estimator for
+the standard error after adding 8x8 B-splines. The number of B-splines
+was fixed at 8x8. 1000 simulations. \textbf{500} points. Column
+\emph{corr} shows the theoretical correlation at distance \(h=0.1\),
+thus, \(corr=\rho*\exp(-\frac{1}{\sqrt{2}})\). HR shows the rejection
+frequencies of the Heteroscedastic Robust Variance estimator (Stata's).
+Morgan's locations and splines. Negative elements in the diagonal of the
+variance fixed a la Cameron, Gelbach and Miller (2011)}
+
+\centering{
+
+\begin{tabular}[t]{rrrrrrrrrr}
+\toprule
+\multicolumn{10}{c}{Slope} \\
+\cmidrule(l{3pt}r{3pt}){1-10}
+\multicolumn{2}{c}{ } & \multicolumn{4}{c}{Unif-HAC+Morgans Splines} \\
+\cmidrule(l{3pt}r{3pt}){3-6}
+...rho. & corr & 0.05 & 0.1 & 0.15 & 0.2 & NN & Drop & HR & BIC\\
+\midrule
+0.0 & 0.000 & 0.200 & 0.252 & 0.273 & 0.287 & -0.104 & 0 & 0.054 & 1758.853\\
+0.2 & 0.099 & 0.197 & 0.244 & 0.265 & 0.279 & -0.062 & 0 & 0.052 & 1681.842\\
+0.4 & 0.197 & 0.194 & 0.236 & 0.259 & 0.271 & -0.019 & 0 & 0.054 & 1588.585\\
+0.6 & 0.296 & 0.194 & 0.231 & 0.253 & 0.263 & 0.023 & 0 & 0.056 & 1476.531\\
+1.0 & 0.493 & 0.233 & 0.260 & 0.297 & 0.307 & 0.114 & 0 & 0.173 & 1132.006\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\begin{table}
+
+\caption{\label{tbl-img-slope-u}Share of imaginary se in simulations for
+HAC+Bsplines. Slope. Uniform Kernel HAC. Morgan's Locations and Splines.
+Negative elements in the diagonal of the variance fixed a la Cameron,
+Gelbach and Miller (2011)}
+
+\centering{
+
+\begin{tabular}[t]{rrrrrrrrrr}
+\toprule
+\multicolumn{10}{c}{Slope} \\
+\cmidrule(l{3pt}r{3pt}){1-10}
+\multicolumn{2}{c}{ } & \multicolumn{4}{c}{Unif-HAC+Morgan Splines} \\
+\cmidrule(l{3pt}r{3pt}){3-6}
+...rho. & corr & 0.05 & 0.1 & 0.15 & 0.2 & NN & Drop & HR & BIC\\
+\midrule
+0.0 & 0.000 & 0 & 0 & 0 & 0 & -0.104 & 0 & 0.054 & 1758.853\\
+0.2 & 0.099 & 0 & 0 & 0 & 0 & -0.062 & 0 & 0.052 & 1681.842\\
+0.4 & 0.197 & 0 & 0 & 0 & 0 & -0.019 & 0 & 0.054 & 1588.585\\
+0.6 & 0.296 & 0 & 0 & 0 & 0 & 0.023 & 0 & 0.056 & 1476.531\\
+1.0 & 0.493 & 0 & 0 & 0 & 0 & 0.114 & 0 & 0.173 & 1132.006\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\begin{figure}
+
+\begin{minipage}{\linewidth}
+
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics{Theta-v2_files/figure-pdf/fig-morgans-splines-1.pdf}
+
+}
+
+\caption{\label{fig-morgans-splines-1}Morgan's splines horizontal
+(probably)}
+
+\end{figure}%
+
+\end{minipage}%
+\newline
+\begin{minipage}{\linewidth}
+
+\begin{figure}[H]
+
+\centering{
+
+\includegraphics{Theta-v2_files/figure-pdf/fig-morgans-splines-2.pdf}
+
+}
+
+\caption{\label{fig-morgans-splines-2}Morgan's splines vertical
+(probably)}
+
+\end{figure}%
+
+\end{minipage}%
+
+\end{figure}%
+
+\section{8x8 Quadratic Splines
+(Matlab)}\label{x8-quadratic-splines-matlab}
+
+\begin{table}
+
+\caption{\label{tbl-HAC-8x8-u-Quad-bs-Morgan}Rejection frequencies
+testing the null hypothesis that the slope is statically different from
+the true value, zero, using an 8x8 \textbf{quadratic} B-splines and the
+\textbf{uniform} kernel HAC variance estimator for the standard error.
+The number of B-splines was fixed at 8x8. 1000 simulations. \textbf{500}
+points. Column \emph{corr} shows the theoretical correlation at distance
+\(h=0.1\), \(corr=\rho*\exp(-\frac{1}{\sqrt{2}})\). HR shows the
+rejection frequencies of the Heteroscedastic Robust Variance estimator
+(Stata's). Morgan's locations (Poisson Points).}
+
+\centering{
+
+\begin{tabular}[t]{rrrrrrrrrr}
+\toprule
+\multicolumn{10}{c}{Slope} \\
+\cmidrule(l{3pt}r{3pt}){1-10}
+\multicolumn{2}{c}{ } & \multicolumn{4}{c}{Unif-HAC+Quad-BS} \\
+\cmidrule(l{3pt}r{3pt}){3-6}
+...rho. & corr & 0.05 & 0.1 & 0.15 & 0.2 & NN & Drop & HR & BIC\\
+\midrule
+0.0 & 0.000 & 0.046 & 0.050 & 0.065 & 0.077 & -0.165 & 0 & 0.057 & 1938.790\\
+0.2 & 0.099 & 0.033 & 0.034 & 0.051 & 0.069 & -0.126 & 0 & 0.042 & 1852.769\\
+0.4 & 0.197 & 0.042 & 0.038 & 0.055 & 0.067 & -0.084 & 0 & 0.056 & 1747.624\\
+0.6 & 0.296 & 0.053 & 0.044 & 0.047 & 0.074 & -0.043 & 0 & 0.054 & 1617.099\\
+1.0 & 0.493 & 0.080 & 0.051 & 0.051 & 0.062 & 0.042 & 0 & 0.112 & 1161.738\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\begin{table}
+
+\caption{\label{tbl-HAC-8x8-u-ci-unif-bs}Confidence Interval length of
+using the \textbf{uniform} kernel HAC variance estimator for the
+standard error after adding 8x8 \textbf{quadratic} B-splines. The number
+of B-splines was fixed at 8x8. 1000 simulations. \textbf{500} points.
+Column \emph{corr} shows the theoretical correlation at distance
+\(h=0.1\), thus, \(corr=\rho*\exp(-\frac{1}{\sqrt{2}})\). HR shows the
+rejection frequencies of the Heteroscedastic Robust Variance estimator
+(Stata's). Morgan's locations (Poisson Points).}
+
+\centering{
+
+\begin{tabular}[t]{rrrrrrrrrr}
+\toprule
+\multicolumn{10}{c}{Slope} \\
+\cmidrule(l{3pt}r{3pt}){1-10}
+\multicolumn{2}{c}{ } & \multicolumn{4}{c}{Unif-HAC+Quad-BS} \\
+\cmidrule(l{3pt}r{3pt}){3-6}
+...rho. & corr & 0.05 & 0.1 & 0.15 & 0.2 & NN & Drop & HR & BIC\\
+\midrule
+0.0 & 0.000 & 0.207 & 0.210 & 0.205 & 0.199 & -0.165 & 0 & 0.057 & 1938.790\\
+0.2 & 0.099 & 0.205 & 0.210 & 0.207 & 0.200 & -0.126 & 0 & 0.042 & 1852.769\\
+0.4 & 0.197 & 0.203 & 0.209 & 0.206 & 0.203 & -0.084 & 0 & 0.056 & 1747.624\\
+0.6 & 0.296 & 0.202 & 0.210 & 0.208 & 0.203 & -0.043 & 0 & 0.054 & 1617.099\\
+1.0 & 0.493 & 0.221 & 0.248 & 0.253 & 0.252 & 0.042 & 0 & 0.112 & 1161.738\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\subsection{R vs Matlab}\label{r-vs-matlab}
+
+\begin{table}
+
+\caption{\label{tbl-R-results-pc}R's results with Morgan's B-Splines.
+Using Morgan's data. HR and Conley for different cutoffs.}
+
+\centering{
+
+\begingroup
+\centering
+\begin{tabular}{lccccc}
+   \tabularnewline \midrule \midrule
+   Dependent Variable: & \multicolumn{5}{c}{sim\_y}\\
+                  & HR       & Conley0.05    & Conley0.10   & Conley0.15 & Conley0.20 \\   
+   Model:         & (1)      & (2)           & (3)          & (4)        & (5)\\  
+   \midrule
+   \emph{Variables}\\
+   Constant       & 0.0720   & 0.0720$^{**}$ & 0.0720$^{*}$ & 0.0720     & 0.0720\\   
+                  & (0.0447) & (0.0348)      & (0.0415)     & (0.0439)   & (0.0454)\\   
+   sim\_x         & -0.0584  & -0.0584       & -0.0584      & -0.0584    & -0.0584\\   
+                  & (0.0478) & (0.0458)      & (0.0478)     & (0.0629)   & (0.0813)\\   
+   \midrule
+   \emph{Fit statistics}\\
+   Observations   & 500      & 500           & 500          & 500        & 500\\  
+   R$^2$          & 0.21409  & 0.21409       & 0.21409      & 0.21409    & 0.21409\\  
+   Adjusted R$^2$ & 0.09846  & 0.09846       & 0.09846      & 0.09846    & 0.09846\\  
+   \midrule \midrule
+   \multicolumn{6}{l}{\emph{Signif. Codes: ***: 0.01, **: 0.05, *: 0.1}}\\
+\end{tabular}
+
+\par \raggedright
+
+Note: Conley uses lat-lon locations, and cutoff is given in km. Here
+0.05 cutoff is 5.5 km; 0.10, 11 km; 0.15, 16.5 km; and 0.20, 22km.
+
+\par\endgroup
+
+}
+
+\end{table}%
+
+\begin{table}
+
+\caption{\label{tbl-matlab-rslts-splines-f}Matlab Results with Morgan's
+B-Splines. Negative Variance elements in the diagonal Fixed a la
+Cameron, Gelbach, and Miller (2011)}
+
+\centering{
+
+\begin{tabular}[t]{rrrrrr}
+\toprule
+Coeffs & HR & Conley0.05 & Conley0.10 & Conley0.15 & Conley0.20\\
+\midrule
+0.0720 & 0.0447 & 0.0353 & 0.0417 & 0.0437 & 0.0440\\
+-0.0584 & 0.0478 & 0.0456 & 0.0474 & 0.0657 & 0.0786\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\begin{table}
+
+\caption{\label{tbl-matlab-rslts-splines-o}Matlab Results with Morgan's
+B-Splines. Original.}
+
+\centering{
+
+\begin{tabular}[t]{rrrlll}
+\toprule
+Coeffs & HR & Conley0.05 & Conley0.10 & Conley0.15 & Conley0.20\\
+\midrule
+0.0720 & 0.0447 & 0.0353 & 0.0000+0.018i & 0.0000+0.0241i & 0.0000+0.0052i\\
+-0.0584 & 0.0478 & 0.0456 & 0.0397+0.000i & 0.0408+0.0000i & 0.0549+0.0000i\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\begin{table}
+
+\caption{\label{tbl-R-results-bam-gam-pc}R's results. Using Morgan's
+data with Morgan's Splines. HR and Conley for different cutoffs. Does
+PC, Bam, and Gam matter?}
+
+\centering{
+
+\begingroup
+\centering
+\begin{tabular}{lccc}
+   \tabularnewline \midrule \midrule
+   Dependent Variable: & \multicolumn{3}{c}{sim\_y}\\
+                  & PC            & BAM           & GAM \\   
+   Model:         & (1)           & (2)           & (3)\\  
+   \midrule
+   \emph{Variables}\\
+   Constant       & 0.0720$^{**}$ & 0.0720$^{**}$ & 0.0720$^{**}$\\   
+                  & (0.0348)      & (0.0348)      & (0.0348)\\   
+   sim\_x         & -0.0584       & -0.0584       & -0.0584\\   
+                  & (0.0458)      & (0.0458)      & (0.0458)\\   
+   \midrule
+   \emph{Fit statistics}\\
+   Observations   & 500           & 500           & 500\\  
+   R$^2$          & 0.21409       & 0.21409       & 0.21409\\  
+   Adjusted R$^2$ & 0.09846       & 0.09846       & 0.09846\\  
+   \midrule \midrule
+   \multicolumn{4}{l}{\emph{Conley (5.5km) standard-errors in parentheses}}\\
+   \multicolumn{4}{l}{\emph{Signif. Codes: ***: 0.01, **: 0.05, *: 0.1}}\\
+\end{tabular}
+
+\par \raggedright
+
+Note: Using all 63 basis of either PC, BAM or GAM splines.
+
+\par\endgroup
+
+}
+
+\end{table}%
+
+\section{No Splines}\label{no-splines}
+
+\begin{table}
+
+\caption{\label{tbl-R-results}R's results. Using Morgan's data. No
+Splines. HR and Conley for different cutoffs.}
+
+\centering{
+
+\begingroup
+\centering
+\begin{tabular}{lcccc}
+   \tabularnewline \midrule \midrule
+   Dependent Variable: & \multicolumn{4}{c}{sim\_y}\\
+                  & HR       & Conley0.05 & Conley0.10 & Conley0.15 \\   
+   Model:         & (1)      & (2)        & (3)        & (4)\\  
+   \midrule
+   \emph{Variables}\\
+   Constant       & 0.0697   & 0.0697     & 0.0697     & 0.0697\\   
+                  & (0.0473) & (0.0559)   & (0.0638)   & (0.0711)\\   
+   sim\_x         & -0.0375  & -0.0375    & -0.0375    & -0.0375\\   
+                  & (0.0486) & (0.0467)   & (0.0416)   & (0.0369)\\   
+   \midrule
+   \emph{Fit statistics}\\
+   Observations   & 500      & 500        & 500        & 500\\  
+   R$^2$          & 0.00112  & 0.00112    & 0.00112    & 0.00112\\  
+   Adjusted R$^2$ & -0.00089 & -0.00089   & -0.00089   & -0.00089\\  
+   \midrule \midrule
+   \multicolumn{5}{l}{\emph{Signif. Codes: ***: 0.01, **: 0.05, *: 0.1}}\\
+\end{tabular}
+
+\par \raggedright
+
+Note: Conley uses lat-lon locations, and cutoff is given in km. Here
+0.05 cutoff is 5.5 km, 0.10 is 11 km, and 0.15 is 16.5 km
+
+\par\endgroup
+
+}
+
+\end{table}%
+
+\begin{table}
+
+\caption{\label{tbl-matlab-rslts}Matlab Results, No Splines}
+
+\centering{
+
+\begin{tabular}[t]{lrrrrr}
+\toprule
+  & Coeffs & HR & Conley0.05 & Conley0.10 & Conley0.15\\
+\midrule
+Constant & 0.0696 & 0.0473 & 0.0562 & 0.0641 & 0.0697\\
+sim\_x & -0.0375 & 0.0486 & 0.0470 & 0.0417 & 0.0378\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\begin{table}
+
+\caption{\label{tbl-R-results-mod}R's results. Using Morgan's data. HR
+and Conley for different cutoffs. Changing Cutoff.}
+
+\centering{
+
+\begingroup
+\centering
+\begin{tabular}{lcccc}
+   \tabularnewline \midrule \midrule
+   Dependent Variable: & \multicolumn{4}{c}{sim\_y}\\
+                  & HR       & Conley0.05 & Conley0.10 & Conley0.15 \\   
+   Model:         & (1)      & (2)        & (3)        & (4)\\  
+   \midrule
+   \emph{Variables}\\
+   Constant       & 0.0697   & 0.0697     & 0.0697     & 0.0697\\   
+                  & (0.0473) & (0.0561)   & (0.0639)   & (0.0697)\\   
+   sim\_x         & -0.0375  & -0.0375    & -0.0375    & -0.0375\\   
+                  & (0.0486) & (0.0469)   & (0.0415)   & (0.0378)\\   
+   \midrule
+   \emph{Fit statistics}\\
+   Observations   & 500      & 500        & 500        & 500\\  
+   R$^2$          & 0.00112  & 0.00112    & 0.00112    & 0.00112\\  
+   Adjusted R$^2$ & -0.00089 & -0.00089   & -0.00089   & -0.00089\\  
+   \midrule \midrule
+   \multicolumn{5}{l}{\emph{Signif. Codes: ***: 0.01, **: 0.05, *: 0.1}}\\
+\end{tabular}
+
+\par \raggedright
+
+Note: Conley uses lat-lon locations, and cutoff is given in km. Here
+0.05 cutoff is 5.554 km, 0.10 is 11.108 km, and 0.15 is 16.662 km
+
+\par\endgroup
+
+}
+
+\end{table}%
+
+\begin{table}
+
+\caption{\label{tbl-HAC-8x8-u-slope-no-splines}Rejection frequencies
+testing the null hypothesis that the slope is statically different from
+the true value, zero, the \textbf{uniform} kernel HAC variance estimator
+for the standard error. No Splines. 1000 simulations. \textbf{500}
+points. Column \emph{corr} shows the theoretical correlation at distance
+\(h=0.1\), thus, \(corr=\rho*\exp(-\frac{1}{\sqrt{2}})\). HR shows the
+rejection frequencies of the Heteroscedastic Robust Variance estimator
+(Stata's). Morgan's locations (Poisson Points).}
+
+\centering{
+
+\begin{tabular}[t]{rrrrrrrrrr}
+\toprule
+\multicolumn{10}{c}{Slope} \\
+\cmidrule(l{3pt}r{3pt}){1-10}
+\multicolumn{2}{c}{ } & \multicolumn{4}{c}{Unif-HAC} \\
+\cmidrule(l{3pt}r{3pt}){3-6}
+...rho. & corr & 0.05 & 0.1 & 0.15 & 0.2 & NN & Drop & HR & BIC\\
+\midrule
+0.0 & 0.000 & 0.051 & 0.061 & 0.088 & 0.108 & 0.003 &  & 0.046 & 1429.291\\
+0.2 & 0.099 & 0.110 & 0.096 & 0.106 & 0.118 & 0.170 &  & 0.121 & 1420.015\\
+0.4 & 0.197 & 0.214 & 0.166 & 0.144 & 0.149 & 0.327 &  & 0.273 & 1406.699\\
+0.6 & 0.296 & 0.277 & 0.194 & 0.141 & 0.145 & 0.496 &  & 0.399 & 1397.871\\
+1.0 & 0.493 & 0.327 & 0.191 & 0.147 & 0.136 & 0.820 &  & 0.605 & 1372.726\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\begin{table}
+
+\caption{\label{tbl-HAC-8x8-u-ci-unif}Confidence Interval length of
+using the \textbf{uniform} kernel HAC variance estimator for the
+standard error. No B-Splines. Column \emph{corr} shows the theoretical
+correlation at distance \(h=0.1\), thus,
+\(corr=\rho*\exp(-\frac{1}{\sqrt{2}})\). HR shows the rejection
+frequencies of the Heteroscedastic Robust Variance estimator (Stata's).
+Morgan's locations.}
+
+\centering{
+
+\begin{tabular}[t]{rrrrrrrrrr}
+\toprule
+\multicolumn{10}{c}{Slope} \\
+\cmidrule(l{3pt}r{3pt}){1-10}
+\multicolumn{2}{c}{ } & \multicolumn{4}{c}{Unif-HAC} \\
+\cmidrule(l{3pt}r{3pt}){3-6}
+...rho. & corr & 0.05 & 0.1 & 0.15 & 0.2 & NN & Drop & HR & BIC\\
+\midrule
+0.0 & 0.000 & 0.174 & 0.171 & 0.166 & 0.159 & 0.003 &  & 0.046 & 1429.291\\
+0.2 & 0.099 & 0.181 & 0.188 & 0.190 & 0.187 & 0.170 &  & 0.121 & 1420.015\\
+0.4 & 0.197 & 0.200 & 0.231 & 0.248 & 0.252 & 0.327 &  & 0.273 & 1406.699\\
+0.6 & 0.296 & 0.230 & 0.288 & 0.317 & 0.327 & 0.496 &  & 0.399 & 1397.871\\
+1.0 & 0.493 & 0.311 & 0.431 & 0.489 & 0.507 & 0.820 &  & 0.605 & 1372.726\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+
+
+\end{document}

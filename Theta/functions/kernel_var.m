@@ -1,4 +1,4 @@
-function [SE]= kernel_var(u_hat,X,Z,D_mat,L,s,kernel,cholesky_flag)
+function [SE]= kernel_var(u_hat,X,Z,D_mat,L,s,kernel,cholesky_flag, fix)
 [T, k] = size(X);
 ZX = Z'*X/T;
 
@@ -28,6 +28,13 @@ switch kernel
                 V_hat = V_hat + Zu_hat(i,:)'*Zu_hat(j,:);
             end
         end
+    case 'gaussian'
+        K = normpdf(D_mat,0,L/2)./normpdf(0,0,L/2);
+        for i=1:T
+            for j=1:T
+                V_hat = V_hat + Zu_hat(i,:)'*Zu_hat(j,:)*K(i,j);
+            end
+        end
     otherwise %'triangle'
         K = triangle_weights(s,L);
         for i=1:T
@@ -42,6 +49,24 @@ V_hat0 = V_hat/T;
 % V_kernel = (XX_inv)*V_hat*(XX_inv)'*T/(T-k); Stata's DF
 V_kernel = (ZX_inv)*V_hat0*(ZX_inv)'/(T-k); % Adjusting for d.f. (before only T)
 
-SE = sqrt(diag(V_kernel));
+if (fix)
+    V_k = V_plus(V_kernel);
+else
+    V_k = V_kernel;
+end
+
+SE = sqrt(diag(V_k));
+
+end
+
+function V_hat_plus= V_plus(V_hat)
+
+    if any(diag(V_hat)<0)
+        [V, D] = eig(V_hat);
+        D_plus = diag(max(D));
+        V_hat_plus = V*D_plus*V';
+    else
+        V_hat_plus = V_hat;
+    end
 
 end

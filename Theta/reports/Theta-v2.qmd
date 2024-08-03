@@ -1,0 +1,609 @@
+---
+title: "Replication - Morgan"
+number-sections: true
+author: Hans Martinez
+date: today
+bibliography: biblio.bib
+format:
+    pdf:
+        documentclass: article
+        colorlinks: true
+        include-in-header: packages.tex
+        keep-tex: true
+        # resource-path: 
+        #     - "../outputs"
+        #     - "../figures"
+        latex-output-dir: Doc
+execute: 
+  echo: false
+  warning: false
+  error: false
+---
+
+```{r}
+#| label: setup
+
+library(knitr)
+library(tidyverse)
+library(fixest)
+library(mgcv)
+# opts_knit$set(
+#     echo = FALSE,
+#     fig_path()
+# )
+
+library(kableExtra)
+options(
+    knitr.table.format = "latex",
+    knitr.kable.NA = "")
+setFixest_etable(markdown = TRUE)
+
+load('../R-morgan/morgans_data.Rdata')
+prod_dir <- '../outputs/'
+
+```
+
+
+
+# Morgan's Code
+
+## Intercept vs No Intercept
+
+
+```{r}
+#| label: tbl-img-intercept-u-any
+#| tbl-cap: Share of any imaginary SE in simulations for HAC+Bsplines when including the intercept in OLS. Uniform Kernel HAC. Morgan's Locations and Splines.
+#| eval: true
+#| include: true
+
+exe<-'8x8_intercept_count_fix_'
+
+tbl_img_bs_s_u<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'img_freq_tab_kernel_bsplines_slope_u.csv'))
+
+kbl(
+    tbl_img_bs_s_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_img_bs_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Morgan Splines'=ncol(tbl_img_bs_s_u)-6)
+)%>%
+add_header_above(
+    c('Any'=ncol(tbl_img_bs_s_u))
+)
+
+```
+
+
+```{r}
+#| label: tbl-img-no-intercept-u-any
+#| tbl-cap: Share of any imaginary SE in simulations for HAC+Bsplines with NO intercept in OLS. Uniform Kernel HAC. Morgan's Locations and Splines.
+#| eval: true
+#| include: true
+
+exe<-'8x8_no_intercept_count_fix_'
+
+tbl_img_bs_s_u<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'img_freq_tab_kernel_bsplines_slope_u.csv'))
+
+kbl(
+    tbl_img_bs_s_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_img_bs_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Morgan Splines'=ncol(tbl_img_bs_s_u)-6)
+)%>%
+add_header_above(
+    c('Any'=ncol(tbl_img_bs_s_u))
+)
+
+```
+
+
+
+## Morgan's Locations and Splines
+
+```{r}
+#| label: tbl-HAC-8x8-u-slope
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, the **uniform** kernel HAC variance estimator for the standard error. Morgan's 8x8 Splines and Locations. 1000 simulations. **500** points. Column *corr * shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata). Negative elements in the diagonal of the variance fixed a la Cameron, Gelbach and Miller (2011)
+#| output: asis
+
+exe<-'8x8_Morgans_locs_and_bs_vcov_fix_'
+
+tbl_quad_bs_s_u<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope_u.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_s_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Morgans Splines'=ncol(tbl_quad_bs_s_u)-6)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_s_u))
+)
+
+```
+
+
+```{r}
+#| label: tbl-HAC-8x8-u-ci-unif-bs-morgan
+#| tbl-cap: Confidence Interval length of using the **uniform** kernel HAC variance estimator for the standard error after adding 8x8 B-splines. The number of B-splines was fixed at 8x8. 1000 simulations. **500** points. Column *corr* shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's). Morgan's locations and splines. Negative elements in the diagonal of the variance fixed a la Cameron, Gelbach and Miller (2011)
+#| eval: true
+#| include: true
+
+tbl_quad_bs_s_u_ci<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope_u_ci.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_s_u_ci,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_s_u_ci)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Morgans Splines'=ncol(tbl_quad_bs_s_u_ci)-6)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_s_u_ci))
+)
+
+```
+
+
+
+```{r}
+#| label: tbl-img-slope-u
+#| tbl-cap: Share of imaginary se in simulations for HAC+Bsplines. Slope. Uniform Kernel HAC. Morgan's Locations and Splines. Negative elements in the diagonal of the variance fixed a la Cameron, Gelbach and Miller (2011)
+#| eval: true
+#| include: true
+
+tbl_img_bs_s_u<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'img_freq_tab_kernel_bsplines_slope_u.csv'))
+
+kbl(
+    tbl_img_bs_s_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_img_bs_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Morgan Splines'=ncol(tbl_img_bs_s_u)-6)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_img_bs_s_u))
+)
+
+```
+
+```{r}
+#| label: tbl-HAC-8x8-u
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the intercept is statically different from the true value, zero, the **uniform** kernel HAC variance estimator for the standard error. 8x8 Splines. 1000 simulations. **500** points. Column *corr* shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata). Morgans locations (Poisson Points). Negative elements in the diagonal of the variance fixed a la Cameron, Gelbach and Miller (2011)
+#| output: asis
+#| eval: false
+#| include: false
+
+
+tbl_quad_bs_u<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_u.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Morgan Splines'=ncol(tbl_quad_bs_u)-6)
+)%>%
+add_header_above(
+    c('Intercept'=ncol(tbl_quad_bs_u))
+)
+
+```
+
+
+```{r}
+#| label: tbl-img-intercept-u
+#| tbl-cap: Share of imaginary se in simulations for HAC+Bsplines. Intercept. Uniform Kernel HAC. Morgan's Locations and Splines. Negative elements in the diagonal of the variance fixed a la Cameron, Gelbach and Miller (2011)
+#| eval: false
+#| include: false
+
+tbl_img_bs_u<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'img_freq_tab_kernel_bsplines_u.csv'))
+
+kbl(
+    tbl_img_bs_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_img_bs_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Morgan Splines'=ncol(tbl_img_bs_u)-6)
+)%>%
+add_header_above(
+    c('Intercept'=ncol(tbl_img_bs_u))
+)
+
+```
+
+
+```{r}
+#| label: fig-morgans-splines
+#| fig-cap: 
+#| - Morgan's splines horizontal (probably)
+#| - Morgan's splines vertical (probably)
+#| layout-ncol: 1
+
+gam(sim_y~s(X,bs="bs",k=8, m=2)) |> model.matrix() -> spline_x
+gam(sim_y~s(Y,bs="bs",k=8, m=2)) |> model.matrix() -> spline_y
+# par(mfcol=c(2,1))
+plot(rep(X,ncol(spline_x)-1),spline_x[,2:ncol(spline_x)],xlab="",ylab="")
+plot(rep(Y,ncol(spline_y)-1),spline_y[,2:ncol(spline_y)],xlab="",ylab="")
+
+
+```
+
+
+# 8x8 Quadratic Splines (Matlab)
+
+```{r}
+#| label: tbl-HAC-8x8-u-Quad-bs-Morgan
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, using an 8x8 **quadratic** B-splines and the **uniform** kernel HAC variance estimator for the standard error. The number of B-splines was fixed at 8x8. 1000 simulations. **500** points. Column *corr* shows the theoretical correlation at distance $h=0.1$, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's). Morgan's locations (Poisson Points).
+#| eval: true
+#| include: true
+#| output: asis
+
+exe<-'8x8_Morgans_locs_delta1_bs_1000sims_'
+
+tbl_quad_bs_s_u<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope_u.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_s_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Quad-BS'=ncol(tbl_quad_bs_s_u)-6)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_s_u))
+)
+
+```
+
+
+
+
+```{r}
+#| label: tbl-HAC-8x8-u-ci-unif-bs
+#| tbl-cap: Confidence Interval length of using the **uniform** kernel HAC variance estimator for the standard error after adding 8x8 **quadratic** B-splines. The number of B-splines was fixed at 8x8. 1000 simulations. **500** points. Column *corr* shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's). Morgan's locations (Poisson Points).
+#| eval: true
+#| include: true
+
+tbl_quad_bs_s_u_ci<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope_u_ci.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_s_u_ci,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_s_u_ci)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Quad-BS'=ncol(tbl_quad_bs_s_u_ci)-6)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_s_u_ci))
+)
+
+```
+
+
+## R vs Matlab
+
+```{r}
+#| label: tbl-R-results-pc
+#| tbl-cap: R's results with Morgan's B-Splines. Using Morgan's data. HR and Conley for different cutoffs.
+#| output: asis
+
+
+## Regressions
+morgans_ols_splines<-vector(mode = "list", length = 9)
+
+###HC
+morgans_ols_splines[[1]]<-feols(eq_basis,data=df1,
+            vcov="hetero")
+
+#Conley SEs with and without spatial basis. Gives 1, 2, 3, and 4 times cutoff chosen. 
+
+morgans_ols_splines[[2]]<-feols(eq_basis,data=df1,
+                    vcov=vcov_conley(cutoff=cut_off,lat=~Y,lon=~X, vcov_fix = F))
+morgans_ols_splines[[3]]<-feols(eq_basis,data=df1,
+                    vcov=vcov_conley(cutoff=2*cut_off,lat=~Y,lon=~X, vcov_fix = F))
+morgans_ols_splines[[4]]<-feols(eq_basis,data=df1,
+                    vcov=vcov_conley(cutoff=3*cut_off,lat=~Y,lon=~X, vcov_fix = F))
+morgans_ols_splines[[5]]<-feols(eq_basis,data=df1,
+                    vcov=vcov_conley(cutoff=4*cut_off,lat=~Y,lon=~X, vcov_fix = F))
+
+morgans_ols_splines[[6]]<-feols(eq_bam,data=df_tst,
+            vcov="hetero")
+
+morgans_ols_splines[[7]]<-feols(eq_gam,data=df_tst,
+            vcov="hetero")
+
+morgans_ols_splines[[8]]<-feols(eq_bam,data=df_tst,
+              vcov=vcov_conley(cutoff=cut_off,lat=~Y,lon=~X, vcov_fix = F))
+
+morgans_ols_splines[[9]]<-feols(eq_gam,data=df_tst,
+                    vcov=vcov_conley(cutoff=cut_off,lat=~Y,lon=~X, vcov_fix = F))
+    
+
+etable(
+    morgans_ols_splines[1:5], #no splines
+    drop="PC",
+    headers = c("HR","Conley0.05", "Conley0.10", "Conley0.15","Conley0.20"), 
+    notes = "Note: Conley uses lat-lon locations, and cutoff is given in km. Here 0.05 cutoff is 5.5 km; 0.10, 11 km; 0.15, 16.5 km; and 0.20, 22km."
+)
+
+```
+
+
+```{r}
+#| label: tbl-matlab-rslts-splines-f
+#| tbl-cap: Matlab Results with Morgan's B-Splines. Negative Variance elements in the diagonal Fixed a la Cameron, Gelbach, and Miller (2011)
+
+matlab_tbl_pc <- read.csv('../regs_tbl_morgans_data_pc.csv')
+
+row.names(matlab_tbl_pc[1:2,]) <-c('Constant','sim_x')
+
+kbl(matlab_tbl_pc[1:2,1:ncol(matlab_tbl_pc)], booktabs=TRUE, digits=4)
+
+```
+
+```{r}
+#| label: tbl-matlab-rslts-splines-o
+#| tbl-cap: Matlab Results with Morgan's B-Splines. Original.
+#| 
+matlab_tbl_pc_2 <- read.csv('../regs_tbl_morgans_data_pc_not_fixed.csv')
+
+row.names(matlab_tbl_pc_2[1:2,]) <-c('Constant','sim_x')
+
+kbl(matlab_tbl_pc_2[1:2,1:ncol(matlab_tbl_pc_2)], booktabs=TRUE, digits=4)
+
+```
+
+```{r}
+#| label: tbl-R-results-bam-gam-pc
+#| tbl-cap: R's results. Using Morgan's data with Morgan's Splines. HR and Conley for different cutoffs. Does PC, Bam, and Gam matter?
+#| output: asis
+
+etable(
+    morgans_ols_splines[c(2,8,9)], 
+    drop=c("PC", "bam", "gam"),
+    headers = c("PC","BAM", "GAM"), 
+    notes = "Note: Using all 63 basis of either PC, BAM or GAM splines."
+)
+
+```
+
+# No Splines
+
+```{r}
+#| label: tbl-R-results
+#| tbl-cap: R's results. Using Morgan's data. No Splines. HR and Conley for different cutoffs.
+#| output: asis
+
+
+
+regs=vector(mode="list", length = 7)
+regs[[1]]<-feols(eq_orig,data=df1,vcov="hetero")
+regs[[2]]<-feols(eq_orig,data=df1,vcov=vcov_conley(cutoff=cut_off,lat=~Y,lon=~X, vcov_fix = F))
+regs[[3]]<-feols(eq_orig,data=df1,vcov=vcov_conley(cutoff=cut_off*2,lat=~Y,lon=~X, vcov_fix = F))
+regs[[4]]<-feols(eq_orig,data=df1,vcov=vcov_conley(cutoff=cut_off*3,lat=~Y,lon=~X, vcov_fix = F))
+#<-feols(e=q_orig,data=df1,vcov=vcov_conley(cutoff=500,lat=~I(Y*180),lon=~I(X*360), vcov_fix = F))
+regs[[5]]<-feols(eq_orig,data=df1,vcov=vcov_conley(cutoff=5.554,lat=~Y,lon=~X, vcov_fix = F))
+regs[[6]]<-feols(eq_orig,data=df1,vcov=vcov_conley(cutoff=5.554*2,lat=~Y,lon=~X, vcov_fix = F))
+regs[[7]]<-feols(eq_orig,data=df1,vcov=vcov_conley(cutoff=5.554*3,lat=~Y,lon=~X, vcov_fix = F))
+
+etable(regs[1:4], headers = c("HR","Conley0.05", "Conley0.10", "Conley0.15"), notes = "Note: Conley uses lat-lon locations, and cutoff is given in km. Here 0.05 cutoff is 5.5 km, 0.10 is 11 km, and 0.15 is 16.5 km")
+
+```
+
+
+```{r}
+#| label: tbl-matlab-rslts
+#| tbl-cap: Matlab Results, No Splines
+matlab_tbl <- read.csv('../regs_tbl_morgans_data.csv')
+
+row.names(matlab_tbl) <-c('Constant','sim_x')
+
+kbl(matlab_tbl[,1:(ncol(matlab_tbl)-1)], booktabs=TRUE, digits=4)
+
+```
+
+
+```{r}
+#| label: tbl-R-results-mod
+#| tbl-cap: R's results. Using Morgan's data. HR and Conley for different cutoffs. Changing Cutoff.
+#| output: asis
+
+etable(regs[c(1,5:7)], headers = c("HR","Conley0.05", "Conley0.10", "Conley0.15"), notes = "Note: Conley uses lat-lon locations, and cutoff is given in km. Here 0.05 cutoff is 5.554 km, 0.10 is 11.108 km, and 0.15 is 16.662 km")
+
+```
+
+
+```{r}
+#| label: tbl-HAC-8x8-u-slope-no-splines
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, the **uniform** kernel HAC variance estimator for the standard error. No Splines. 1000 simulations. **500** points. Column *corr* shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's). Morgan's locations (Poisson Points).
+#| output: asis
+
+exe<-'8x8_Morgans_locs_delta1_bs_1000sims_'
+
+tbl_quad_bs_s_u<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_slope_u.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_s_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC'=ncol(tbl_quad_bs_s_u)-6)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_s_u))
+)
+
+```
+
+
+```{r}
+#| label: tbl-HAC-8x8-u-ci-unif
+#| tbl-cap: Confidence Interval length of using the **uniform** kernel HAC variance estimator for the standard error. No B-Splines. Column *corr* shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's). Morgan's locations.
+#| eval: true
+#| include: true
+
+tbl_quad_bs_s_u_ci<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_slope_u_ci.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_s_u_ci,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_s_u_ci)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC'=ncol(tbl_quad_bs_s_u_ci)-6)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_s_u_ci))
+)
+
+```
+
+
+
+<!-- ::: {#fig-scatter-splines layout-ncol="2" layout-nrow="2"}
+
+![Delta 0](../figures/quad-splines-delta0.png)
+
+![Delta 1](../figures/quad-splines-delta1.png)
+
+![Delta 2](../figures/quad-splines-delta2.png)
+
+![Delta 3](../figures/quad-splines-delta3.png)
+
+Eight Quadratic B-Splines Starting at Different Points of the Location Space
+
+::: -->
+
+
+<!-- ::: {#fig-scatter-locs layout-ncol="2"}
+
+![Morgan's Locations (Poisson Points)](../figures/morgan-locs.png)
+
+![Uniform Points](../figures/my-locs.png)
+
+Scatter plots of Locations
+
+:::
+
+
+::: {#fig-scatter-splines layout-ncol="2"}
+
+![Horizontal Uniform Locations (Hans)](../figures/hans-hor-splines.png)
+
+![Vertical Uniform Locations (Hans)](../figures/hans-ver-splines.png)
+
+![Horizontal Morgan's Locations](../figures/morgan-hor-splines.png)
+
+![Vertical Morgan's Locations](../figures/morgan-ver-splines.png)
+
+Scatter Plots of the B-Splines of Locations by Coordinate
+
+::: -->
+
+<!-- # References {-}
+
+::: {#refs}
+::: -->

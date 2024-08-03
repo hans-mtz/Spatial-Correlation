@@ -108,6 +108,8 @@ add_header_above(
 
 # 8x8 Splines
 
+## Uniform Splines
+
 Tables [-@tbl-HAC-8x8-unif-bs] and [-@tbl-HAC-8x8-u-unif-bs], triangle and uniform Kernel HAC (@Conley1999) with an 8x8 step functions splines.
 
 
@@ -238,7 +240,76 @@ add_header_above(
 
 ```
 
-## References {-}
+## Quadratic Splines
+
+Tables [-@tbl-HAC-8x8-Quad-bs] and [-@tbl-HAC-8x8-u-Quad-bs], triangle and uniform Kernel HAC (@Conley1999) with an 8x8 quadratic splines.
+
+
+```{r}
+#| label: tbl-HAC-8x8-Quad-bs
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, using an 8x8 **quadratic** B-splines and the **triangle** kernel HAC variance estimator for the standard error. The number of B-splines was fixed at 8x8. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's).
+
+
+exe<-'8x8_no_cons_quad_bs_'
+
+tbl_quad_bs_s<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_s,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_s)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Tri-HAC+Quad-BS'=ncol(tbl_quad_bs_s)-6)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_s))
+)
+
+```
+
+```{r}
+#| label: tbl-HAC-8x8-u-Quad-bs
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, using an 8x8 **quadratic** B-splines and the **uniform** kernel HAC variance estimator for the standard error. The number of B-splines was fixed at 8x8. 200 simulations. **500** points. Column 'corr' shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's).
+
+
+tbl_quad_bs_s_u<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope_u.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_s_u,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_s_u)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Unif-HAC+Quad-BS'=ncol(tbl_quad_bs_s_u)-6)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_s_u))
+)
+
+```
+
+
+
+# References {-}
 
 ::: {#refs}
 :::

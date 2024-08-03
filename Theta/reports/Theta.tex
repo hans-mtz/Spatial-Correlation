@@ -184,7 +184,7 @@
 
 \title{Replication - Morgan}
 \author{Hans Martinez}
-\date{2024-07-12}
+\date{2024-07-13}
 
 \begin{document}
 \maketitle
@@ -276,6 +276,8 @@ frequencies of the Heteroscedastic Robust Variance estimator (Stata's).}
 
 \section{8x8 Splines}\label{x8-splines}
 
+\subsection{Uniform Splines}\label{uniform-splines}
+
 Tables \ref{tbl-HAC-8x8-unif-bs} and \ref{tbl-HAC-8x8-u-unif-bs},
 triangle and uniform Kernel HAC (Conley (1999)) with an 8x8 step
 functions splines.
@@ -364,8 +366,98 @@ rejection frequencies of the Heteroscedastic Robust Variance estimator
 
 \end{table}%
 
-\subsection*{References}\label{references}
-\addcontentsline{toc}{subsection}{References}
+\subsection{Quadratic Splines}\label{quadratic-splines}
+
+Tables \ref{tbl-HAC-8x8-Quad-bs} and \ref{tbl-HAC-8x8-u-Quad-bs},
+triangle and uniform Kernel HAC (Conley (1999)) with an 8x8 quadratic
+splines.
+
+\begin{table}
+
+\caption{\label{tbl-HAC-8x8-Quad-bs}Rejection frequencies testing the
+null hypothesis that the slope is statically different from the true
+value, zero, using an 8x8 \textbf{quadratic} B-splines and the
+\textbf{triangle} kernel HAC variance estimator for the standard error.
+The number of B-splines was fixed at 8x8. 200 simulations. \textbf{500}
+points. Column `corr' shows the theoretical correlation at distance
+\(h=0.1\), thus, \(corr=\rho*\exp(-\frac{1}{\sqrt{2}})\). HR shows the
+rejection frequencies of the Heteroscedastic Robust Variance estimator
+(Stata's).}
+
+\centering{
+
+\begin{tabular}[t]{rrrrrrrrrrrr}
+\toprule
+\multicolumn{12}{c}{Slope} \\
+\cmidrule(l{3pt}r{3pt}){1-12}
+\multicolumn{2}{c}{ } & \multicolumn{6}{c}{Tri-HAC+Quad-BS} \\
+\cmidrule(l{3pt}r{3pt}){3-8}
+...rho. & corr & 0.05 & 0.1 & 0.15 & 0.2 & 0.25 & 0.3 & NN & Drop & HR & BIC\\
+\midrule
+0.0 & 0.000 & 0.010 & 0.005 & 0.000 & 0.000 & 0.000 & 0.000 & -0.097 & 0 & 0.005 & 1759.620\\
+0.1 & 0.049 & 0.045 & 0.045 & 0.040 & 0.040 & 0.040 & 0.055 & -0.077 & 0 & 0.040 & 1655.921\\
+0.2 & 0.099 & 0.040 & 0.045 & 0.045 & 0.045 & 0.045 & 0.050 & -0.054 & 0 & 0.040 & 1544.561\\
+0.3 & 0.148 & 0.045 & 0.045 & 0.045 & 0.050 & 0.055 & 0.055 & -0.034 & 0 & 0.050 & 1437.084\\
+0.4 & 0.197 & 0.055 & 0.045 & 0.050 & 0.055 & 0.065 & 0.070 & -0.015 & 0 & 0.055 & 1325.864\\
+\addlinespace
+0.5 & 0.247 & 0.065 & 0.065 & 0.050 & 0.050 & 0.050 & 0.050 & 0.012 & 0 & 0.070 & 1223.824\\
+0.6 & 0.296 & 0.105 & 0.100 & 0.090 & 0.095 & 0.090 & 0.090 & 0.032 & 0 & 0.105 & 1140.603\\
+0.7 & 0.345 & 0.105 & 0.095 & 0.090 & 0.090 & 0.085 & 0.085 & 0.058 & 0 & 0.110 & 1098.903\\
+0.8 & 0.394 & 0.170 & 0.150 & 0.115 & 0.110 & 0.120 & 0.120 & 0.084 & 0 & 0.185 & 1108.987\\
+0.9 & 0.444 & 0.110 & 0.085 & 0.065 & 0.065 & 0.070 & 0.070 & 0.108 & 0 & 0.170 & 1162.028\\
+\addlinespace
+1.0 & 0.493 & 0.150 & 0.125 & 0.105 & 0.100 & 0.090 & 0.090 & 0.133 & 0 & 0.190 & 1244.951\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\begin{table}
+
+\caption{\label{tbl-HAC-8x8-u-Quad-bs}Rejection frequencies testing the
+null hypothesis that the slope is statically different from the true
+value, zero, using an 8x8 \textbf{quadratic} B-splines and the
+\textbf{uniform} kernel HAC variance estimator for the standard error.
+The number of B-splines was fixed at 8x8. 200 simulations. \textbf{500}
+points. Column `corr' shows the theoretical correlation at distance
+\(h=0.1\), thus, \(corr=\rho*\exp(-\frac{1}{\sqrt{2}})\). HR shows the
+rejection frequencies of the Heteroscedastic Robust Variance estimator
+(Stata's).}
+
+\centering{
+
+\begin{tabular}[t]{rrrrrrrrrrrr}
+\toprule
+\multicolumn{12}{c}{Slope} \\
+\cmidrule(l{3pt}r{3pt}){1-12}
+\multicolumn{2}{c}{ } & \multicolumn{6}{c}{Unif-HAC+Quad-BS} \\
+\cmidrule(l{3pt}r{3pt}){3-8}
+...rho. & corr & 0.05 & 0.1 & 0.15 & 0.2 & 0.25 & 0.3 & NN & Drop & HR & BIC\\
+\midrule
+0.0 & 0.000 & 0.005 & 0.000 & 0.010 & 0.035 & 0.045 & 0.082 & -0.097 & 0 & 0.005 & 1759.620\\
+0.1 & 0.049 & 0.045 & 0.040 & 0.050 & 0.065 & 0.080 & 0.124 & -0.077 & 0 & 0.040 & 1655.921\\
+0.2 & 0.099 & 0.045 & 0.040 & 0.040 & 0.060 & 0.095 & 0.126 & -0.054 & 0 & 0.040 & 1544.561\\
+0.3 & 0.148 & 0.030 & 0.050 & 0.060 & 0.075 & 0.106 & 0.105 & -0.034 & 0 & 0.050 & 1437.084\\
+0.4 & 0.197 & 0.050 & 0.055 & 0.075 & 0.116 & 0.131 & 0.158 & -0.015 & 0 & 0.055 & 1325.864\\
+\addlinespace
+0.5 & 0.247 & 0.065 & 0.050 & 0.060 & 0.060 & 0.122 & 0.126 & 0.012 & 0 & 0.070 & 1223.824\\
+0.6 & 0.296 & 0.095 & 0.085 & 0.095 & 0.096 & 0.122 & 0.144 & 0.032 & 0 & 0.105 & 1140.603\\
+0.7 & 0.345 & 0.090 & 0.080 & 0.055 & 0.065 & 0.100 & 0.137 & 0.058 & 0 & 0.110 & 1098.903\\
+0.8 & 0.394 & 0.155 & 0.120 & 0.105 & 0.120 & 0.131 & 0.171 & 0.084 & 0 & 0.185 & 1108.987\\
+0.9 & 0.444 & 0.080 & 0.055 & 0.040 & 0.055 & 0.070 & 0.121 & 0.108 & 0 & 0.170 & 1162.028\\
+\addlinespace
+1.0 & 0.493 & 0.120 & 0.090 & 0.075 & 0.095 & 0.116 & 0.137 & 0.133 & 0 & 0.190 & 1244.951\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\section*{References}\label{references}
+\addcontentsline{toc}{section}{References}
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}

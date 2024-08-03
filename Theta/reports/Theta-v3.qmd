@@ -1,0 +1,191 @@
+---
+title: "Replication - Morgan"
+number-sections: true
+author: Hans Martinez
+date: today
+bibliography: biblio.bib
+format:
+    pdf:
+        documentclass: article
+        colorlinks: true
+        include-in-header: packages.tex
+        keep-tex: true
+        # resource-path: 
+        #     - "../outputs"
+        #     - "../figures"
+        latex-output-dir: Doc
+execute: 
+  echo: false
+  warning: false
+  error: false
+---
+
+```{r}
+#| label: setup
+
+library(knitr)
+library(tidyverse)
+library(fixest)
+library(mgcv)
+# opts_knit$set(
+#     echo = FALSE,
+#     fig_path()
+# )
+
+library(kableExtra)
+options(
+    knitr.table.format = "latex",
+    knitr.kable.NA = "")
+setFixest_etable(markdown = TRUE)
+
+load('../R-morgan/morgans_data.Rdata')
+prod_dir <- '../outputs/'
+
+```
+
+
+```{r}
+#| label: tbl-HAC-8x8-u-slope-tri
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, at the 5% significance level for different values of spatial correlation ($\rho$), using the **gaussian** kernel HAC variance estimator for the standard error for different cutoff lengths with and without 8x8 **triangle** B-splines. 1000 simulations. 500 points. Column *Corr* shows the theoretical correlation at distance $h=0.1$, $Corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. Cutoff lengths are equal to $2\sigma$ in the gaussian kernel.
+#| output: asis
+
+exe<-'8x8_gauss_kernel_triangle_splines_'
+
+tbl_quad_bs_gauss_k<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_slope_tim.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_gauss_k,
+    digits=2,
+    booktabs=TRUE,
+    position = 'htp',
+    # col.names = gsub("^X|bs$","",names(tbl_quad_bs_gauss_k)),
+    col.names = c('$\\rho$', 'Corr', '.05', '.10', '.15', 'HR' , '.05', '.10', '.15', 'HR ' ),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'HAC'=3, ' '=1, 'HAC'=3)
+) %>%
+add_header_above(
+    c(' '=2, 'No Splines'=4, 'Triangle Splines'=4)
+)
+# %>%
+# add_header_above(
+#     c('Slope'=ncol(tbl_quad_bs_gauss_k))
+# )
+
+```
+
+
+
+```{r}
+#| label: tbl-HAC-8x8-u-ci-unif-bs-morgan
+#| tbl-cap: Confidence Interval length of different HAC variance estimators of the standard error with an 8x8 **triangular** B-splines. 1000 simulations. **500** points. Column *Corr* shows the theoretical correlation at distance $h=0.1$, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+#| eval: true
+#| include: true
+
+tbl_quad_bs_s_u_ci<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope_ci_tim.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_s_u_ci,
+    digits=2,
+    booktabs=TRUE,
+    position = 'htp',
+    # col.names = gsub("X","",names(tbl_quad_bs_s_u_ci)),
+    col.names = c('$\\rho$', 'Corr', '.05', '.10', '.15', 'HR'),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'HAC'=3)
+)
+#%>%
+# add_header_above(
+#     c('Slope'=ncol(tbl_quad_bs_s_u_ci))
+# )
+
+```
+
+
+
+```{r}
+#| label: tbl-HAC-8x8-u-slope
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, at the 5% significance level for different values of spatial correlation ($\rho$), using the **gaussian** kernel HAC variance estimator for the standard error with and without 8x8 **quadratic** B-splines. Poisson Locations (Morgan's). 1000 simulations. 500 points. Column *corr * shows the theoretical correlation at distance $h=0.1$, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+#| output: asis
+#| include: false
+#| eval: false
+
+exe<-'8x8_no_intercept_gauss_kernel_'
+
+tbl_quad_bs_gauss_k<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_slope.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_gauss_k,
+    digits=2,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("^X|bs$","",names(tbl_quad_bs_gauss_k)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'No Splines'=4, 'Quad Splines'=4)
+)%>%
+add_header_above(
+    c(' '=2, 'Gauss-HAC'=ncol(tbl_quad_bs_gauss_k)-2)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_gauss_k))
+)
+
+```
+
+
+```{r}
+#| label: tbl-HAC-8x8-u-ci-gauss-bs-morgan
+#| tbl-cap: Confidence Interval length of using the **gaussian** kernel HAC variance estimator for the standard error after adding 8x8 **quadratic** B-splines. The number of B-splines was fixed at 8x8. 1000 simulations. **500** points. Column *corr* shows the theoretical correlation at distance $h=0.1$, thus, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. HR shows the rejection frequencies of the Heteroscedastic Robust Variance estimator (Stata's). Morgan's locations.
+#| include: false
+#| eval: false
+
+tbl_quad_bs_s_u_ci<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope_ci.csv'
+    )
+)
+
+kbl(
+    tbl_quad_bs_s_u_ci,
+    digits=3,
+    booktabs=TRUE,
+    position = 'htp',
+    col.names = gsub("X","",names(tbl_quad_bs_s_u_ci)),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'Gauss-HAC+Quad Splines'=ncol(tbl_quad_bs_s_u_ci)-6)
+)%>%
+add_header_above(
+    c('Slope'=ncol(tbl_quad_bs_s_u_ci))
+)
+
+```
+
+
+

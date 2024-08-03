@@ -1,0 +1,64 @@
+---
+title: "Replication - Morgan"
+number-sections: true
+author: Hans Martinez
+date: today
+bibliography: biblio.bib
+format:
+    pdf:
+        documentclass: article
+        colorlinks: true
+        include-in-header: packages.tex
+        keep-tex: true
+        # resource-path: 
+        #     - "../outputs"
+        #     - "../figures"
+        latex-output-dir: Doc
+execute: 
+  echo: false
+  warning: false
+  error: false
+---
+
+```{r}
+#| label: setup
+
+library(knitr)
+library(tidyverse)
+# opts_knit$set(
+#     echo = FALSE,
+#     fig_path()
+# )
+
+library(kableExtra)
+options(
+    knitr.table.format = "latex",
+    knitr.kable.NA = "")
+
+prod_dir <- '../outputs/'
+
+```
+
+
+# 8x8 Splines
+
+## Quadratic Splines
+
+::: {#fig-scatter-splines layout-ncol="2" layout-nrow="2"}
+
+![Delta 0](../figures/quad-splines-delta0.png)
+
+![Delta 1](../figures/quad-splines-delta1.png)
+
+![Delta 2](../figures/quad-splines-delta2.png)
+
+![Delta 3](../figures/quad-splines-delta3.png)
+
+Eight Quadratic B-Splines Starting at Different Points of the Location Space
+
+:::
+
+<!-- # References {-}
+
+::: {#refs}
+::: -->

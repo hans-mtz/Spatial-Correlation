@@ -1,6 +1,8 @@
 function [beta_hat, u_hat] = ols(y,X,Z,chol_flag)
     %---------OLS-------------%
     T = length(y);
+    % X = [ones(T,1) X_in]; % Adding intercept
+    % Z = [ones(T,1) Z_in]; % Adding intercept
     % XX = X'*X/T;
     % Xy = X'*y/T;
     % XX_inv = inv(XX);

@@ -17,7 +17,8 @@ function [S, delta, n_dropped] = get_bspline_mat(x,n_nodes,order,drop_flag)
         t = linspace(a-delta,b+delta,n_nodes+2);
     elseif order ==3
         delta = (b-a)/(n_nodes-2);
-        t = linspace(a-delta*(3),b+delta*(3),n_nodes+3);
+        % t = linspace(a-delta*(3),b+delta*(3),n_nodes+3);
+        t = linspace(a-delta*(1),b+delta*(1),n_nodes+3);
     end
     
     % fprintf('t %d\n',t)

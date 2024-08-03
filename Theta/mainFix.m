@@ -4,26 +4,27 @@ if batchStartupOptionUsed
 end
 
 rng(549)
-exercise = '8x8_no_cons_unif_bs_keep'; %'8x8_fix'
-description = 'Unif Splines; No intercept';
+exercise = '8x8_morgans_locs_1000'; %'8x8_fix'
+description = 'Quad Splines; No intercept; Morgans Locs; 1000 reps';
 save_results = true;
 plot_res = false;
 
 %% Setting up parameters %%%%
-n_reps = 200;
+n_reps = 10;
 T = 500;
 n_locations = 2;
 theta = sqrt(2)/10;
-rho = [0.0:0.1:1.0];
+rho = [0 0.2 0.4 0.6 1];%0.0:0.1:1.0;
 l_cutoffs = 0.05:0.05:0.3;
 beta = 0; %[0 0];
 kernel = 'triangle';
-splines_order = 1; % Order 1, step functions; 2, triangles; 3, quadratic
+splines_order = 3; % Order 1, step functions; 2, triangles; 3, quadratic
 n_splines = 8;
 
 %% Generate locations (fixed locations)
 
-s = rand(T,n_locations);
+% s = rand(T,n_locations);
+s = readmatrix("R-Morgan/coords.csv"); % Using Morgan's coordinates
 
 
 %% Monte Carlo
