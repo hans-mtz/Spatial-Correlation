@@ -3,15 +3,11 @@ if batchStartupOptionUsed
     % addpath(genpath('./21200057'))
 end
 
-rng(549)
-exercise = 'Opt_PC_NN_0'; %'8x8_fix'
-% Preferred specification: Triangle B Splines; Gauss Kernel; Choosing # of PCs by NN: OLS with no intercept
-description = '';
-save_results = true;
-plot_res = true;
+
 
 %% Setting up parameters %%%%
 
+rng(549) % Set random seed for reproducibility
 B = 100; % Number of simulations
 % T = 500; % Number of observations
 % n_locations = 2;

@@ -6,7 +6,7 @@ To reproduce
 
 ## Bandwidth and Critical Value Selection
 
-To review the code, open [mainCV.m](https://github.com/hans-mtz/Spatial-Correlation/blob/main/Theta/mainCV.m) [mainCV.m](Theta/mainCV.m)
+To review the code, open script [mainCV.m](Theta/mainCV.m) . The functions used in `mainCV.m` are located in the [functions](Theta/functions/) folder. 
 
 To run the `mainCV.m` script, you need to change the working directory to the `Theta` folder, and add the `functions` folder to the path. You can do this in MATLAB with the following commands:
 
