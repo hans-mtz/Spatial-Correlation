@@ -41,7 +41,7 @@ h=getdistmat(s,false);
 % disp(size(W))
 
 % Generate the data
-
+fprintf('Generating data for rho = %.2f and theta = %.3f \n', rho, theta);
 [y, X, h] = DGP(theta,s,rho,false,h);
 
 
@@ -51,6 +51,7 @@ PC_n = 20;
 X_bs = [X W(:,1:PC_n)]; % X with B-splines, no intercept
 
 % Find tau by QMLE
+fprintf('Finding tau for rho = %.2f, l_cutoff = %.2f, and %d PCs\n', rho, l_cutoffs, PC_n);
 [tau, beta_hat] = get_tau(y, X_bs, h);
 
 
@@ -62,6 +63,7 @@ beta_cand = [ 0 beta_hat(2:end)']; % Candidate beta and estimates of the Bspline
 
 %% Simulate data with the candidate beta and the estimated tau
 
+fprintf('Simulating data with tau = %.4f, %.4f and beta_cand = %.4f with %.0f repetitions \n', tau(1), tau(2), beta_cand(1),B);
 [y_sim, eps_sim] = sim_w_tau(tau, h, X_bs, beta_cand,B);
 
 % Get the statistic for the simulated data
@@ -90,7 +92,7 @@ plot(x,cdf(stat_density,x),'r--');
 
 %% Get critival values for the statistic
 cv_h = icdf(stat_density,[0.05 0.95]); % 95% quantile of the statistic distribution
-
+fprintf('Critical values for the statistic: %.4f, %.4f\n', cv_h(1), cv_h(2));
 %%  Get the power of the test
 
 %for a candidate of beta
@@ -100,6 +102,7 @@ beta_cand_pwr = [ 0.5 beta_hat(2:end)']; % Candidate beta and estimates of the B
 %% Simulate data with the candidate beta and the estimated tau
 
 % B = 100; % Number of simulations
+fprintf('Simulating data with tau = %.4f, %.4f and beta_cand = %.4f for %.0f repetitions \n', tau(1), tau(2), beta_cand_pwr(1), B);
 [y_sim_pwr, eps_sim_pwr] = sim_w_tau(tau, h, X_bs, beta_cand_pwr,B);
 
 % Get the statistic for the simulated data
@@ -136,3 +139,4 @@ plot(x,cdf(pwr_stat_density,x),'r--');
 probs = cdf(pwr_stat_density, cv_h); % Probability of rejection for the candidate beta
 prob_rejection = probs(1) + (1 - probs(2)); % Probability of rejection for the candidate beta
 
+fprintf('Probability of rejection for the candidate beta: %.4f\n', prob_rejection);
