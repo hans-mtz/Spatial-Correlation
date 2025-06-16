@@ -1,0 +1,305 @@
+# Results
+
+## Triangle B-Splines
+
+@tbl-HAC-8x8-u-slope-tri displays the rejection frequencies of testing the null hypothesis that the slope is statistically different from the true value, zero, at the 5 percent significance level for different levels of spatial correlation. The table compares using the 8x8 B Splines on locations for prewhitening. Different variance estimators are employed.
+
+
+
+```{r}
+#| label: tbl-HAC-8x8-u-slope-tri
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, at the 5% significance level for different values of spatial correlation ($\rho$), using the **gaussian** kernel HAC variance estimator for the standard error for different cutoff lengths with and without 8x8 **triangle** B-splines. 1000 simulations. 500 points. Column *Corr* shows the theoretical correlation at distance $h=0.1$, $Corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. Cutoff lengths are equal to $2\sigma$ in the gaussian kernel.
+#| output: asis
+
+exe<-'8x8_gauss_kernel_triangle_splines_'
+
+tbl_quad_bs_gauss_k<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_slope_tim.csv'
+    )
+)
+
+kable(
+    tbl_quad_bs_gauss_k,
+    digits=2,
+    booktabs=TRUE,
+    position = 'htp',
+    # col.names = gsub("^X|bs$","",names(tbl_quad_bs_gauss_k)),
+    col.names = c('$\\rho$', 'Corr', '.05', '.10', '.15', 'HR' , '.05', '.10', '.15', 'HR ' ),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'HAC'=3, ' '=1, 'HAC'=3)
+) %>%
+add_header_above(
+    c(' '=2, 'No Splines'=4, 'Triangle Splines'=4)
+)
+# %>%
+# add_header_above(
+#     c('Slope'=ncol(tbl_quad_bs_gauss_k))
+# )
+
+```
+
+
+```{r}
+#| label: tbl-HAC-8x8-u-ci-unif-bs-morgan
+#| tbl-cap: Confidence Interval length of different HAC variance estimators of the standard error with an 8x8 **triangular** B-splines. 1000 simulations. **500** points. Column *Corr* shows the theoretical correlation at distance $h=0.1$, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+#| eval: true
+#| include: true
+
+tbl_quad_bs_s_u_ci<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope_ci_tim.csv'
+    )
+)
+
+kable(
+    tbl_quad_bs_s_u_ci,
+    digits=2,
+    booktabs=TRUE,
+    position = 'htp',
+    # col.names = gsub("X","",names(tbl_quad_bs_s_u_ci)),
+    col.names = c('$\\rho$', 'Corr', '.05', '.10', '.15', 'HR'),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'HAC'=3)
+)
+#%>%
+# add_header_above(
+#     c('Slope'=ncol(tbl_quad_bs_s_u_ci))
+# )
+
+```
+
+## PCs
+
+In this section, instead of using the whole 8x8 B-Splines, the first $n$ ordered principal components of the B-Splines are used. In each iteration, $n$ is choosen to minimize the absolute difference between the nearest neighbour correlation and 5\%. The principal components are sorted in decreasing order by their variance.
+
+@tbl-pc displays the results of the simulations.
+
+
+```{r}
+#| label: tbl-pc
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, at the 5% significance level for different values of spatial correlation ($\rho$), using the **gaussian** kernel HAC variance estimator for the standard error for different cutoff lengths. The table compares estimates of prewhitening by including the number of principal components of the 8x8 **triangle** B-splines that minimizes the nearest neighbour correlation to 5\%. 1000 simulations. 500 points. Column *Corr* shows the theoretical correlation at distance $h=0.1$, $Corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. Cutoff lengths are equal to $2\sigma$ in the gaussian kernel. NN is the nearest neighbour correlation after prewhitening with the B-Splines. PCs is the average number of principal components used in simulations.
+#| output: asis
+
+exe<-'Opt_PC_gauss_kernel_triangle_splines_'
+
+tbl_quad_bs_gauss_k<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_slope_sims_report.csv'
+    )
+)
+
+kable(
+    tbl_quad_bs_gauss_k,
+    digits=2,
+    booktabs=TRUE,
+    position = 'htp',
+    # col.names = gsub("^X|bs$","",names(tbl_quad_bs_gauss_k)),
+    col.names = c('$\\rho$', 'Corr', '.05', '.10', '.15', 'HR' , '.05', '.10', '.15', 'HR ', 'NN', 'PCs'),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'HAC'=3, ' '=1, 'HAC'=3)
+) %>%
+add_header_above(
+    c(' '=2, 'No Splines'=4, 'Triangle Splines'=6)
+)
+
+
+```
+
+
+```{r}
+#| label: tbl-pc-ci
+#| tbl-cap: Confidence Interval length of different HAC variance estimators for the standard error with the number of principal components of the 8x8 **triangular** B-splines that minimize the residuals' nearest neighbour correlation to 5\%. 1000 simulations. **500** points. Column *Corr* shows the theoretical correlation at distance $h=0.1$, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+#| eval: true
+#| include: true
+
+tbl_quad_bs_s_u_ci<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope_ci_tim.csv'
+    )
+)
+
+kable(
+    tbl_quad_bs_s_u_ci,
+    digits=2,
+    booktabs=TRUE,
+    position = 'htp',
+    # col.names = gsub("X","",names(tbl_quad_bs_s_u_ci)),
+    col.names = c('$\\rho$', 'Corr', '.05', '.10', '.15', 'HR'),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'HAC'=3)
+)
+
+
+```
+
+As illustration, the first two principal components of the B-Splines of the locations used in simulations are displayed graphically in @fig-pc1-surf to @fig-pc2-mesh.
+
+
+![First principal component of the 8x8 B-Splines on evenly distributed locations](../figures/pc1-surf.png){#fig-pc1-surf}
+
+![Second principal component of the 8x8 B-Splines on evenly distributed locations](../figures/pc2-surf.png){#fig-pc2-surf}
+
+![First principal component of the 8x8 B-Splines on evenly distributed locations](../figures/pc1-mesh.png){#fig-pc1-mesh}
+
+![Second principal component of the 8x8 B-Splines on evenly distributed locations](../figures/pc2-mesh.png){#fig-pc2-mesh}
+
+
+```{r}
+#| label: tbl-pc-NN0
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, at the 5% significance level for different values of spatial correlation ($\rho$), using the **Gaussian** kernel HAC variance estimator for the standard error for different cutoff lengths. The table compares estimates of pre-whitening by including the number of principal components of the **8x8** **triangle** B-splines that minimizes the nearest neighbor correlation to 0\%. 1000 simulations. 500 points. Column *Corr* shows the theoretical correlation at distance $h=0.1$, $Corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. Cutoff lengths are equal to $2\sigma$ in the Gaussian kernel. NN is the nearest neighbor correlation after pre-whitening with the B-Splines. PCs is the average number of principal components used in simulations.
+#| output: asis
+
+exe<-'Opt_PC_NN_0_'
+
+tbl_quad_bs_gauss_k<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_slope_sims_report.csv'
+    )
+)
+
+kable(
+    tbl_quad_bs_gauss_k,
+    digits=2,
+    booktabs=TRUE,
+    position = 'htp',
+    # col.names = gsub("^X|bs$","",names(tbl_quad_bs_gauss_k)),
+    col.names = c('$\\rho$', 'Corr', '.05', '.10', '.15', 'HR' , '.05', '.10', '.15', 'HR ', 'NN', 'PCs'),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'HAC'=3, ' '=1, 'HAC'=3)
+) %>%
+add_header_above(
+    c(' '=2, 'No Splines'=4, 'Triangle Splines'=6)
+)
+
+
+```
+
+
+```{r}
+#| label: tbl-pc-ci-NN0
+#| tbl-cap: Confidence Interval length of different HAC variance estimators for the standard error with the number of principal components of the **8x8** **triangular** B-splines that minimize the residuals' nearest neighbor correlation to 0\%. 1000 simulations. **500** points. Column *Corr* shows the theoretical correlation at distance $h=0.1$, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+#| eval: true
+#| include: true
+
+tbl_quad_bs_s_u_ci<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope_ci_tim.csv'
+    )
+)
+
+kable(
+    tbl_quad_bs_s_u_ci,
+    digits=2,
+    booktabs=TRUE,
+    position = 'htp',
+    # col.names = gsub("X","",names(tbl_quad_bs_s_u_ci)),
+    col.names = c('$\\rho$', 'Corr', '.05', '.10', '.15', 'HR'),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'HAC'=3)
+)
+
+
+```
+
+
+![Histogram of NN Correlation during simulations; 1000 sims; 8x8 BSplines;$\rho=0.2$](../figures/hist_nn_rho-0.2_Opt_PC_NN_0.png)
+
+![Histogram of NN Correlation during simulations; 1000 sims; 8x8 BSplines;$\rho=0.8$](../figures/hist_nn_rho-0.8_Opt_PC_NN_0.png)
+
+
+
+```{r}
+#| label: tbl-pc-NN0-10x10
+#| tbl-cap: Rejection frequencies testing the null hypothesis that the slope is statically different from the true value, zero, at the 5% significance level for different values of spatial correlation ($\rho$), using the **Gaussian** kernel HAC variance estimator for the standard error for different cutoff lengths. The table compares estimates of pre-whitening by including the number of principal components of the **10x10** **triangle** B-splines that minimizes the nearest neighbor correlation to 0%. 1000 simulations. 500 points. Column *Corr* shows the theoretical correlation at distance $h=0.1$, $Corr=\rho*\exp(-\frac{1}{\sqrt{2}})$. Cutoff lengths are equal to $2\sigma$ in the Gaussian kernel. NN is the nearest neighbor correlation after pre-whitening with the B-Splines. PCs is the average number of principal components used in simulations.
+#| output: asis
+
+exe<-'Opt_PC_NN_0_10x10_'
+
+tbl_quad_bs_gauss_k<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_slope_sims_report.csv'
+    )
+)
+
+kable(
+    tbl_quad_bs_gauss_k,
+    digits=2,
+    booktabs=TRUE,
+    position = 'htp',
+    # col.names = gsub("^X|bs$","",names(tbl_quad_bs_gauss_k)),
+    col.names = c('$\\rho$', 'Corr', '.05', '.10', '.15', 'HR' , '.05', '.10', '.15', 'HR ', 'NN', 'PCs'),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'HAC'=3, ' '=1, 'HAC'=3)
+) %>%
+add_header_above(
+    c(' '=2, 'No Splines'=4, 'Triangle Splines'=6)
+)
+
+
+```
+
+
+```{r}
+#| label: tbl-pc-ci-NN0-10x10
+#| tbl-cap: Confidence Interval length of different HAC variance estimators for the standard error with the number of principal components of the **10x10** **triangular** B-splines that minimize the residuals' nearest neighbor correlation to 0\%. 1000 simulations. **500** points. Column *Corr* shows the theoretical correlation at distance $h=0.1$, $corr=\rho*\exp(-\frac{1}{\sqrt{2}})$.
+#| eval: true
+#| include: true
+
+tbl_quad_bs_s_u_ci<- read.csv(
+    paste0(
+        prod_dir,
+        exe,
+        'rej_freq_tab_kernel_bsplines_slope_ci_tim.csv'
+    )
+)
+
+kable(
+    tbl_quad_bs_s_u_ci,
+    digits=2,
+    booktabs=TRUE,
+    position = 'htp',
+    # col.names = gsub("X","",names(tbl_quad_bs_s_u_ci)),
+    col.names = c('$\\rho$', 'Corr', '.05', '.10', '.15', 'HR'),
+    escape = FALSE
+) %>%
+add_header_above(
+    c(' '=2, 'HAC'=3)
+)
+
+
+```
+
+
+![Histogram of NN Correlation during simulations; 1000 sims; 10x10 BSplines;$\rho=0.2$](../figures/hist_nn_rho-0.2_Opt_PC_NN_0_10x10.png)
+
+![Histogram of NN Correlation during simulations; 1000 sims; 10x10 BSplines;$\rho=0.8$](../figures/hist_nn_rho-0.8_Opt_PC_NN_0_10x10.png)
+

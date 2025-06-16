@@ -1,0 +1,49 @@
+---
+title: "Simulations Report"
+number-sections: true
+author: Hans Martinez
+date: today
+bibliography: biblio.bib
+format:
+    pdf:
+        documentclass: article
+        colorlinks: true
+        include-in-header: packages.tex
+        keep-tex: true
+        # resource-path: 
+        #     - "../outputs"
+        #     - "../figures"
+        latex-output-dir: Doc
+execute: 
+  echo: false
+  warning: false
+  error: false
+---
+
+```{r}
+#| label: setup
+
+library(knitr)
+library(tidyverse)
+library(fixest)
+library(mgcv)
+# opts_knit$set(
+#     echo = FALSE,
+#     fig_path()
+# )
+
+library(kableExtra)
+options(
+    knitr.table.format = "latex",
+    knitr.kable.NA = "")
+setFixest_etable(markdown = TRUE)
+
+load('../R-morgan/morgans_data.Rdata')
+prod_dir <- '../outputs/'
+
+```
+
+
+{{< include sections/000-intro.qmd >}}
+
+{{< include sections/100-sims.qmd >}}

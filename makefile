@@ -1,17 +1,21 @@
 # Usually, only these lines need changing
 QPAPFILE = SCSK
-MATLAB = main
+MATLAB = mainParallelOptPCs
 # QSLIFILE = JMP-update
 RDIR = ./Simulations/R
 MLDIR = ./Simulations/Matlab
 THDIR = ./Theta
 QPAPDIR = ./Document
+QREPDIR = ./Theta/reports
+# QREPDIRSECDIR = ./Theta/reports/sections
 # QSLIDIR = ./Quarto-Slides
 
 # list all R files
 RFILES := $(wildcard $(RDIR)/*.R)
 EXCLUDE := $(wildcard $(RDIR)/_*.R)
 # QFILES := $(wildcard $(QPAPDIR)/*.qmd)
+QREPFILES := $(wildcard $(QREPDIR)/*.qmd)
+# QSECFILES := $(wildcard $(QREPDIRSECDIR)/*.qmd)
 # QEXCLUDE := $(wildcard $(QPAPDIR)/_*.qmd)
 # RDEP := $(wildcard $(RDIR)/*beta_diff.R)
 
@@ -28,6 +32,7 @@ MTLB_FILES := $(wildcard $(THDIR)/*.m)
 OUT_FILES := $(RFILES:.R=.Rout)
 # RDEPOUT := $(RIND:.R=.Rout)
 OUT_MTLB := $(MTLB_FILES:.m=.log)
+OUT_REPS := $(QREPFILES:.qmd=.tex)
 # MLOUT := $(MLDIR)/$(MATLAB).log
 # Targets
 
@@ -41,12 +46,14 @@ all: matlab paper mail
 ## Run R files
 R: $(OUT_FILES)
 
-matlab: $(MLDIR)/$(MATLAB).log
+matlab: $(THDIR)/$(MATLAB).log #$(MLDIR)/$(MATLAB).log
 
 theta: $(OUT_MTLB)
 
+report: $(OUT_REPS)
+
 echo:
-	echo $(OUT_MTLB) $(MTLB_FILES) $(OUT_FILES)
+	echo $(OUT_MTLB) $(MTLB_FILES) $(OUT_FILES) $(OUT_REPS)
 
 ## Make paper
 paper: #$(QPAPDIR)/$(QPAPFILE).pdf
@@ -62,6 +69,8 @@ paper: #$(QPAPDIR)/$(QPAPFILE).pdf
 
 theta_report: $(THDIR)/reports/Theta-report.qmd 
 	quarto render $<
+
+
 
 ## Send mail with results and paper
 mail: $(RDIR)/_send_mail.Rout
@@ -82,6 +91,9 @@ $(THDIR)/%.log: $(THDIR)/%.m
 # # Compile main tex file and show errors
 $(QPAPDIR)/$(QPAPFILE).pdf: $(QPAPDIR)/$(QPAPFILE).qmd #$(QFILES) #$(OUT_FILES) #$(CROP_FILES)
 	quarto preview $<
+
+$(QREPDIR)/%.tex: $(QREPDIR)/%.qmd
+	quarto render $<
 
 # # Compile main tex file and show errors
 # $(QSLIFILE).html: $(QSLIFILE).qmd $(OUT_FILES) #$(CROP_FILES)
@@ -117,5 +129,7 @@ clean-latex:
 	rm -fv */*.aux  */*.fdb_latexmk */*.fls */*.lot */*.lof */*.synctex.gz
 	rm -fv *.aux  *.fdb_latexmk *.fls *.lot *.lof *.synctex.gz
 	rm -fv Document/*/*.aux  Document/*/*.fdb_latexmk Document/*/*.fls Document/*/*.lot Document/*/*.lof Document/*/*.synctex.gz
+	rm -fv Theta/*/*.aux  Theta/*/*.fdb_latexmk Theta/*/*.fls Theta/*/*.lot Theta/*/*.lof Theta/*/*.synctex.gz
 
-.PHONY: all clean paper mail matlab
+
+.PHONY: all clean paper mail matlab report clean-out clean-ml clean-latex theta theta_report

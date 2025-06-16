@@ -16,7 +16,8 @@ theta = sqrt(2)/10;
 
 %% Generate locations (fixed locations)
 
-s = rand(T,n_locations);
+% s = rand(T,n_locations);
+s = readmatrix("R-Morgan/coords.csv"); % Using Morgan's coordinates
 
 %% AR(1)
 delta=[0.90:0.01:0.99];
@@ -59,3 +60,4 @@ tbl_250=array2table([delta' b' ],"VariableNames",["delta" "sum"])
 
 sum(exp(-h/theta),"all")/(T*T)
 
+% sum(exp(-D_mat/theta),"all")/(T*T)

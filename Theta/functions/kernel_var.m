@@ -50,6 +50,7 @@ V_hat0 = V_hat/T;
 V_kernel = (ZX_inv)*V_hat0*(ZX_inv)'/(T-k); % Adjusting for d.f. (before only T)
 
 if (fix)
+    %vcov fix if negative elements in the diagonal a la Cameron, Gelbech and Miller (2011)
     V_k = V_plus(V_kernel);
 else
     V_k = V_kernel;

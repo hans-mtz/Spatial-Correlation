@@ -24,9 +24,9 @@ function [beta_hat, u_hat] = ols(y,X,Z,chol_flag)
             
         otherwise
             
-            % beta_hat = ZX\Zy; %Matlab says this is faster than ZX_inv*Zy;
-            ZX_inv = inv(ZX);
-            beta_hat = ZX_inv*Zy;
+            beta_hat = ZX\Zy; %Matlab says this is faster than ZX_inv*Zy;
+            % ZX_inv = inv(ZX);
+            % beta_hat = ZX_inv*Zy;
     end
     
     u_hat = y - X*beta_hat;
