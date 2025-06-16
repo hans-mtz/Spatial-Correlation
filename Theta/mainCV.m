@@ -3,8 +3,6 @@ if batchStartupOptionUsed
     % addpath(genpath('./21200057'))
 end
 
-
-
 %% Setting up parameters %%%%
 
 rng(549) % Set random seed for reproducibility
@@ -40,12 +38,11 @@ h=getdistmat(s,false);
 
 % Get PCs | W is the matrix of PCs
 [~,W,~] = pca(S, 'Centered', 'off');
-disp(size(W))
+% disp(size(W))
 
 % Generate the data
 
 [y, X, h] = DGP(theta,s,rho,false,h);
-
 
 
 %% For a given rho, l_cutoff, and number of PCs from the Tensor product of the Bsplines
@@ -131,7 +128,10 @@ plot(x,cdf(pwr_stat_density,x),'r--');
 % plot(x, cdf(type2_density,x),'b-');
 
 %% Get the probability of rejection for the candidate beta
-% using CV from testing the null given beta_cand =0
+% using CV from testing the null given beta_cand =0, and the distribution
+% of the statistic when testing H_0: beta ==0 given beta = beta_candidate
+% get the power of the test
+% Probability of rejection for the candidate beta
 
 probs = cdf(pwr_stat_density, cv_h); % Probability of rejection for the candidate beta
 prob_rejection = probs(1) + (1 - probs(2)); % Probability of rejection for the candidate beta
