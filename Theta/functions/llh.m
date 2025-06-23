@@ -14,6 +14,6 @@ function [val] = llh(tau, u_hat, D_mat)
         return; % Return negative infinity if not positive definite
     end
     val = -0.5.*log(det(sigma)) - 0.5.*u_hat'*(R\(R'\u_hat));
-    val = -val; % Negate for minimization
+    val = -val; % Negate for maximization
     % Note: The function is negated because fminsearch minimizes the function.
 end

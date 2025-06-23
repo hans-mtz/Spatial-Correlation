@@ -19,6 +19,6 @@ function [tau, beta_hat] = get_tau(y,X,D_mat)
     else
         fprintf('Optimization converged with function value: %f\n', fval);
     end
-    tau = [exp(tau(1)), tau(2)]; % Return tau in the desired format
+    % tau = [exp(tau(1)), tau(2)]; % Return tau in the desired format
 end
 

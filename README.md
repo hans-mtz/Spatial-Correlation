@@ -3,7 +3,7 @@
 To reproduce:
 
 - Simulations, run `make matlab`
-- Report of simulations, run `make paper`
+- Report of simulations, run `make report`
 
 ## Bandwidth and Critical Value Selection
 

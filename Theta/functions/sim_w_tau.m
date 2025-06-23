@@ -7,6 +7,7 @@ function [y_sim, eps_sim] = sim_w_tau(tau,D_mat,X,beta_cand,B)
         B (1,1) double = 1 % Number of simulations
     end
     n = size(D_mat, 1);
+    
     sigma = exp(tau(1).*eye(n)).*exp(-tau(2).*D_mat);
 
     eps_sim = mvnrnd(zeros(n, 1), sigma,B)'; % Generate multivariate normal random variables
