@@ -1,6 +1,7 @@
 # Usually, only these lines need changing
+# No spaces after names
 QPAPFILE = SCSK
-MATLAB = mainParallelOptPCs
+MAIN = mainCV#mainParallelOptPCs
 # QSLIFILE = JMP-update
 RDIR = ./Simulations/R
 MLDIR = ./Simulations/Matlab
@@ -33,7 +34,7 @@ OUT_FILES := $(RFILES:.R=.Rout)
 # RDEPOUT := $(RIND:.R=.Rout)
 OUT_MTLB := $(MTLB_FILES:.m=.log)
 OUT_REPS := $(QREPFILES:.qmd=.tex)
-# MLOUT := $(MLDIR)/$(MATLAB).log
+MLOUT := $(THDIR)/$(MAIN).log
 # Targets
 
 
@@ -46,14 +47,14 @@ all: matlab paper mail
 ## Run R files
 R: $(OUT_FILES)
 
-matlab: $(THDIR)/$(MATLAB).log #$(MLDIR)/$(MATLAB).log
+mtlb: $(MLOUT) #$(MLDIR)/$(MATLAB).log
 
 theta: $(OUT_MTLB)
 
 report: $(OUT_REPS)
 
 echo:
-	echo $(OUT_MTLB) $(MTLB_FILES) $(OUT_FILES) $(OUT_REPS)
+	echo $(MLOUT) $(OUT_MTLB) $(MTLB_FILES) $(OUT_FILES) $(OUT_REPS)
 
 ## Make paper
 paper: #$(QPAPDIR)/$(QPAPFILE).pdf
@@ -82,8 +83,12 @@ $(RDIR)/%.Rout: $(RDIR)/%.R
 $(RDIR)/_send_mail.Rout: $(RDIR)/_send_mail.R
 	R CMD BATCH --no-save --no-restore-data $< $@
 
-$(MLDIR)/$(MATLAB).log: $(MLDIR)/$(MATLAB).m
-	matlab -sd $(MLDIR) -logfile $@ -batch $(notdir $(basename $<))
+# $(MLDIR)/$(MATLAB).log: $(MLDIR)/$(MATLAB).m
+# 	matlab -sd $(MLDIR) -logfile $@ -batch $(notdir $(basename $<))
+
+# $(THDIR)/$(MATLAB).log: $(THDIR)/$(MATLAB).m
+# 	matlab -sd $(THDIR) -logfile $@ -batch $(notdir $(basename $<))
+
 
 $(THDIR)/%.log: $(THDIR)/%.m
 	matlab -sd $(THDIR) -logfile $@ -batch $(notdir $(basename $<))
@@ -132,4 +137,4 @@ clean-latex:
 	rm -fv Theta/*/*.aux  Theta/*/*.fdb_latexmk Theta/*/*.fls Theta/*/*.lot Theta/*/*.lof Theta/*/*.synctex.gz
 
 
-.PHONY: all clean paper mail matlab report clean-out clean-ml clean-latex theta theta_report
+.PHONY: all clean paper mail mtlb report clean-out clean-ml clean-latex theta theta_report
