@@ -3,7 +3,7 @@ function [SE]= kernel_var(u_hat,X,Z,D_mat,L,s,kernel,cholesky_flag, fix)
 
     if L <= 0
         SE = HR_var(u_hat,X,Z);
-        fprintf('Using HR variance estimator as L <= 0\n');
+        % fprintf('Using HR variance estimator as L <= 0\n');
         return;
     end
 

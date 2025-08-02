@@ -1,14 +1,15 @@
 if batchStartupOptionUsed
     addpath(genpath('./functions'))
+    addpath(genpath('./R-Morgan'))
     % addpath(genpath('./21200057'))
 end
 
-excrs = 'Slo-with-df-1MC';
+excrs = 'Fast-with-df-1MC';
 
 %% Setting up parameters %%%%
 
 rng(549) % Set random seed for reproducibility
-B = 10; % Number of simulations
+B = 1000; % Number of simulations
 T = 500; % Number of observations
 % n_locations = 2;
 b_cand = T^ ( -1/2) .* [ -3 3];%T^(-1/2).*(-10:1:10);
@@ -70,7 +71,7 @@ kk = 0;
 
 loopStart = tic;
 
-parpool(M)
+% % % parpool(M)
 
 for sp = PC_n
 
@@ -93,7 +94,9 @@ for sp = PC_n
     [y_sim, eps_sim] = sim_w_tau(tau, h, X, beta_cand,B);
     XX_inv = inv(X_bs'*X_bs);
     M_x = eye(T) - X_bs*XX_inv*X_bs';
-
+    M_w = eye(T) - X_bs(:,2:end)*inv(X_bs(:,2:end)'*X_bs(:,2:end))*X_bs(:,2:end)'; %Form Projection matrix away from W
+    Xtilde = M_w*X; %Partial out W from X
+    
     cvTime = tic; % Start timer for critical values
     % Get the statistic for the simulated data
     stat_vec = NaN(B,1); % Store the distribution of the statistic
@@ -102,17 +105,30 @@ for sp = PC_n
     for l = l_cutoffs
         j = j + 1;
         % fprintf('Finding critical values for %d PCs and %0.4f cutoff', sp, l);
-        parfor (i = 1:B, M)
+        % % % parfor (i = 1:B, M)
+        % % % for i = 1:B
             % [beta_hat_sim, eps_hat_sim] = ols(y_sim(:,i), X_bs, X_bs, 'chol');
-            eps_hat_sim = M_x*y_sim(:,i);
-            beta_hat_sim = XX_inv'*(X_bs'*y_sim(:,i));
+            eps_hat_sim = M_x*y_sim;
+            beta_hat_sim = XX_inv'*(X_bs'*y_sim);
+            b_k = size(beta_hat_sim,1);
             % For CV Test H_0: beta_0 = 0 | beta =0
-            [t_val, se_kvar] = get_statistic(beta_hat_sim, eps_hat_sim, X_bs, h, l, s);
-            stat_vec(i) = t_val(1);
-            se_vec(i) = se_kvar(1);
-        end
+            S = Xtilde.*eps_hat_sim; %Form Scores
+            % K = triangle_weights(s,l);  %Form weight matrixDKD
+            if l <= 0.0 
+                K = eye(T);
+            else 
+                K = normpdf(h,0,l/2)./normpdf(0,0,l/2);
+            end
+            se_num  = diag(S'*K*S).^.5;   %Numerator
+            se_denom = sum(Xtilde.^2);  %Denominator
+            se_vec = (se_num./se_denom)*sqrt(T/(T-b_k));% .* sqrt(T/(T-size(beta_hat_sim,2)));  %Standard errors
+            stat_vec= (beta_hat_sim(1,:)./se_vec')'; %tstats 
+            %[t_val, se_kvar] = get_statistic(beta_hat_sim, eps_hat_sim, X_bs, h, l, s);
+            %stat_vec(i) = t_val(1);
+            %se_vec(i) = se_kvar(1);
+     
 
-%%  Get the empirical distribution of the statistic
+%  Get the empirical distribution of the statistic
 
         % stat_density = paretotails(stat_vec, 0.01, 0.99);
         % Fit a kernel density to the statistic
@@ -169,15 +185,37 @@ for sp = PC_n
         jj = 0;
         for l = l_cutoffs
             jj = jj + 1;
-            parfor (i = 1:B,M)
+            % % % parfor (i = 1:B,M)
+            %for i = 1:B
                 % [beta_hat_sim_cand, eps_hat_sim_cand] = ols(y_sim_pwr(:,i), X_bs, X_bs, 'chol');
                 % For CV Test H_0: beta_0 = 0 | beta = beta_cand
-                eps_hat_sim_cand = M_x*y_sim_pwr(:,i);
-                beta_hat_sim_cand = XX_inv'*(X_bs'*y_sim_pwr(:,i));
-                [pwr_t_val, pwr_se_kvar] = get_statistic(beta_hat_sim_cand, eps_hat_sim_cand, X_bs, h, l, s);
-                pwr_stat_vec(i) = pwr_t_val(1);
-                pwr_se_vec(i) = pwr_se_kvar(1);
+            %    eps_hat_sim_cand = M_x*y_sim_pwr(:,i);
+            %    beta_hat_sim_cand = XX_inv'*(X_bs'*y_sim_pwr(:,i));
+            %    [pwr_t_val, pwr_se_kvar] = get_statistic(beta_hat_sim_cand, eps_hat_sim_cand, X_bs, h, l, s);
+            %    pwr_stat_vec(i) = pwr_t_val(1);
+            %    pwr_se_vec(i) = pwr_se_kvar(1);
+            %end
+
+            % [beta_hat_sim, eps_hat_sim] = ols(y_sim(:,i), X_bs, X_bs, 'chol');
+            eps_hat_sim_cand = M_x*y_sim_pwr;
+            beta_hat_sim_cand = XX_inv'*(X_bs'*y_sim_pwr);
+            b_k = size(beta_hat_sim_cand,1);
+            % For CV Test H_0: beta_0 = 0 | beta =0
+            S = Xtilde.*eps_hat_sim_cand; %Form Scores
+            % K = triangle_weights(s,l);  %Form weight matrix
+            if l <= 0.0 
+                K = eye(T);
+            else 
+                K = normpdf(h,0,l/2)./normpdf(0,0,l/2);
             end
+            se_num  = diag(S'*K*S).^.5;   %Numerator
+            se_denom = sum(Xtilde.^2);  %Denominator
+            se_vec = (se_num./se_denom)*sqrt(T/(T-b_k));  %Standard errors
+            pwr_stat_vec= (beta_hat_sim_cand(1,:)./se_vec')'; %tstats 
+            %[t_val, se_kvar] = get_statistic(beta_hat_sim, eps_hat_sim, X_bs, h, l, s);
+            %stat_vec(i) = t_val(1);
+            %se_vec(i) = se_kvar(1);
+
 
 %%  Get the empirical distribution of the statistic
 
@@ -212,6 +250,7 @@ for sp = PC_n
     pwrTimeEnd = toc(pwrTime);
     fprintf('Pwr: Finished Simulations for %d Number of PCs in %.2f seconds \n ', sp, pwrTimeEnd);
     % fprintf('Finished Simulations for %d Number of PCs \n', sp);
+% % % end
 end
 
 loopEnd = toc(loopStart);
@@ -250,3 +289,5 @@ if ~batchStartupOptionUsed
     fprintf('Closing parallel pool\n');
     delete(gcp('nocreate')) % Close the parallel pool
 end
+
+

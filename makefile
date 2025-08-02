@@ -1,7 +1,7 @@
 # Usually, only these lines need changing
 # No spaces after names
 QPAPFILE = SCSK
-MAIN = mainCV#mainParallelOptPCs
+MAIN = mainCVDK#mainParallelOptPCs
 # QSLIFILE = JMP-update
 RDIR = ./Simulations/R
 MLDIR = ./Simulations/Matlab
@@ -28,6 +28,8 @@ RFILES := $(filter-out $(EXCLUDE),$(RFILES))
 
 # list all matlab m files
 MTLB_FILES := $(wildcard $(THDIR)/*.m)
+MTLB_EXCLUDE := $(wildcard $(THDIR)/_*.m)
+MTLB_FILES := $(filter-out $(MTLB_EXCLUDE),$(MTLB_FILES))
 
 # Indicator files to show R file has run
 OUT_FILES := $(RFILES:.R=.Rout)
@@ -35,6 +37,7 @@ OUT_FILES := $(RFILES:.R=.Rout)
 OUT_MTLB := $(MTLB_FILES:.m=.log)
 OUT_REPS := $(QREPFILES:.qmd=.tex)
 MLOUT := $(THDIR)/$(MAIN).log
+
 # Targets
 
 
