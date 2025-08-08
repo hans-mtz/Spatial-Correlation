@@ -1,0 +1,84 @@
+if batchStartupOptionUsed
+    addpath(genpath('./functions'))
+    addpath(genpath('./R-Morgan'))
+    % addpath(genpath('./21200057'))
+end
+
+excrs = 'full-MC-rho_0.8';
+
+%% Setting up parameters %%%%
+
+rng(549) % Set random seed for reproducibility
+R = 1000; %MC reps
+B = 1000; % Number of simulations per MC
+T = 500; % Number of observations
+% n_locations = 2;
+b_cand = T^ ( -1/2) .* [ -3 3];%T^(-1/2).*(-10:1:10);
+theta = sqrt(2)/10;
+rho = 0.8; %0.0:0.1:1; %0.0:0.1:1.0;
+l_cutoffs = 0:0.025:0.15;%0.02:0.02:0.14; %;0.1; %
+PC_n = 0:10:90;%20:40:100; % Number of PCs to use
+splines_order = 2; % Order 1, step functions; 2, triangles; 3, quadratic
+n_splines = 10;
+M = 5; % Number of workers
+save_results = true; % Save results
+verbose = false; % Print progress
+%% Generate locations (fixed locations)
+
+% If splines are fixed and locations are fixed, they need not to be estimated everytime
+
+% Morgan's Locations
+s = readmatrix("R-Morgan/coords.csv"); % Using Morgan's coordinates
+
+% Morgan's Splines
+
+% S = readmatrix('morgans_splines_pc'); % 
+% n_dropped = 0;
+
+% Matlab Locations
+% s = rand(T,n_locations);
+
+% Matlab Splines
+[S, ~, n_dropped] = get_bsplines(s,n_splines,splines_order);
+
+% Fixed locations means the distance matrix does not change
+h=getdistmat(s,false);
+
+% Get PCs | W is the matrix of PCs
+[~,W,~] = pca(S, 'Centered', 'off');
+% disp(size(W))
+
+%% parallel loop 
+tic;
+% MC_array = zeros(length(l_cutoffs),length(PC_n)); % Array to store results
+MC_array = zeros(length(l_cutoffs),length(PC_n),R);
+avg_powr_array = zeros(length(l_cutoffs),length(PC_n),R); % Array to store average power
+cv_array = zeros(length(l_cutoffs),length(PC_n),R); % Array
+
+parfor (r = 1:R, M)
+    if mod(r, 100) == 0 || verbose
+        % Print progress every 10 iterations or if verbose is true
+        fprintf('MC rep %d out of %d \n', r, R);
+    end
+
+    [MC_array(:,:,r), avg_powr_array(:,:,r), cv_array(:,:,r)] = sim_i(theta, s, rho, h, W, l_cutoffs, PC_n, b_cand, B); % Store results of this MC rep
+
+end
+toc;
+
+% MC_array = MC_array ./ R; % Average over MC reps
+MC_array = mean(MC_array,3, "omitmissing")*100; % Average over
+% avg_powr_array = mean(avg_powr_array,3, "omitmissing"); % Average over MC reps
+% cv_array = mean(cv_array,3, "omitmissing"); % Average over MC reps
+MC_tbl = array2table( [l_cutoffs' MC_array],'VariableNames', ['Bwd/PC', string(PC_n) ])
+cv_tbl = array2table( [l_cutoffs' mean(cv_array,3, "omitmissing")], 'VariableNames', ['Bwd/PC', string(PC_n) ])
+pwr_tbl = array2table( [l_cutoffs' mean(avg_powr_array,3, "omitmissing")], 'VariableNames', ['Bwd/PC', string(PC_n) ])
+
+%% Save results
+
+if save_results
+    save(['outputs/MC_' excrs '.mat']);
+    writetable(MC_tbl, fullfile('outputs', ['MC_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
+    writetable(cv_tbl, fullfile('outputs', ['cv_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
+    writetable(pwr_tbl, fullfile('outputs', ['pwr_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
+end

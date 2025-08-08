@@ -1,7 +1,7 @@
 # Usually, only these lines need changing
 # No spaces after names
 QPAPFILE = SCSK
-MAIN = mainCVDK#mainParallelOptPCs
+MAIN = mainMC#mainParallelOptPCs
 # QSLIFILE = JMP-update
 RDIR = ./Simulations/R
 MLDIR = ./Simulations/Matlab
