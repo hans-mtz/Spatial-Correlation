@@ -4,12 +4,12 @@ if batchStartupOptionUsed
     % addpath(genpath('./21200057'))
 end
 
-excrs = 'rej-f-rho_0.8';
+excrs = 'full-MC-rho_0.8';
 
 %% Setting up parameters %%%%
 
 rng(549) % Set random seed for reproducibility
-R = 10; %MC reps
+R = 1000; %MC reps
 B = 1000; % Number of simulations per MC
 T = 500; % Number of observations
 % n_locations = 2;
@@ -21,8 +21,8 @@ PC_n = 0:10:90;%20:40:100; % Number of PCs to use
 splines_order = 2; % Order 1, step functions; 2, triangles; 3, quadratic
 n_splines = 10;
 M = 5; % Number of workers
-save_results = false; % Save results
-verbose = true; % Print progress
+save_results = true; % Save results
+verbose = false; % Print progress
 %% Generate locations (fixed locations)
 
 % If splines are fixed and locations are fixed, they need not to be estimated everytime
@@ -54,8 +54,7 @@ tic;
 MC_array = NaN(length(l_cutoffs),length(PC_n),R);
 avg_powr_array = NaN(length(l_cutoffs),length(PC_n),R); % Array to store average power
 cv_array = NaN(length(l_cutoffs),length(PC_n),R); % Array
-rej_array = NaN(R,1);
-cil_array = NaN(R,1);
+cv_array = NaN(R);
 
 parfor (r = 1:R, M)
     if mod(r, 100) == 0 || verbose
@@ -63,20 +62,18 @@ parfor (r = 1:R, M)
         fprintf('MC rep %d out of %d \n', r, R);
     end
 
-    [MC_array(:,:,r), rej_array(r), cil_array(r), avg_powr_array(:,:,r), cv_array(:,:,r)] = sim_i(theta, s, rho, h, W, l_cutoffs, PC_n, b_cand, B); % Store results of this MC rep
+    [MC_array(:,:,r), avg_powr_array(:,:,r), cv_array(:,:,r)] = sim_i(theta, s, rho, h, W, l_cutoffs, PC_n, b_cand, B); % Store results of this MC rep
 
 end
 toc;
 
 % MC_array = MC_array ./ R; % Average over MC reps
-MC_array = mean(MC_array,3, "omitnan")*100; % Average over
-% avg_powr_array = mean(avg_powr_array,3, "omitnan"); % Average over MC reps
-% cv_array = mean(cv_array,3, "omitnan"); % Average over MC reps
+MC_array = mean(MC_array,3, "omitmissing")*100; % Average over
+% avg_powr_array = mean(avg_powr_array,3, "omitmissing"); % Average over MC reps
+% cv_array = mean(cv_array,3, "omitmissing"); % Average over MC reps
 MC_tbl = array2table( [l_cutoffs' MC_array],'VariableNames', ['Bwd/PC', string(PC_n) ])
-cv_tbl = array2table( [l_cutoffs' mean(cv_array,3, "omitnan")], 'VariableNames', ['Bwd/PC', string(PC_n) ])
-pwr_tbl = array2table( [l_cutoffs' mean(avg_powr_array,3, "omitnan")], 'VariableNames', ['Bwd/PC', string(PC_n) ])
-stats_tbl = array2table( [ mean(rej_array, 'omitnan'), mean(cil_array, 'omitnan') ], 'VariableNames' ,{'Rej F', 'CI Length'}, 'RowNames', [ 'rho='+string(rho)])
-
+cv_tbl = array2table( [l_cutoffs' mean(cv_array,3, "omitmissing")], 'VariableNames', ['Bwd/PC', string(PC_n) ])
+pwr_tbl = array2table( [l_cutoffs' mean(avg_powr_array,3, "omitmissing")], 'VariableNames', ['Bwd/PC', string(PC_n) ])
 
 %% Save results
 
@@ -85,5 +82,4 @@ if save_results
     writetable(MC_tbl, fullfile('outputs', ['MC_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
     writetable(cv_tbl, fullfile('outputs', ['cv_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
     writetable(pwr_tbl, fullfile('outputs', ['pwr_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
-    writetable(stats_tbl, fullfile('outputs', ['stats_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
 end

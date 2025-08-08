@@ -1,4 +1,4 @@
-function [id_mat, rej_rule, ci_length , power_mean, cv_array] = sim_i(theta, s, rho, h, W, l_cutoffs, PC_n, b_cand, B)
+function [id_mat, power_mean, cv_array] = sim_i(theta, s, rho, h, W, l_cutoffs, PC_n, b_cand, B)
     
 T = size(s,1); % Number of observations
 % if batchStartupOptionUsed
@@ -67,8 +67,6 @@ if exitflag <= 0
     id_mat = NaN(length(l_cutoffs), length(PC_n));
     power_mean = NaN(length(l_cutoffs), length(PC_n));
     cv_array = NaN(length(l_cutoffs), length(PC_n), 1);
-    rej_rule = NaN;
-    ci_length = NaN;
     warning('Optimization did not converge, exiting simulation');
     return
 end
@@ -316,12 +314,8 @@ opt_n_pc = pc_array(index);
 ii = min(opt_n_pc, size(W,2)); % Ensure sp does not exceed the number of PCs available
 X_bs = [X W(:,1:ii)]; % X with B-splines, no intercept
 [beta_hat, u_hat] = ols(y,X_bs,X_bs,'chol');
-se_hat = kernel_var(u_hat,X_bs, X_bs, h, opt_bw, s, 'gaussian', 'chol', false);
-t_stat = beta_hat(1)/se_hat(1);
-rej_rule = abs(t_stat) > opt_cv;
-ci_length = 2*abs(se_hat(1))*opt_cv;
-
-
+se_hat = kernel_var(u_hat,X_bs, X_bs, h, opt_bw, 'gaussian', 'chol');
+t_stat = beta
 
 
 %% Save the results
