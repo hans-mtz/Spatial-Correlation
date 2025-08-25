@@ -11,6 +11,9 @@ QREPDIR = ./Theta/reports
 # QREPDIRSECDIR = ./Theta/reports/sections
 # QSLIDIR = ./Quarto-Slides
 
+# Define rho values for Monte Carlo simulations
+RHO_VALUES = 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
+
 # list all R files
 RFILES := $(wildcard $(RDIR)/*.R)
 EXCLUDE := $(wildcard $(RDIR)/_*.R)
@@ -47,8 +50,17 @@ main: $(RDIR)/main.Rout #$(filter-out $(RDIR)/main.Rout, $(OUT_FILES))
 ## Make all
 all: matlab paper mail
 
+## Run MATLAB with different rho values
+matlab-rho: $(addprefix $(THDIR)/mainMC-r, $(addsuffix .log, $(RHO_VALUES)))
+
+## Run MATLAB with a specific rho value (usage: make matlab-rho-single RHO=0.3)
+matlab-rho-single:
+	@if [ -z "$(RHO)" ]; then echo "Please specify RHO value: make matlab-rho-single RHO=0.3"; exit 1; fi
+	matlab -sd $(THDIR) -logfile $(THDIR)/mainMC-r$(RHO)-Dsqr.log -batch 'rho=$(RHO); mainMC'
+
 ## Run R files
 R: $(OUT_FILES)
+
 
 mtlb: $(MLOUT) #$(MLDIR)/$(MATLAB).log
 
@@ -95,6 +107,10 @@ $(RDIR)/_send_mail.Rout: $(RDIR)/_send_mail.R
 
 $(THDIR)/%.log: $(THDIR)/%.m
 	matlab -sd $(THDIR) -logfile $@ -batch $(notdir $(basename $<))
+
+# Rule for running mainMC with specific rho values
+$(THDIR)/mainMC-r%.log: $(THDIR)/mainMC.m
+	matlab -sd $(THDIR) -logfile $@ -batch 'rho=$*; mainMC'
 	
 # # Compile main tex file and show errors
 $(QPAPDIR)/$(QPAPFILE).pdf: $(QPAPDIR)/$(QPAPFILE).qmd #$(QFILES) #$(OUT_FILES) #$(CROP_FILES)
@@ -132,6 +148,7 @@ clean-out:
 
 clean-ml:
 	rm -fv $(MLDIR)/$(MATLAB).log
+	rm -fv $(THDIR)/mainMC-r*.log
 
 clean-latex:
 	rm -fv */*.aux  */*.fdb_latexmk */*.fls */*.lot */*.lof */*.synctex.gz

@@ -1,59 +1,53 @@
-function [id_mat, rej_rule, ci_length , power_mean, cv_array] = sim_i(theta, s, rho, h, W, l_cutoffs, PC_n, b_cand, B)
-    
-T = size(s,1); % Number of observations
-% if batchStartupOptionUsed
-%     addpath(genpath('./functions'))
-%     addpath(genpath('./R-Morgan'))
-%     % addpath(genpath('./21200057'))
-% end
+if batchStartupOptionUsed
+    addpath(genpath('./functions'))
+    % addpath(genpath('./21200057'))
+end
 
-% excrs = 'Fast-with-df-1MC';
+excrs = '4x5grid-Damian';
 
-% %% Setting up parameters %%%%
+%% Setting up parameters %%%%
 
-% rng(549) % Set random seed for reproducibility
-% B = 1000; % Number of simulations
-% T = 500; % Number of observations
-% % n_locations = 2;
-% b_cand = T^ ( -1/2) .* [ -3 3];%T^(-1/2).*(-10:1:10);
-% theta = sqrt(2)/10;
-% rho = 0.5; %0.0:0.1:1; %0.0:0.1:1.0;
-% l_cutoffs = 0:0.025:0.15;%0.02:0.02:0.14; %;0.1; %
-% PC_n = 0:10:90;%20:40:100; % Number of PCs to use
-% splines_order = 2; % Order 1, step functions; 2, triangles; 3, quadratic
-% n_splines = 10;
-% M = 5; % Number of workers
+rng(549) % Set random seed for reproducibility
+B = 10000; % Number of simulations
+T = 500; % Number of observations
+% n_locations = 2;
+b_cand = T^ ( -1/2) .* [ -3 3];%T^(-1/2).*(-10:1:10);
+theta = sqrt(2)/10;
+rho = 0.5; %0.0:0.1:1; %0.0:0.1:1.0;
+l_cutoffs = 0.025:0.025:0.15;%0.02:0.02:0.14; %;0.1; %
+PC_n = 40:20:100;%20:40:100; % Number of PCs to use
+splines_order = 2; % Order 1, step functions; 2, triangles; 3, quadratic
+n_splines = 10;
+M = 5; % Number of workers
 save_results = false; % Save results
 verbose = false; % Print progress
-% %% Generate locations (fixed locations)
+%% Generate locations (fixed locations)
 
-% % If splines are fixed and locations are fixed, they need not to be estimated everytime
+% If splines are fixed and locations are fixed, they need not to be estimated everytime
 
-% % Morgan's Locations
-% s = readmatrix("R-Morgan/coords.csv"); % Using Morgan's coordinates
+% Morgan's Locations
+s = readmatrix("R-Morgan/coords.csv"); % Using Morgan's coordinates
 
-% % Morgan's Splines
+% Morgan's Splines
 
-% % S = readmatrix('morgans_splines_pc'); % 
-% % n_dropped = 0;
+% S = readmatrix('morgans_splines_pc'); % 
+% n_dropped = 0;
 
-% % Matlab Locations
-% % s = rand(T,n_locations);
+% Matlab Locations
+% s = rand(T,n_locations);
 
-% % Matlab Splines
-% [S, ~, n_dropped] = get_bsplines(s,n_splines,splines_order);
+% Matlab Splines
+[S, ~, n_dropped] = get_bsplines(s,n_splines,splines_order);
 
-% % Fixed locations means the distance matrix does not change
-% h=getdistmat(s,false);
+% Fixed locations means the distance matrix does not change
+h=getdistmat(s,false);
 
-% % Get PCs | W is the matrix of PCs
-% [~,W,~] = pca(S, 'Centered', 'off');
-% % disp(size(W))
+% Get PCs | W is the matrix of PCs
+[~,W,~] = pca(S, 'Centered', 'off');
+% disp(size(W))
 
 % Generate the data
-if verbose 
-    fprintf('Generating data for rho = %.2f and theta = %.3f \n', rho, theta); 
-end
+fprintf('Generating data for rho = %.2f and theta = %.3f \n', rho, theta);
 [y, X, ~] = DGP(theta,s,rho,false,h);
 
 % Find tau by QMLE
@@ -61,17 +55,7 @@ if verbose
     fprintf('Finding tau for rho = %.2f, and %d PCs\n', rho, ii); 
 end
 % Estimating tau does not change with the number of PCs
-[tau, beta_hat, exitflag] = get_tau(y, X, h, false); % epsilon_hat = y - \beta_hat* X_bs', not epsilon_hat=y-\beta_hat X-\gama_hat W; % Get tau and beta_hat using QMLE
-
-if exitflag <= 0
-    id_mat = NaN(length(l_cutoffs), length(PC_n));
-    power_mean = NaN(length(l_cutoffs), length(PC_n));
-    cv_array = NaN(length(l_cutoffs), length(PC_n), 1);
-    rej_rule = NaN;
-    ci_length = NaN;
-    warning('Optimization did not converge, exiting simulation. Tau values: %f, %f', tau(1), tau(2));
-    return
-end
+[tau, beta_hat] = get_tau(y, X, h); % epsilon_hat = y - \beta_hat* X_bs', not epsilon_hat=y-\beta_hat X-\gama_hat W; % Get tau and beta_hat using QMLE
 
 %% Declare arrays to store results
 
@@ -90,9 +74,7 @@ loopStart = tic;
 
 for sp = PC_n
 
-    if verbose 
-        fprintf('Starting Simulatios for %d Number of PCs \n', sp); 
-    end
+    fprintf('Starting Simulatios for %d Number of PCs \n', sp);
     k = k + 1;
     ii = min(sp, size(W,2)); % Ensure sp does not exceed the number of PCs available
     X_bs = [X W(:,1:ii)]; % X with B-splines, no intercept
@@ -113,7 +95,9 @@ for sp = PC_n
     M_x = eye(T) - X_bs*XX_inv*X_bs';
     M_w = eye(T) - X_bs(:,2:end)*inv(X_bs(:,2:end)'*X_bs(:,2:end))*X_bs(:,2:end)'; %Form Projection matrix away from W
     Xtilde = M_w*X; %Partial out W from X
-    
+
+
+
     cvTime = tic; % Start timer for critical values
     % Get the statistic for the simulated data
     stat_vec = NaN(B,1); % Store the distribution of the statistic
@@ -127,18 +111,13 @@ for sp = PC_n
             % [beta_hat_sim, eps_hat_sim] = ols(y_sim(:,i), X_bs, X_bs, 'chol');
             eps_hat_sim = M_x*y_sim;
             beta_hat_sim = XX_inv'*(X_bs'*y_sim);
-            b_k = size(beta_hat_sim,1);
             % For CV Test H_0: beta_0 = 0 | beta =0
             S = Xtilde.*eps_hat_sim; %Form Scores
-            % K = triangle_weights(s,l);  %Form weight matrixDKD
-            if l <= 0.0 
-                K = eye(T);
-            else 
-                K = normpdf(h,0,l/2)./normpdf(0,0,l/2);
-            end
+%             K = triangle_weights(s,l);  %Form weight matrix
+            K = normpdf(h,0,l/2)./normpdf(0,0,l/2);%Forms weight matrix 
             se_num  = diag(S'*K*S).^.5;   %Numerator
             se_denom = sum(Xtilde.^2);  %Denominator
-            se_vec = (se_num./se_denom)*sqrt(T/(T-b_k));% .* sqrt(T/(T-size(beta_hat_sim,2)));  %Standard errors
+            se_vec = se_num./se_denom;  %Standard errors
             stat_vec= (beta_hat_sim(1,:)./se_vec')'; %tstats 
             %[t_val, se_kvar] = get_statistic(beta_hat_sim, eps_hat_sim, X_bs, h, l, s);
             %stat_vec(i) = t_val(1);
@@ -166,24 +145,22 @@ for sp = PC_n
         % cv_h = icdf(stat_density,[0.025 0.975]); % 95% quantile of the statistic distribution
         % fprintf('Critical values for %d PCs and %0.4f cutoff: %.4f, %.4f \n', sp, l, cv_h(1), cv_h(2));
         % cv_array(j,k,:) = cv_h; % Store the critical values for the statistic
-        cv_h = max(1.96, icdf(stat_density, 0.95)); % 95% quantile of the abs statistic distribution
-        if verbose 
-            fprintf('Critical values for %d PCs and %0.4f cutoff: %.4f \n', sp, l, cv_h);
-        end
+        cv_h = icdf(stat_density, 0.95); % 95% quantile of the abs statistic distribution
+        fprintf('Critical values for %d PCs and %0.4f cutoff: %.4f \n', sp, l, cv_h);
         cv_array(j,k,1) = cv_h; % Store the critical values for the statistic
 %%  Get the power of the test
-    end
+end
     cvTimeEnd = toc(cvTime);
-    if verbose
-        fprintf('Finished critical values for %d PCs in %.2f seconds \n', sp, cvTimeEnd);
-    end
+    fprintf('Finished critical values for %d PCs in %.2f seconds \n', sp, cvTimeEnd);
     kk = 0; % Reset kk for the next candidate beta
+
+
+
+
 
     pwrTime = tic; % Start timer for power simulations
     for b = b_cand
-        if verbose 
-            fprintf('Power: Starting Simulations for %d Number of PCs and beta_cand = %.4f \n', sp, b);
-        end
+        fprintf('Power: Starting Simulations for %d Number of PCs and beta_cand = %.4f \n', sp, b);
         %for a candidate of beta
 
         if (length(beta_hat) > 1)  
@@ -222,18 +199,12 @@ for sp = PC_n
             % [beta_hat_sim, eps_hat_sim] = ols(y_sim(:,i), X_bs, X_bs, 'chol');
             eps_hat_sim_cand = M_x*y_sim_pwr;
             beta_hat_sim_cand = XX_inv'*(X_bs'*y_sim_pwr);
-            b_k = size(beta_hat_sim_cand,1);
             % For CV Test H_0: beta_0 = 0 | beta =0
             S = Xtilde.*eps_hat_sim_cand; %Form Scores
-            % K = triangle_weights(s,l);  %Form weight matrix
-            if l <= 0.0 
-                K = eye(T);
-            else 
-                K = normpdf(h,0,l/2)./normpdf(0,0,l/2);
-            end
+            K = triangle_weights(s,l);  %Form weight matrix
             se_num  = diag(S'*K*S).^.5;   %Numerator
             se_denom = sum(Xtilde.^2);  %Denominator
-            se_vec = (se_num./se_denom)*sqrt(T/(T-b_k));  %Standard errors
+            se_vec = se_num./se_denom;  %Standard errors
             pwr_stat_vec= (beta_hat_sim_cand(1,:)./se_vec')'; %tstats 
             %[t_val, se_kvar] = get_statistic(beta_hat_sim, eps_hat_sim, X_bs, h, l, s);
             %stat_vec(i) = t_val(1);
@@ -271,65 +242,38 @@ for sp = PC_n
         end 
     end
     pwrTimeEnd = toc(pwrTime);
-    if verbose 
-        fprintf('Pwr: Finished Simulations for %d Number of PCs in %.2f seconds \n ', sp, pwrTimeEnd); 
-    end
+    fprintf('Pwr: Finished Simulations for %d Number of PCs in %.2f seconds \n ', sp, pwrTimeEnd);
     % fprintf('Finished Simulations for %d Number of PCs \n', sp);
 % % % end
-end
 
 loopEnd = toc(loopStart);
-if verbose 
-    fprintf('Total time for simulations: %.2f seconds\n', loopEnd);
+
 end
+
+
+
+
+
+fprintf('Total time for simulations: %.2f seconds\n', loopEnd);
 %% Collect results 
 
 power_mean = mean(power_array,3); % Mean power for each l_cutoff and number of PCs
 
-id_mat = zeros(length(l_cutoffs), length(PC_n));
-[~, index] = max(power_mean,[],"all","linear");
-id_mat(index) = 1; % Store the index of the maximum power
-
 if size(power_mean,2) <= 1
 
-    bw_tbl = array2table( [l_cutoffs' cv_array(:,:,1) cv_array(:,:,2) power_mean],'VariableNames', {'Cutoff','CV_Lower', 'CV_Upper', 'Mean Power'});
+    bw_tbl = array2table( [l_cutoffs' cv_array(:,:,1) cv_array(:,:,2) power_mean],'VariableNames', {'Cutoff','CV_Lower', 'CV_Upper', 'Mean Power'})
 else
-    bw_tbl = array2table( [l_cutoffs' power_mean],'VariableNames', ['Bwd/PC', string(PC_n) ]);
-    cv_tbl = array2table( [l_cutoffs' cv_array(:,:,1)], 'VariableNames', ['Bwd/PC', string(PC_n) ]);
+    bw_tbl = array2table( [l_cutoffs' power_mean],'VariableNames', ['Bwd/PC', string(PC_n) ])
+    cv_tbl = array2table( [l_cutoffs' cv_array(:,:,1)], 'VariableNames', ['Bwd/PC', string(PC_n) ])
     % cv_u_tbl = array2table( [l_cutoffs' cv_array(:,:,2)], 'VariableNames', ['Bwd/PC', string(PC_n) ])
     % cv_l_tbl = array2table( [l_cutoffs' cv_array(:,:,1)], 'VariableNames', ['Bwd/PC', string(PC_n) ])
 end
-
-%% test using optimal CV, Bandwidth, and PCs
-
-% CV
-opt_cv = cv_array(index);
-% bw 
-bw_array = repmat(l_cutoffs',1,length(PC_n));
-opt_bw = bw_array(index);
-
-% PC
-pc_array = repmat(PC_n,length(l_cutoffs),1);
-opt_n_pc = pc_array(index);
-
-% Run OLS
-ii = min(opt_n_pc, size(W,2)); % Ensure sp does not exceed the number of PCs available
-X_bs = [X W(:,1:ii)]; % X with B-splines, no intercept
-[beta_hat, u_hat] = ols(y,X_bs,X_bs,'chol');
-se_hat = kernel_var(u_hat,X_bs, X_bs, h, opt_bw, s, 'gaussian', 'chol', false);
-t_stat = beta_hat(1)/se_hat(1);
-rej_rule = abs(t_stat) > opt_cv;
-ci_length = 2*abs(se_hat(1))*opt_cv;
-
-
 
 
 %% Save the results
 
 if save_results
-    if verbose 
-        fprintf('Saving results\n'); 
-    end
+    fprintf('Saving results\n');
     
     save(['outputs/' excrs 'bw_cv_sel.mat'])
 
@@ -342,11 +286,8 @@ end
 %% Close parallel pool
 
 if ~batchStartupOptionUsed
-    if verbose 
-        fprintf('Closing parallel pool\n'); 
-    end
+    fprintf('Closing parallel pool\n');
     delete(gcp('nocreate')) % Close the parallel pool
 end
 
 
-end

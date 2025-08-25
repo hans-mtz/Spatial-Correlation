@@ -75,15 +75,15 @@ because $y_l$ and $x_l$ are independent draws from the same DGP, the true parame
 
 ### Critical Values and Bandwidth Selection
 
-I fixed $\rho=0.5$ to simulate data from the DGP described above. From the simulated data and the given number of PCs of the 10x10 triangular B-Splines, I estimated $\tau = (\tau_0, \tau_1)$ from the following model:
+For a value of $\rho$, I simulate data from the DGP described above. From the simulated data and the given number of PCs of the 10x10 triangular B-Splines, I estimated $\tau = (\tau_0, \tau_1)$ from the following model:
 
 $$
   \hat\tau = \arg \max \left\{ -\frac{1}{2} \log\det(\Sigma(\tau))-\frac{1}{2}\hat\varepsilon'\Sigma(\tau)^{-1}\hat\varepsilon \right\}
 $$
 
-where $\hat\varepsilon_l = y_l - \hat\beta x_l$. $\Sigma(\tau)=\exp(\tau_0\cdot I_n)\exp(\tau_1\cdot D)$, where $D_{s_l,s_l'}=||s_l - s_l'||$ is the matrix of the euclidean distances between the locations $s_l$ and $s_{l'}$.
+where $\hat\varepsilon_l = y_l - \hat\beta x_l$. $\Sigma(\tau)=\exp(\tau_0)\exp(-\tau_1\cdot D)$, where $D_{s_l,s_l'}=||s_l - s_l'||$ is the matrix of the euclidean distances between the locations $s_l$ and $s_{l'}$.
 
-After estimating $\hat\tau$, I simulated 1000 times from $\varepsilon_{sim} \sim N(0,\Sigma(\hat\tau))$ and generated $y_{sim }= \beta_{cand} x_l  + \varepsilon_{sim}$ for each value of $\beta_{cand} = \{-3/\sqrt{n}, -2/\sqrt{n}, -1/\sqrt{n}, 1/\sqrt{n}, 2/\sqrt{n}, 3/\sqrt{n}\}$ and $n=500$.
+After estimating $\hat\tau$, I simulated 1000 times from $\varepsilon_{sim} \sim N(0,\Sigma(\hat\tau))$ and generated $y_{sim }= \beta_{cand} x_l  + \varepsilon_{sim}$ for each value of $\beta_{cand} = \{-3/\sqrt{n}, 3/\sqrt{n}\}$ and $n=500$.
 
 I tested the null hypothesis $H_0: \beta = 0$ against the alternative $H_1: \beta \not= 0$ forming the statistic 
 
@@ -91,13 +91,18 @@ $$
 t_{sim} = \frac{\hat\beta}{\hat\sigma(h)_{\hat\beta}/\sqrt{n}}.
 $$
 
-I estimated $\hat\sigma(h)_{\hat\beta}$ using the kernel HAC estimator with bandwidth $h$ for different values of $h=\{0.05, 0.10, 0.15\}$ and for different numbers of PCs of the 10x10 B-splines, $sp = \{0, 20, 40, 60, 80, 99\}$. I used  the PCs to prewhiten the error term in each regression before estimating the variance using the HAC estimator. In particular, $y_l=\beta x_l + w'\gamma+\varepsilon_l$. The number of PCs is the number of columns of the matrix $w$.
+I estimated $\hat\sigma(h)_{\hat\beta}$ using the kernel HAC estimator with bandwidth $h$ for different values of $h=\{0.0, 0.025, 0.05, 0.075, 0.10, 0.125, 0.15\}$ and for different numbers of PCs of the 10x10 B-splines, $sp = \{0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 99\}$. I used  the PCs to prewhiten the error term in each regression before estimating the variance using the HAC estimator. In particular, $y_l=\beta x_l + w'\gamma+\varepsilon_l$. The number of PCs is the number of columns of the matrix $w$.
 
 The critical values were selected as the 95\% quantile of the empirical distribution of the absolute value of the $t_{sim}$ statistics when the $\beta_{cand} = 0$. I repeated this process for each pair of bandwidth $h$ and number $sp$ of PCs of the 10x10 B-splines. 
 
 For each pair, I estimated the mean power as the average of the probabilities of rejecting the null hypothesis using the critical values described above when testing $H_0: \beta = 0$ for every $\beta_{cand}$. The probability of rejection for each $\beta_{cand}$ is estimated from the empirical distribution of the simulated statistics of that $\beta_{cand}$ and pair $(h,sp)$.
 
-<!-- @tbl-bw-cv-sel shows the results of 1000 simulations for each bandwidth. The table shows the bandwidth, the critical values for the statistic, and the mean power of the test for each bandwidth. This exercise took around `r round(5370.6/60,0)` minutes to run on an intel MacBook Pro with 16GB of RAM.  -->
+<!-- For instance, when $rho=0/5$, @tbl-3bwx5pcs-pwr shows the average power for different combinations of bandwidths and number of PCs of the 10x10 B-splines. I used **1000 simulations** for each combination. This is 1 Monte Carlo. @tbl-3bwx5pcs-u-cv shows the critical value used during the simulations. @tbl-3bwx5pcs-pwr indicates that the combination of 80 PCS and bandwidth 0.05 displays the highest average power with a value of 0.4162. -->
+
+Finally, I used the pair $(h,sp)$ that maximized the mean power across all $\beta_{cand}$ to test the null hypothesis $H_0: \beta = 0$ with the original simulated data. I repeated this process 1000 times for each value of $\rho$, and recorded the number of times I rejected the null hypothesis and the length of the confidence intervals.
+
+@tbl-mc-all shows the rejection frequencies and average CI lengths for the 1000 MC simulations.
+
 
 ```{r}
 #| label: tbl-bw-cv-sel
@@ -120,12 +125,6 @@ bw_tbl %>%
 
 ```
 
-@tbl-3bwx5pcs-pwr shows the average power for different combinations of bandwidths and number of PCs of the 10x10 B-splines. I used **1000 simulations** for each combination. The code to generate this table took `r round(25872.571569/3600,0)` hours to run. 
-
-@tbl-3bwx5pcs-u-cv shows the critical value used during the simulations.
-
-@tbl-3bwx5pcs-pwr indicates that the combination of 80 PCS and bandwidth 0.05 displays the highest average power with a value of 0.4162. 
-
 
 
 
@@ -134,7 +133,8 @@ bw_tbl %>%
 ```{r}
 #| label: tbl-3bwx5pcs-pwr
 #| tbl-cap: Mean Power of simulations with 0, 20, 40, 60, 80 and 99 PCs of the 10x10 B-splines, for different bandwidths $h=\\{0.05, 0.10, 0.15 \\}$. $\beta_{cand} = \\{-3/\sqrt{n}, -2/\sqrt{n}, -1/\sqrt{n}, 1/\sqrt{n}, 2/\sqrt{n}, 3/\sqrt{n}\\}$. With $n=500$ and **1000 simulations**. The critical values used in simulations are the 95\% quantiles of the empirical distribution of the absolute value of th simulated statistic when testing the null hypothesis $\beta = 0$ when the $\beta_{cand} = 0$. The mean power is the average of the probability of rejecting the null hypothesis using the simulated critical values when testing $\beta = 0$ for every $\beta_{cand}$.
-#| 
+#| eval: false
+#| include: false
 
 
 # Load the results from the simulations
@@ -159,6 +159,8 @@ column_spec(6, background = cell_color)
 ```{r}
 #| label: tbl-3bwx5pcs-u-cv
 #| tbl-cap: Critical Value of simulations with 0, 20, 40, 60, 80 and 99 PCs of the 10x10 B-splines, for different bandwidths $h=\\{0.05, 0.10, 0.15\\}$. $\beta_{cand} = \\{-3/\sqrt{n}, -2/\sqrt{n}, -1/\sqrt{n}, 1/\sqrt{n}, 2/\sqrt{n}, 3/\sqrt{n}\\}$. With $n=500$ and **1000 simulations**. The critical values used in simulations correspond to the 95\% quantile of the absolute value of the simulated statistic's empirical distribution when testing the null hypothesis $\beta = 0$ when the $\beta_{cand} = 0$. The mean power is the average of the probability of rejecting the null hypothesis using the simulated critical values when testing $\beta = 0$ for every $\beta_{cand}$.
+#| eval: false
+#| include: false
 
 cv_tbl_3x5<-read.csv(paste0('../outputs/',excrs,'bw_cv.csv'))
 
@@ -191,5 +193,21 @@ kable(
     digits = c(2,4,4,4,4,4,4),
     )%>%
     column_spec(4, background = cell_color)
+
+```
+
+```{r}
+#| label: tbl-mc-all
+#| tbl-cap: Rejection frequencies and Confidence Interval lenths for all Monte Carlo simulations. 
+
+mc_all <- read.csv(paste0('../outputs/stats_all.csv'))
+
+mc_all %>%
+    kable(
+        booktabs = TRUE,
+        digits = 2,
+        col.names = c('$\\rho$', 'Corr.','Rej. F.', 'CI Length'),
+        escape = FALSE
+    )
 
 ```
