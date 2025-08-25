@@ -1,4 +1,6 @@
 {
     "MATLAB.matlabConnectionTiming": "onDemand",
-    "MATLAB.installPath": "/Applications/MATLAB_R2025a.app"
+    "MATLAB.installPath": "/Applications/MATLAB_R2024a.app",
+    "stata-vscode.alwaysShowStatusBar": false,
+    "stata-vscode.alwaysUseWebview": true
 }

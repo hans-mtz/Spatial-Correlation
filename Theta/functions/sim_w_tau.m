@@ -8,8 +8,13 @@ function [y_sim, eps_sim] = sim_w_tau(tau,D_mat,X,beta_cand,B)
     end
     n = size(D_mat, 1);
     
-    sigma = exp(tau(1).*eye(n)).*exp(-tau(2).*D_mat);
-
+    % sigma = exp(tau(1)).*exp(-tau(2).*D_mat);
+    sigma = get_sigma_tau(tau, D_mat); % Use the function to get sigma_tau
+    % [R, flag ]= chol(sigma); % Cholesky decomposition
+    % eps_sim = R'*randn(n, B); % Generate multivariate normal random variables
+    % Ensure sigma is positive definite
+    
     eps_sim = mvnrnd(zeros(n, 1), sigma,B)'; % Generate multivariate normal random variables
+
     y_sim = X*beta_cand' + eps_sim; % Simulated dependent variable
 end

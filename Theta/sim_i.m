@@ -61,7 +61,7 @@ if verbose
     fprintf('Finding tau for rho = %.2f, and %d PCs\n', rho, ii); 
 end
 % Estimating tau does not change with the number of PCs
-[tau, beta_hat, exitflag] = get_tau(y, X, h); % epsilon_hat = y - \beta_hat* X_bs', not epsilon_hat=y-\beta_hat X-\gama_hat W; % Get tau and beta_hat using QMLE
+[tau, beta_hat, exitflag] = get_tau(y, X, h, false); % epsilon_hat = y - \beta_hat* X_bs', not epsilon_hat=y-\beta_hat X-\gama_hat W; % Get tau and beta_hat using QMLE
 
 if exitflag <= 0
     id_mat = NaN(length(l_cutoffs), length(PC_n));
@@ -69,7 +69,11 @@ if exitflag <= 0
     cv_array = NaN(length(l_cutoffs), length(PC_n), 1);
     rej_rule = NaN;
     ci_length = NaN;
+<<<<<<< HEAD
     warning('Optimization did not converge, exiting simulation');
+=======
+    warning('Optimization did not converge, exiting simulation. Tau values: %f, %f', tau(1), tau(2));
+>>>>>>> a6dad9af2823db1c2441b27c6300083808af2fd5
     return
 end
 
