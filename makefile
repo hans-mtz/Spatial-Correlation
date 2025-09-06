@@ -12,8 +12,8 @@ QREPDIR = ./Theta/reports
 # QSLIDIR = ./Quarto-Slides
 
 # Define rho values for Monte Carlo simulations
-RHO_VALUES = 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
-
+# RHO_VALUES = 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0
+RHO_VALUES = 0.0 0.4 0.9 0.1 1.0 0.6 0.3 0.7 0.5 0.8
 # list all R files
 RFILES := $(wildcard $(RDIR)/*.R)
 EXCLUDE := $(wildcard $(RDIR)/_*.R)
@@ -56,7 +56,7 @@ matlab-rho: $(addprefix $(THDIR)/mainMC-r, $(addsuffix .log, $(RHO_VALUES)))
 ## Run MATLAB with a specific rho value (usage: make matlab-rho-single RHO=0.3)
 matlab-rho-single:
 	@if [ -z "$(RHO)" ]; then echo "Please specify RHO value: make matlab-rho-single RHO=0.3"; exit 1; fi
-	matlab -sd $(THDIR) -logfile $(THDIR)/mainMC-r$(RHO)-Dsqr.log -batch 'rho=$(RHO); mainMC'
+	matlab -sd $(THDIR) -logfile $(THDIR)/mainMC-r$(RHO).log -batch 'rho=$(RHO); mainMC'
 
 ## Run R files
 R: $(OUT_FILES)
