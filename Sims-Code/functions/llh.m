@@ -12,18 +12,9 @@ function [val] = llh(tau, u_hat, D_mat)
     [R, flag ]= chol(sigma); % Cholesky decomposition
     % Ensure sigma is positive definite
     if (flag ~= 0) 
-        % val=1e300;
+        val=1e300;
         % return; % Return negative infinity if not positive definite
-        fprintf('Warning: Sigma is not positive definite (chol).\n');
-        [V,D]=eig(sigma);
-        sigma_inv = V*(diag(diag(D).^(-1)))*V';
-        D_v = diag(D);
-        select = D_v > 0;
-        D_v = D_v(select);
-        
-        val = -0.5.*sum(log(D_v))-0.5.*u_hat'*sigma_inv*u_hat;
-        val = -val;
-
+        % fprintf('Warning: Sigma is not positive definite (chol).\n');
     % elseif det(sigma) < 0
     %     val = 1e300; % Return a large value if determinant is non-positive
     %     fprintf('Warning: Sigma has non-positive determinant.\n');

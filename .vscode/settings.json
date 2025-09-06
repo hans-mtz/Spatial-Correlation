@@ -2,5 +2,9 @@
     "MATLAB.matlabConnectionTiming": "onDemand",
     "MATLAB.installPath": "/Applications/MATLAB_R2020a.app",
     "stata-vscode.alwaysShowStatusBar": false,
-    "stata-vscode.alwaysUseWebview": true
+    "stata-vscode.alwaysUseWebview": true,
+    "stata-vscode.autoStartServer": false,
+    "stata-vscode.logFileLocation": "workspace",
+    "stata-vscode.stataEdition": "se",
+    "stata-vscode.stataPath": "/Applications/Stata"
 }

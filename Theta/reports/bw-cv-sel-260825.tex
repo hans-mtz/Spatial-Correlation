@@ -151,7 +151,7 @@
 
 \title{Bandwidth and Critical Values Selection}
 \author{Hans Martinez}
-\date{2025-08-21}
+\date{2025-08-26}
 
 \begin{document}
 \maketitle
@@ -252,8 +252,11 @@ lengths for the 1000 MC simulations.
 
 \begin{table}
 
-\caption{\label{tbl-mc-all}Rejection frequencies and Confidence Interval
-lenths for all Monte Carlo simulations.}
+\caption{\label{tbl-mc-all-Dsqr}Rejection frequencies and Confidence
+Interval lenths for all Monte Carlo simulations.
+\(\Sigma(\tau)=\exp(\tau_0)\exp(-\tau_1\cdot D)\), where
+\(D_{s_l,s_l'}=||s_l - s_l'||\) is the matrix of the euclidean distances
+between the locations \(s_l\) and \(s_{l'}\).}
 
 \centering{
 
@@ -274,6 +277,40 @@ $\rho$ & Corr. & Rej. F. & CI Length\\
 0.9 & 0.44 & 0.04 & 0.23\\
 \addlinespace
 1.0 & 0.49 & 0.05 & 0.26\\
+\bottomrule
+\end{tabular}
+
+}
+
+\end{table}%
+
+\begin{table}
+
+\caption{\label{tbl-mc-all}Rejection frequencies and Confidence Interval
+lenths for all Monte Carlo simulations.
+\(\Sigma(\tau)=\exp(\tau_0)\exp(-\tau_1\cdot D^2)\), where
+\(D_{s_l,s_l'}=||s_l - s_l'||\) is the matrix of the euclidean distances
+between the locations \(s_l\) and \(s_{l'}\).}
+
+\centering{
+
+\begin{tabular}{rrrr}
+\toprule
+$\rho$ & Corr. & Rej. F. & CI Length\\
+\midrule
+0.0 & 0.00 & 0.05 & 0.20\\
+0.1 & 0.05 & 0.06 & 0.20\\
+0.2 & 0.10 & 0.05 & 0.20\\
+0.3 & 0.15 & 0.05 & 0.21\\
+0.4 & 0.20 & 0.05 & 0.21\\
+\addlinespace
+0.5 & 0.25 & 0.05 & 0.21\\
+0.6 & 0.30 & 0.05 & 0.21\\
+0.7 & 0.35 & 0.06 & 0.21\\
+0.8 & 0.39 & 0.06 & 0.22\\
+0.9 & 0.44 & 0.07 & 0.23\\
+\addlinespace
+1.0 & 0.49 & 0.09 & 0.25\\
 \bottomrule
 \end{tabular}
 
