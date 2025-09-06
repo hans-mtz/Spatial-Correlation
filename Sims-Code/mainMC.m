@@ -4,14 +4,14 @@ if batchStartupOptionUsed
     % addpath(genpath('./21200057'))
 end
 
-rho = 0.0; %0.0:0.1:1; %0.0:0.1:1.0;
+% rho = 0.5; %0.0:0.1:1; %0.0:0.1:1.0;
 % excrs = 'rho_1.0_newtau';
 excrs = 'rho_'+string(rho)+'_Dsqr'; % Name of the experiment
 
 %% Setting up parameters %%%%
 
 rng(549) % Set random seed for reproducibility
-R = 10; %MC reps
+R = 1000; %MC reps
 B = 1000; % Number of simulations per MC
 T = 500; % Number of observations
 % n_locations = 2;
@@ -22,8 +22,8 @@ PC_n = 0:10:90;%20:40:100; % Number of PCs to use
 splines_order = 2; % Order 1, step functions; 2, triangles; 3, quadratic
 n_splines = 10;
 M = 5; % Number of workers
-save_results = false; % Save results
-verbose = true; % Print progress
+save_results = true; % Save results
+verbose = false; % Print progress
 
 fprintf('Running %s with %d observations, %d MC reps, %d simulations per MC rep\n', excrs, T, R, B);
 %% Generate locations (fixed locations)
@@ -67,7 +67,7 @@ parfor (r = 1:R, M)
         fprintf('MC rep %d out of %d \n', r, R);
     end
 
-    [MC_array(:,:,r), rej_array(r,1), cil_array(r,1), avg_powr_array(:,:,r), cv_array(:,:,r)] = sim_i(theta, s, rho, h, W, l_cutoffs, PC_n, b_cand, B, verbose); % Store results of this MC rep
+    [MC_array(:,:,r), rej_array(r,1), cil_array(r,1), avg_powr_array(:,:,r), cv_array(:,:,r)] = sim_i(theta, s, rho, h, W, l_cutoffs, PC_n, b_cand, B); % Store results of this MC rep
     % if sum(MC_array(:,1,r), 'omitnan') > 0
     %     break;
     % end

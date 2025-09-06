@@ -11,7 +11,7 @@ function [tau, beta_hat, exitflag] = get_tau(y,X,D_mat,verbose)
     % Get tau
     fun = @(tau) llh(tau, u_hat, D_mat);
     options = optimset('Display', 'notify', 'TolFun', 1e-4, 'TolX', 1e-4,'MaxFunEvals', 1000, 'MaxIter', 1000); %'Display', 'off'
-    tau0 = [0.1; 1000]; % Initial guess for tau
+    tau0 = [0.1; 1]; % Initial guess for tau
     [tau1, ~, ~] = fminsearch(fun, tau0, options);
     if verbose
         fprintf('Initial tau: %f, %f\n', tau1(1), tau1(2)); 

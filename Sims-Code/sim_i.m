@@ -1,4 +1,4 @@
-function [id_mat, rej_rule, ci_length , power_mean, cv_array] = sim_i(theta, s, rho, h, W, l_cutoffs, PC_n, b_cand, B, verbose)
+function [id_mat, rej_rule, ci_length , power_mean, cv_array] = sim_i(theta, s, rho, h, W, l_cutoffs, PC_n, b_cand, B)
     
 T = size(s,1); % Number of observations
 % if batchStartupOptionUsed
@@ -24,7 +24,7 @@ T = size(s,1); % Number of observations
 % n_splines = 10;
 % M = 5; % Number of workers
 save_results = false; % Save results
-% verbose = true; % Print progress
+verbose = false; % Print progress
 % %% Generate locations (fixed locations)
 
 % % If splines are fixed and locations are fixed, they need not to be estimated everytime
@@ -57,13 +57,12 @@ end
 [y, X, ~] = DGP(theta,s,rho,false,h);
 
 % Find tau by QMLE
-
-% Estimating tau does not change with the number of PCs
-[tau, beta_hat, exitflag] = get_tau(y, X, h, verbose); % epsilon_hat = y - \beta_hat* X_bs', not epsilon_hat=y-\beta_hat X-\gama_hat W; % Get tau and beta_hat using QMLE
-% xxx
 if verbose 
-    fprintf('Tau values being used: %f %f\n', tau(1), tau(2)); 
+    fprintf('Finding tau for rho = %.2f, and %d PCs\n', rho, ii); 
 end
+% Estimating tau does not change with the number of PCs
+[tau, beta_hat, exitflag] = get_tau(y, X, h, false); % epsilon_hat = y - \beta_hat* X_bs', not epsilon_hat=y-\beta_hat X-\gama_hat W; % Get tau and beta_hat using QMLE
+
 if exitflag <= 0
     id_mat = NaN(length(l_cutoffs), length(PC_n));
     power_mean = NaN(length(l_cutoffs), length(PC_n));
@@ -80,10 +79,10 @@ cv_array = NaN(length(l_cutoffs), length(PC_n), 1);
 power_array = NaN(length(l_cutoffs), length(PC_n), length(b_cand));
 
 %% For a given rho, l_cutoff, and number of PCs from the Tensor product of the Bsplines
-j = 0; % number of cutoffs
-jj = 0; % number of cutoffs (powr)
-k = 0; % Number of PCs
-kk = 0; % number of beta candidates for power
+j = 0;
+jj = 0;
+k = 0;
+kk = 0;
 
 loopStart = tic;
 
@@ -108,7 +107,7 @@ for sp = PC_n
     end
     %% Simulate data with the candidate beta and the estimated tau
     
-    fprintf('Simulating data with tau = %.4f, %.4f and beta_cand = %.4f with %.0f repetitions \n', tau(1), tau(2), beta_cand(1),B);
+    % fprintf('Simulating data with tau = %.4f, %.4f and beta_cand = %.4f with %.0f repetitions \n', tau(1), tau(2), beta_cand(1),B);
     [y_sim, eps_sim] = sim_w_tau(tau, h, X, beta_cand,B);
     XX_inv = inv(X_bs'*X_bs);
     M_x = eye(T) - X_bs*XX_inv*X_bs';
