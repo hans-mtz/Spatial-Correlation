@@ -197,24 +197,26 @@ kable(
 ```
 
 ```{r}
-#| label: tbl-mc-all-Dsqr
+#| label: tbl-mc-all
 #| tbl-cap: Rejection frequencies and Confidence Interval lenths for all Monte Carlo simulations. $\Sigma(\tau)=\exp(\tau_0)\exp(-\tau_1\cdot D)$, where $D_{s_l,s_l'}=||s_l - s_l'||$ is the matrix of the euclidean distances between the locations $s_l$ and $s_{l'}$.
 
-mc_all <- read.csv(paste0('../outputs/stats_all.csv'))
+mc_all <- read.csv(paste0('../outputs/stats_all_bws.csv'))
 
 mc_all %>%
     kable(
         booktabs = TRUE,
         digits = 2,
-        col.names = c('$\\rho$', 'Corr.','Rej. F.', 'CI Length'),
+        col.names = c('$\\rho$', 'Corr.','Rej. F.', 'CI Length', 'PCs','CVs','BWs'),
         escape = FALSE
     )
 
 ```
 
 ```{r}
-#| label: tbl-mc-all
+#| label: tbl-mc-all-Dsqr
 #| tbl-cap: Rejection frequencies and Confidence Interval lenths for all Monte Carlo simulations. $\Sigma(\tau)=\exp(\tau_0)\exp(-\tau_1\cdot D^2)$, where $D_{s_l,s_l'}=||s_l - s_l'||$ is the matrix of the euclidean distances between the locations $s_l$ and $s_{l'}$.
+#| include: false
+#| eval: false
 
 mc_all <- read.csv(paste0('../outputs/stats_all_Dsqr.csv'))
 

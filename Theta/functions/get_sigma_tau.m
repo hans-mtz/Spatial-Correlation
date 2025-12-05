@@ -2,7 +2,7 @@ function sigma_tau = get_sigma_tau(tau,D_mat,type)
     arguments
         tau (2,1) double % tau parameters for the covariance matrix
         D_mat (:,:) double % Distance matrix
-        type char {mustBeMember(type,{'dgp','exp','dsqr'})} = 'dsqr' % Type of covariance function
+        type char {mustBeMember(type,{'dgp','exp','dsqr'})} = 'exp' % Type of covariance function
     end
     
     switch type

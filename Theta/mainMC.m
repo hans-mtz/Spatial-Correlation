@@ -4,30 +4,31 @@ if batchStartupOptionUsed
     % addpath(genpath('./21200057'))
 end
 
-rho = 0.0; %0.0:0.1:1; %0.0:0.1:1.0;
+rho = 1.0; %0.0:0.1:1; %0.0:0.1:1.0;
 % excrs = 'rho_1.0_newtau';
-excrs = 'rho_'+string(rho)+'_Dsqr'; % Name of the experiment
->>>>>>> a6dad9af2823db1c2441b27c6300083808af2fd5
+% excrs = 'rho_'+string(rho)+'_Dsqr'; % Name of the experiment
+excrs = 'rho_'+string(rho)+'_newtau-2';
+
 
 %% Setting up parameters %%%%
 
 rng(549) % Set random seed for reproducibility
-R = 10; %MC reps
+R = 1000; %MC reps
 B = 1000; % Number of simulations per MC
 T = 500; % Number of observations
 % n_locations = 2;
 b_cand = T^ ( -1/2) .* [ -3 3];%T^(-1/2).*(-10:1:10);
 theta = sqrt(2)/10;
 l_cutoffs = 0:0.025:0.15;%0.02:0.02:0.14; %;0.1; %
-PC_n = 0:10:90;%20:40:100; % Number of PCs to use
+PC_n = 0:10:90; %20:40:100; % Number of PCs to use
 splines_order = 2; % Order 1, step functions; 2, triangles; 3, quadratic
 n_splines = 10;
 M = 5; % Number of workers
 save_results = false; % Save results
-verbose = true; % Print progress
+verbose = false; % Print progress
 
 fprintf('Running %s with %d observations, %d MC reps, %d simulations per MC rep\n', excrs, T, R, B);
->>>>>>> a6dad9af2823db1c2441b27c6300083808af2fd5
+
 %% Generate locations (fixed locations)
 
 % If splines are fixed and locations are fixed, they need not to be estimated everytime
@@ -73,7 +74,7 @@ parfor (r = 1:R, M)
     % if sum(MC_array(:,1,r), 'omitnan') > 0
     %     break;
     % end
->>>>>>> a6dad9af2823db1c2441b27c6300083808af2fd5
+
 end
 toc;
 
@@ -85,11 +86,7 @@ MC_tbl = array2table( [l_cutoffs' MC_array],'VariableNames', ['Bwd/PC', string(P
 cv_tbl = array2table( [l_cutoffs' mean(cv_array,3, "omitnan")], 'VariableNames', ['Bwd/PC', string(PC_n) ])
 pwr_tbl = array2table( [l_cutoffs' mean(avg_powr_array,3, "omitnan")], 'VariableNames', ['Bwd/PC', string(PC_n) ])
 stats_tbl = array2table( [ mean(rej_array, 'omitnan'), mean(cil_array, 'omitnan') ], 'VariableNames' ,{'Rej F', 'CI Length'}, 'RowNames', [ 'rho='+string(rho)])
-<<<<<<< HEAD
-
-=======
 mean(isnan(rej_array))
->>>>>>> a6dad9af2823db1c2441b27c6300083808af2fd5
 
 %% Save results
 
@@ -102,13 +99,13 @@ mean(isnan(rej_array))
 % end
 
 if save_results
-<<<<<<< HEAD
-    save(['outputs/MC_' excrs '.mat']);
-    writetable(MC_tbl, fullfile('outputs', ['MC_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
-    writetable(cv_tbl, fullfile('outputs', ['cv_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
-    writetable(pwr_tbl, fullfile('outputs', ['pwr_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
-    writetable(stats_tbl, fullfile('outputs', ['stats_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
-=======
+% <<<<<<< HEAD
+%     save(['outputs/MC_' excrs '.mat']);
+%     writetable(MC_tbl, fullfile('outputs', ['MC_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
+%     writetable(cv_tbl, fullfile('outputs', ['cv_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
+%     writetable(pwr_tbl, fullfile('outputs', ['pwr_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
+%     writetable(stats_tbl, fullfile('outputs', ['stats_', excrs, '_', num2str(T), '_', num2str(R), '_', num2str(B), '.csv']));
+% =======
     save(['outputs/MC_'+excrs+'.mat']);
     writetable(MC_tbl, fullfile('outputs',['MC_'+excrs+'_'+num2str(T)+'_'+num2str(R)+'_'+num2str(B)+'.csv']));
     writetable(cv_tbl, fullfile('outputs',['cv_'+excrs+'_'+num2str(T)+'_'+num2str(R)+'_'+num2str(B)+'.csv']));
